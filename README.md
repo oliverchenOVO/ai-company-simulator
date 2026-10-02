@@ -3,10 +3,14 @@
 Deterministic organization simulation and CEO management game. Phase 1: Playable Startup.
 See [PHASE1_REPORT.md](PHASE1_REPORT.md) for executed acceptance evidence and limitations.
 
+Play online: https://foundry-company-simulator.oliverchenovo.chatgpt.site . Each browser profile keeps its own local progress; refresh resumes it. Export a backup in Settings before clearing browser data. Cross-device account synchronization is outside Phase 1.
+
 Requires Node.js 24 and pnpm 11.19.0. Install with `pnpm install`.
 
 - `pnpm dev` — development web UI at http://127.0.0.1:5173
 - `pnpm build` — typecheck, production Vite bundle and Electron main/preload bundle
+- `pnpm build:site` — hosted browser bundle with Sites-compatible CSP in dist-site/
+- `pnpm test:hosted` — production URL acceptance; intentionally creates isolated test profiles
 - `pnpm desktop` — launch the built desktop application
 - `pnpm typecheck` — strict TypeScript validation
 - `pnpm lint` — ESLint plus simulation randomness restrictions

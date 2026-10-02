@@ -24,14 +24,14 @@ World state and command/event history are authoritative and hashable. Saves are 
 | Desktop process restart + SQLite | Passed |
 | Actual packaged Windows app | Passed creation/hiring/salary/save/restart workflow; app.isPackaged=true |
 | Actual packaged startup smoke | Renderer loaded, process exit0 |
-| Final packaging refresh after last settings fix | Pending final rebuild at report creation |
-| ChatGPT Site publication | Project created; deployment/remote QA pending |
+| GitHub Actions Windows validation and package | Both jobs passed: run37058085628 |
+| ChatGPT Site publication | Published; production QA completed separately below |
 
 The packaged E2E first launched while packaging output was being replaced and failed immediately. After output stabilized, the same workflow passed without weakening its assertions. Local checks are actual execution results; remote GitHub Actions results are tracked separately.
 
 ## Benchmarks
 
-100 seeds × 1,826 days (five calendar years): latest run11,440ms. Crashes0, NaN0, Infinity0, corrupted states0, invariant violations0, independent replay mismatches0. Per-seed records and hashes: docs/benchmarks/seeds.json. Passive outcomes:97 bankrupt,3 survive; failure financially is an intended possible outcome. This suggests a demanding initial economy and requires later balance review with active-player sessions rather than automatic tuning.
+100 seeds × 1,826 days (five calendar years): latest run10,414ms. Crashes0, NaN0, Infinity0, corrupted states0, invariant violations0, independent replay mismatches0. Per-seed records and hashes: docs/benchmarks/seeds.json. Passive outcomes:97 bankrupt,3 survive; failure financially is an intended possible outcome. This suggests a demanding initial economy and requires later balance review with active-player sessions rather than automatic tuning.
 
 1,000 employees × 3,652 days (ten calendar years), explicit capitalized stress configuration:93,605ms. Crashes0, NaN0, Infinity0, corrupted states0, invariant violations0. Full schema/round-trip checks passed; independent ten-year replay was not repeated. Details: docs/benchmarks/stress.json.
 
@@ -51,15 +51,20 @@ Private repository: https://github.com/oliverchenOVO/ai-company-simulator . Visi
 - 605abfa — simulation, replay, regression seeds
 - 4563f41 — validated persistence / durable sessions / projections
 - 4e2ad0c — playable desktop/browser UI / E2E
+- 8f8e53e — restored settings, large-company UI QA and packaged acceptance
+- d708180 — ChatGPT Site configuration
 
 Further focused commits add settings refresh, 1,000-person UI QA, packaged tests, CI, documentation and hosting metadata. Use `git log --oneline` for exact final IDs. No node_modules, build output, saves or credentials are committed. No public GitHub repository/release was created.
 
 Resolved issues: pnpm11 build-script configuration differs from older onlyBuiltDependencies (explicit allowBuilds used); registry timeouts retried; sql.js export resets pragmas so target-slot log deletion is explicit; missing favicon fixed; selector targeting strengthened to semantic combobox roles; setting/replay UI remounts when the world revision changes. Build warnings about Zod comment annotations are dependency metadata and do not affect output. Electron-builder omits irrelevant platform-native Tailwind binaries; runtime does not use them. The portable app currently has the default Electron executable icon.
 
-Sites local skill files advertised in the environment were missing after cache search. The available native Sites tool contract is used for source/version/access/deployment operations; hosting success will only be claimed after production checks.
+Sites local skill files advertised in the environment were missing after cache search. The available native Sites tool contract was used for source/version/access/deployment operations. Website: https://foundry-company-simulator.oliverchenovo.chatgpt.site . GitHub remains private. Windows CI evidence: https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37058085628 .
+
+Initial production QA passed all gameplay/persistence checks but caught two CSP console errors from Cloudflare's dynamically injected protection scripts. A separate `pnpm build:site` output permits inline scripts only in the hosted CSP. The default offline/Electron build keeps `script-src 'self'`. No console errors are filtered out of the acceptance test. Hosted build output is ignored by Git; only source/configuration are committed.
 
 ## Remaining scope and next steps
 
 No authenticated account sync, cross-device cloud restore, multiplayer, financing, international subsidiaries, IPO, full Slack/email, 3D scenes or LLM. Each browser origin/profile has a separate local world; different people sharing one browser profile share that profile's save. Clearing browser data removes progress unless a portable backup was exported. Browser offline refresh without cached assets is not claimed; the desktop build is fully offline.
 
 Next: player acceptance of decision clarity, difficulty and story causality; then plan Phase 2 explicitly. Avoid automatically changing golden fixtures or expanding simulation based only on passive bankruptcy statistics. Website publication exposes the same Phase 1 browser experience and does not create a second simulation authority.
+
