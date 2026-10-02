@@ -1,0 +1,9 @@
+import { Simulation, replay } from '../packages/simulation/src/simulation';
+import { activeEmployees, burn, revenue, runway } from '../packages/simulation/src/systems';
+const args = process.argv.slice(2);
+const option = (key: string, fallback: string) => args.includes(key) ? args[args.indexOf(key) + 1] : fallback;
+const days = Number(option('--days', String(Number(option('--years', '1')) * 365)));
+const sim = new Simulation({ seed: option('--seed', 'garage-001'), name: 'Garage Startup', scenario: 'garage' });
+sim.execute({ type: 'AdvanceTime', days });
+const w = sim.snapshot();
+console.log(JSON.stringify({ seed: w.meta.seed, days: w.meta.tick, date: w.meta.date, cash: w.company.cash / 100, revenue: revenue(w) / 100, burn: burn(w) / 100, runway: runway(w), employees: activeEmployees(w).length, customers: Object.values(w.customers).filter(c => c.status === 'active').length, bankrupt: w.company.bankrupt, events: w.events.length, hash: sim.stateHash(), replayMatches: replay(w).stateHash() === sim.stateHash() }, null, 2));
