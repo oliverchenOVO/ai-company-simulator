@@ -1,0 +1,3993 @@
+這個專案最適合做成一個「**組織模擬器 + 管理決策遊戲 + emergent storytelling engine**」，而不是傳統的數值經營遊戲。
+
+真正能讓它站出來的，不是「AI 生成 Slack」本身，而是：**公司內部先有一個可信、可重播、可驗證的世界真相，然後 Slack、Email、會議、董事會紀錄與人物行為只是這個世界真相的不同視角。**
+
+---
+
+# 1. 產品核心玩法
+
+我建議先把產品暫時定義為：
+
+**AI Company Simulator**
+
+玩家不是直接控制員工，而是扮演 CEO / Founder。
+
+你的權力很大，但不是全知全能。
+
+你可以決定：
+
+- 招募與解僱
+- 薪資與升遷
+- 組織架構
+- 公司策略
+- 產品方向
+- 客戶策略
+- 融資
+- 部門預算
+- 工作強度
+- 公司文化
+- 是否冒險
+- 是否擴張
+
+但玩家**不能直接指定某個員工的感受與行為**。
+
+例如你不能按：
+
+> CTO 忠誠 +20
+
+你只能：
+
+> 給 CTO 加薪  
+> 拒絕 CTO 的產品提案  
+> 空降一名 VP Engineering  
+> 讓 CTO 管 25 人  
+> 要求團隊連續 Crunch 三個月
+
+模擬系統再決定：
+
+```text
+信任下降
+↓
+壓力增加
+↓
+CTO 與 VP 關係惡化
+↓
+開始考慮離職
+↓
+偷偷接觸獵頭
+↓
+幾名核心工程師受到影響
+↓
+可能形成集體離職事件
+```
+
+這才是遊戲。
+
+## 最重要的核心 Loop
+
+```text
+觀察公司
+   ↓
+發現問題 / 機會
+   ↓
+做管理決策
+   ↓
+時間推進
+   ↓
+員工 / 客戶 / 市場反應
+   ↓
+產生新的資訊
+   ↓
+玩家重新判斷局勢
+```
+
+建議時間尺度：
+
+```text
+1 simulation tick = 1 天
+
+玩家通常：
+推進 1 天
+推進 1 週
+推進到下一事件
+```
+
+部分系統每天跑。
+
+部分系統每週跑。
+
+財務、薪資、KPI 等則月結。
+
+---
+
+# 2. 最重要的產品差異化
+
+不要把賣點定義成：
+
+> 「AI 幫你生成公司 Slack。」
+
+這很容易變成 gimmick。
+
+真正的差異應該是：
+
+## 「公司裡的每個人，都不是你的棋子。」
+
+例如員工 Alice：
+
+```yaml
+name: Alice Chen
+
+role: Senior Engineer
+
+skills:
+  engineering: 82
+  leadership: 46
+  sales: 8
+
+traits:
+  ambition: 77
+  loyalty: 43
+  riskTolerance: 61
+  sociability: 35
+
+state:
+  stress: 68
+  satisfaction: 51
+  burnout: 31
+
+expectations:
+  salary: 115000
+  promotion: high
+
+relationships:
+  Bob: +63
+  CTO: -41
+```
+
+但這還不夠。
+
+她還要有：
+
+```text
+記憶
+目標
+職涯期待
+公司觀感
+對其他人的觀感
+近期事件
+```
+
+比如：
+
+```text
+2028-03-12
+CEO 拒絕 Alice 的 promotion request
+
+2028-05-04
+Alice 被要求負責失敗專案
+
+2028-07-21
+Alice 的好友 Bob 離職
+
+2028-09-02
+Alice 收到 competitor interview
+```
+
+最後：
+
+```text
+Alice resignation probability:
+8% → 12% → 28% → 61%
+```
+
+真正吸引人的體驗會是：
+
+> 「等等，Alice 為什麼辭職？」
+
+然後玩家一路追查她過去兩年的歷史。
+
+這會形成類似 Football Manager 的人物故事。
+
+---
+
+# 3. 遊戲的另一個關鍵：Information Asymmetry
+
+這個系統非常重要。
+
+玩家不應該直接看到：
+
+```text
+Alice loyalty = 32
+Alice resignationChance = 71%
+```
+
+那會直接變 Excel simulator。
+
+玩家看到的應該是：
+
+```text
+Manager report:
+Alice 最近似乎比較沉默。
+
+Slack:
+Alice 已經兩週沒有在 #engineering 分享更新。
+
+Performance review:
+Strong performer.
+
+HR note:
+Promotion expectations may not be aligned.
+
+1:1 summary:
+"I'm fine."
+```
+
+真正數值在 simulation state：
+
+```text
+loyalty = 32
+stress = 73
+promotionExpectation = 82
+exitIntent = 61
+```
+
+這樣玩家是在「管理人」，不是在管理數字。
+
+---
+
+# 4. 整體系統架構
+
+我推薦架構：
+
+```text
+┌─────────────────────────────┐
+│         Desktop UI          │
+│ React                       │
+└──────────────┬──────────────┘
+               │ Commands
+               ▼
+┌─────────────────────────────┐
+│       Application Layer     │
+│                             │
+│ Commands                    │
+│ Queries                     │
+│ Save / Load                 │
+│ Replay                      │
+└──────────────┬──────────────┘
+               │
+               ▼
+┌─────────────────────────────┐
+│       Simulation Core       │
+│                             │
+│ Company                     │
+│ Employees                   │
+│ Teams                       │
+│ Products                    │
+│ Customers                   │
+│ Finance                     │
+│ Market                      │
+│ Relationships               │
+│ Events                      │
+│ Decisions                   │
+│ RNG                         │
+│ Time                        │
+└──────────────┬──────────────┘
+               │ emits
+               ▼
+┌─────────────────────────────┐
+│         Event Store         │
+│                             │
+│ domain events               │
+│ command history             │
+│ RNG metadata                │
+│ state hashes                │
+└──────────────┬──────────────┘
+               │
+       ┌───────┴────────┐
+       ▼                ▼
+┌─────────────┐  ┌─────────────┐
+│ Projection  │  │ Narrative   │
+│ Engine      │  │ Layer       │
+│             │  │             │
+│ dashboards  │  │ Slack       │
+│ reports     │  │ Email       │
+│ analytics   │  │ Wiki        │
+└─────────────┘  │ News        │
+                 └──────┬──────┘
+                        │ optional
+                        ▼
+                 ┌─────────────┐
+                 │ LLM Adapter │
+                 └─────────────┘
+```
+
+其中最重要的規則是：
+
+> **UI、LLM 和 Narrative Layer 都不能直接修改 Simulation State。**
+
+只有 command：
+
+```ts
+HireEmployee
+FireEmployee
+ChangeSalary
+LaunchProduct
+RaiseFunding
+ChangeStrategy
+```
+
+才能進入 simulation。
+
+---
+
+# 5. Deterministic vs LLM
+
+這一條應該成為整個專案的最高架構原則。
+
+| 系統 | Deterministic | LLM |
+|---|---:|---:|
+| 財務 | ✅ | ❌ |
+| 薪資 | ✅ | ❌ |
+| 收入 | ✅ | ❌ |
+| burn rate | ✅ | ❌ |
+| 員工能力 | ✅ | ❌ |
+| 工作產出 | ✅ | ❌ |
+| 壓力 | ✅ | ❌ |
+| burnout | ✅ | ❌ |
+| 忠誠 | ✅ | ❌ |
+| 離職判定 | ✅ | ❌ |
+| 關係變化 | ✅ | ❌ |
+| 客戶 churn | ✅ | ❌ |
+| 市場需求 | ✅ | ❌ |
+| 產品品質 | ✅ | ❌ |
+| Competitor 行為 | ✅ / policy | 可選 |
+| Agent 高階決策 | ✅ fallback | 可選 |
+| Slack 文案 | template fallback | ✅ |
+| Email | template fallback | ✅ |
+| Wiki | template fallback | ✅ |
+| 董事會文字 | template fallback | ✅ |
+| 人物對話 | template fallback | ✅ |
+| 公司新聞 | template fallback | ✅ |
+| 世界真相 | ✅ | **絕對禁止** |
+
+例如：
+
+Simulation：
+
+```json
+{
+  "event": "employee_resigned",
+  "employee": "alice",
+  "reasonWeights": {
+    "compensation": 0.17,
+    "management": 0.41,
+    "burnout": 0.29,
+    "career": 0.13
+  }
+}
+```
+
+LLM 只能把它變成：
+
+> Alice 表示，過去幾個月她逐漸對團隊方向感到失望，同時長期高壓工作讓她開始重新評估自己的職涯。
+
+LLM **不能決定 Alice 是否辭職**。
+
+---
+
+# 6. RNG 設計
+
+不要在任何 simulation code 裡出現：
+
+```ts
+Math.random()
+```
+
+建立：
+
+```ts
+interface RandomSource {
+  next(): number;
+  int(min: number, max: number): number;
+  chance(probability: number): boolean;
+  pick<T>(items: readonly T[]): T;
+}
+```
+
+所有 randomness：
+
+```text
+GameSeed
+ ↓
+RandomManager
+ ↓
+named streams
+```
+
+例如：
+
+```text
+employees
+market
+customers
+events
+competitors
+recruitment
+relationships
+```
+
+避免某個 UI 修改導致整個世界 RNG sequence 改變。
+
+最好採：
+
+```text
+rootSeed
++
+system
++
+entityId
++
+date
++
+operation
+```
+
+導出 deterministic random。
+
+---
+
+# 7. Simulation Architecture
+
+Simulation 不應該是一個：
+
+```ts
+updateEverything()
+```
+
+而是 scheduler。
+
+例如：
+
+```text
+DAY START
+│
+├─ EmployeeStateSystem
+├─ WorkSystem
+├─ RelationshipSystem
+├─ CustomerSystem
+├─ ProductSystem
+├─ MarketSystem
+├─ CompetitorSystem
+├─ EventSystem
+├─ InformationSystem
+│
+└─ DAY END
+```
+
+每 7 天：
+
+```text
+WeeklyPlanningSystem
+ManagerSystem
+RecruitmentSystem
+CultureSystem
+```
+
+每月：
+
+```text
+PayrollSystem
+FinancialCloseSystem
+InvestorSystem
+PerformanceSystem
+```
+
+系統排序必須固定。
+
+例如：
+
+```ts
+const DAILY_SYSTEMS = [
+  employeeStateSystem,
+  workSystem,
+  relationshipSystem,
+  productSystem,
+  customerSystem,
+  marketSystem,
+  eventSystem
+] as const;
+```
+
+不能依賴 object iteration 順序或 async completion 順序。
+
+---
+
+# 8. 建議的核心資料模型
+
+最重要的 Aggregate 可以是：
+
+```text
+WorldState
+│
+├── Company
+├── Employees
+├── Teams
+├── Products
+├── Customers
+├── Competitors
+├── Investors
+├── Market
+├── Relationships
+├── Events
+├── Messages
+└── SimulationMetadata
+```
+
+### Company
+
+```ts
+interface Company {
+  id: CompanyId;
+  name: string;
+
+  foundedAt: SimDate;
+
+  cash: Money;
+  debt: Money;
+
+  valuation: Money;
+
+  strategy: CompanyStrategy;
+
+  reputation: number;
+  culture: CultureState;
+
+  teamIds: TeamId[];
+  productIds: ProductId[];
+}
+```
+
+### Employee
+
+```ts
+interface Employee {
+  id: EmployeeId;
+
+  identity: EmployeeIdentity;
+
+  employment: EmploymentState;
+
+  skills: SkillProfile;
+
+  personality: PersonalityProfile;
+
+  psychology: EmployeePsychology;
+
+  expectations: EmployeeExpectations;
+
+  goals: EmployeeGoal[];
+
+  memories: EmployeeMemory[];
+
+  managerId?: EmployeeId;
+
+  teamId: TeamId;
+}
+```
+
+心理狀態：
+
+```ts
+interface EmployeePsychology {
+  stress: number;
+  satisfaction: number;
+  loyalty: number;
+  burnout: number;
+  confidence: number;
+  companyTrust: number;
+  managerTrust: number;
+  exitIntent: number;
+}
+```
+
+注意：
+
+這些全部是 simulation truth。
+
+玩家大部分情況看不到。
+
+---
+
+# 9. Relationship Model
+
+Relationship 不要存在 employee 裡面。
+
+使用：
+
+```ts
+interface Relationship {
+  sourceId: EmployeeId;
+  targetId: EmployeeId;
+
+  trust: number;
+  respect: number;
+  affinity: number;
+  rivalry: number;
+  resentment: number;
+}
+```
+
+而且：
+
+```text
+Alice → Bob
+```
+
+跟：
+
+```text
+Bob → Alice
+```
+
+不是同一筆。
+
+所以可能：
+
+```text
+Alice respects Bob = 80
+Bob respects Alice = 35
+```
+
+這才能形成有趣組織政治。
+
+---
+
+# 10. Memory System
+
+每個 Agent 不應保存全部歷史。
+
+使用有限記憶：
+
+```ts
+EmployeeMemory {
+  id
+  date
+
+  type
+
+  entities
+
+  emotionalImpact
+
+  importance
+
+  sentiment
+
+  decayRate
+}
+```
+
+例如：
+
+```text
+PromotionRejected
+
+importance: 90
+sentiment: -80
+decayRate: 0.01
+```
+
+而：
+
+```text
+CEO praised employee
+importance: 25
+decayRate: 0.08
+```
+
+長時間後慢慢失去影響力。
+
+重大事件可以永久留下。
+
+---
+
+# 11. Agent Decision Architecture
+
+每個 Agent 的決策最好分三層：
+
+```text
+Need
+↓
+Intent
+↓
+Action
+```
+
+例如：
+
+```text
+Need:
+career growth
+
+Intent:
+seek promotion
+
+Action:
+ask manager
+```
+
+如果失敗：
+
+```text
+Intent:
+explore external opportunities
+
+Action:
+accept recruiter interview
+```
+
+最後：
+
+```text
+Intent:
+leave company
+
+Action:
+resign
+```
+
+這樣玩家才會感覺：
+
+> 他不是突然 RNG 辭職。
+
+---
+
+# 12. Event Architecture
+
+每件重要事件應該是 immutable domain event。
+
+例如：
+
+```ts
+EmployeeSalaryChanged
+EmployeePromoted
+EmployeeResigned
+ProductLaunched
+CustomerWon
+CustomerChurned
+FundingRoundClosed
+ConflictEscalated
+TeamCreated
+ManagerChanged
+```
+
+結構：
+
+```ts
+interface DomainEvent<T> {
+  id: EventId;
+
+  tick: number;
+  date: SimDate;
+
+  type: string;
+
+  payload: T;
+
+  causedBy?: EventId | CommandId;
+
+  visibility: EventVisibility;
+}
+```
+
+這會成為：
+
+- replay
+- debugging
+- analytics
+- storytelling
+- save migration
+
+的共同基礎。
+
+---
+
+# 13. 因果鏈
+
+強烈建議建立：
+
+```text
+causedBy
+```
+
+例如：
+
+```text
+CEO changes strategy
+     │
+     ▼
+Engineering workload increases
+     │
+     ▼
+Alice stress increases
+     │
+     ▼
+Conflict with manager
+     │
+     ▼
+Alice resignation
+```
+
+未來 UI 可以直接顯示：
+
+> Why did Alice resign?
+
+然後得到真正的 simulation trace。
+
+這很可能成為整個產品最亮眼的功能之一。
+
+---
+
+# 14. UI / UX
+
+主介面我會做成：
+
+```text
+┌──────────── Company Header ────────────┐
+│ Cash   Revenue   Burn   Employees      │
+└────────────────────────────────────────┘
+
+┌───────────────┬────────────────────────┐
+│ Navigation    │                        │
+│               │       Workspace        │
+│ Dashboard     │                        │
+│ People        │                        │
+│ Teams         │                        │
+│ Products      │                        │
+│ Customers     │                        │
+│ Finance       │                        │
+│ Inbox         │                        │
+│ Board         │                        │
+│ Timeline      │                        │
+│               │                        │
+└───────────────┴────────────────────────┘
+
+──────────────────────────────────────────
+  2027-04-21      ▶ Day    ▶ Week
+```
+
+### Dashboard
+
+不要塞滿數字。
+
+應該優先呈現：
+
+```text
+Cash Runway
+Revenue
+Burn
+Headcount
+
+Company Pulse
+Product Health
+Employee Health
+Customer Health
+```
+
+以及：
+
+> 3 件事情需要你的注意
+
+例如：
+
+```text
+⚠ Engineering turnover increasing
+
+⚠ Runway: 4.7 months
+
+● Enterprise customer requests meeting
+```
+
+---
+
+# 15. People 頁
+
+這應該是核心 UI。
+
+```text
+Alice Chen
+
+Senior Engineer
+Engineering
+
+Tenure     2y 4m
+Salary     NT$105k
+Manager    Bob Lin
+
+Performance
+████████░░
+
+Observable mood
+Concerned
+
+Recent events
+────────────────────
+Sep 14   Project Phoenix delayed
+Aug 28   Promotion request declined
+Aug 03   Bob promoted to VP
+```
+
+不能直接：
+
+```text
+Loyalty: 42
+ExitIntent: 77
+```
+
+---
+
+# 16. Org Chart
+
+後期一定要有：
+
+```text
+CEO
+├── CTO
+│   ├── VP Engineering
+│   │   ├── Backend
+│   │   └── Frontend
+│   └── Research
+│
+├── CFO
+│
+└── VP Sales
+```
+
+再疊：
+
+```text
+team morale
+conflict
+vacancies
+management load
+```
+
+這會非常有 Football Manager 味道。
+
+---
+
+# 17. Inbox
+
+Inbox 是玩家主要 information surface。
+
+來源：
+
+```text
+Slack
+Email
+HR
+Managers
+Customers
+Investors
+Board
+News
+```
+
+例如：
+
+```text
+09:42 Slack
+Engineering
+
+"We may need to revisit the Phoenix deadline."
+
+
+11:17 Email
+Acme Corp
+
+Subject: Contract renewal
+
+
+14:03 HR
+
+Retention risk detected in Engineering.
+```
+
+---
+
+# 18. Timeline
+
+這個頁面以後會非常重要。
+
+例如：
+
+```text
+2027
+│
+├── Series A
+│
+├── Alice joins
+│
+├── Phoenix launched
+│
+├── 50 employees
+│
+└── CTO conflict begins
+│
+2028
+│
+├── Revenue crash
+│
+├── 11 employees resign
+│
+└── New CEO hired
+```
+
+玩家可以點任何 event：
+
+```text
+Event
+Participants
+Cause
+Consequences
+Related communications
+```
+
+---
+
+# 19. MVP / Phase 規劃
+
+## MVP — Simulation Vertical Slice
+
+目標不是展示，而是證明：
+
+> 公司真的能跑。
+
+範圍：
+
+```text
+3–20 employees
+1 company
+1 product
+basic customers
+cash
+salary
+revenue
+expenses
+hiring
+firing
+employee productivity
+stress
+satisfaction
+relationships
+resignation
+fixed seed
+save/load
+basic UI
+```
+
+成功條件：
+
+> 可以 deterministic 模擬一家公司 24 個月。
+
+---
+
+# Phase 1 — Playable Startup
+
+這會是第一個真正可以玩的版本。
+
+目標：
+
+> 從 3 人公司經營到約 30–50 人。
+
+加入：
+
+```text
+employee traits
+skills
+roles
+teams
+
+salary
+hiring
+firing
+
+product development
+
+customers
+
+revenue
+
+expenses
+
+runway
+
+employee stress
+
+satisfaction
+
+loyalty
+
+relationships
+
+resignation
+
+company strategy
+
+event timeline
+
+save/load
+
+replay
+
+seed support
+```
+
+以及完整：
+
+```text
+Dashboard
+People
+Teams
+Product
+Customers
+Finance
+Inbox
+Timeline
+```
+
+LLM：
+
+**Phase 1 不需要。**
+
+這點我反而強烈建議。
+
+Phase 1 先證明 simulation 本身好玩。
+
+---
+
+# Phase 2 — Organization Becomes Alive
+
+這一階段開始讓它明顯不同。
+
+加入：
+
+```text
+Agent goals
+
+career planning
+
+promotions
+
+management quality
+
+company politics
+
+friendship
+
+rivalry
+
+resentment
+
+burnout
+
+group resignation
+
+recruiters
+
+competing offers
+
+managers
+
+departments
+
+culture
+
+performance reviews
+```
+
+市場：
+
+```text
+competitors
+
+pricing
+
+market segments
+
+enterprise clients
+
+contracts
+```
+
+加入：
+
+```text
+Slack
+Email
+Wiki
+Board Minutes
+```
+
+這時導入 optional LLM。
+
+但 deterministic template fallback 必須完整。
+
+---
+
+# Phase 3 — Company → Corporation
+
+規模：
+
+```text
+3
+↓
+50
+↓
+500
+↓
+5,000+
+```
+
+加入：
+
+```text
+multiple offices
+
+countries
+
+executives
+
+middle management
+
+subsidiaries
+
+acquisitions
+
+IPO
+
+board politics
+
+investors
+
+stock
+
+regulation
+
+PR
+
+layoffs
+
+restructuring
+
+corporate scandals
+
+union / labor dynamics
+
+market shocks
+```
+
+最終可能形成：
+
+```text
+Startup
+↓
+Scale-up
+↓
+Corporation
+↓
+Multinational
+```
+
+---
+
+# 20. 一個非常重要的 Scale Architecture
+
+如果將來 10,000 員工：
+
+絕對不能：
+
+```text
+10,000 agents × LLM
+```
+
+甚至不能每個 tick 都完整模擬每一個人。
+
+應採：
+
+```text
+Level 1
+Named Agents
+
+CEO
+executives
+managers
+key employees
+
+high fidelity
+```
+
+```text
+Level 2
+Active Employees
+
+medium fidelity
+```
+
+```text
+Level 3
+Workforce Cohorts
+
+aggregate simulation
+```
+
+例如：
+
+```text
+Tokyo Engineering
+412 employees
+
+morale 71
+turnover 8%
+productivity 83
+```
+
+只有重要人物升格成 Named Agent。
+
+這樣 5,000–50,000 人公司仍然能模擬。
+
+---
+
+# 21. Save Architecture
+
+不要單純 serialize 一個巨大 state。
+
+Save：
+
+```text
+manifest.json
+
+world snapshot
+
+command log
+
+event log
+
+simulation metadata
+
+schema version
+```
+
+metadata：
+
+```json
+{
+  "saveVersion": 3,
+  "gameVersion": "0.1.0",
+  "seed": "startup-001",
+  "tick": 742,
+  "stateHash": "..."
+}
+```
+
+必須支援 migration：
+
+```text
+Save V1
+ ↓
+Migration
+ ↓
+V2
+ ↓
+Migration
+ ↓
+V3
+```
+
+---
+
+# 22. Replay Architecture
+
+這個專案應從 Day 1 做 replay。
+
+保存：
+
+```text
+seed
++
+initial config
++
+player commands
+```
+
+理論上：
+
+```text
+InitialState
++
+Commands
+=
+FinalState
+```
+
+驗證：
+
+```text
+hash(run(seed, commands))
+===
+hash(replay(seed, commands))
+```
+
+若不相同：
+
+**測試失敗。**
+
+這會救你未來大量 debug 時間。
+
+---
+
+# 23. State Hash
+
+每 N ticks：
+
+```text
+canonical world state
+↓
+stable serialization
+↓
+SHA-256
+```
+
+例如：
+
+```text
+tick 100 = c102...
+tick 200 = 899a...
+tick 300 = 77da...
+```
+
+replay 時比較。
+
+這可以非常快定位 deterministic divergence。
+
+---
+
+# 24. Benchmark
+
+我會建立專用：
+
+```bash
+npm run benchmark
+```
+
+測試：
+
+```text
+100 seeds
+5 years each
+```
+
+記錄：
+
+```text
+simulation time
+peak entity count
+employee count
+event count
+cash
+revenue
+bankruptcies
+resignations
+errors
+NaN
+Infinity
+deadlocks
+```
+
+Phase 1 最低要求：
+
+```text
+100 seeds × 5 years
+
+crash = 0
+NaN = 0
+Infinity = 0
+invalid state = 0
+```
+
+再建立：
+
+```text
+stress benchmark
+```
+
+例如：
+
+```text
+1,000 employees
+10 simulation years
+```
+
+先確認 architecture 不會爆掉。
+
+---
+
+# 25. Simulation Invariants
+
+測試一定要包含 invariants。
+
+例如：
+
+```text
+cash must be finite
+
+salary >= 0
+
+employee cannot belong to two teams
+
+terminated employee cannot work
+
+customer MRR >= 0
+
+employee manager cannot be self
+
+relationships must reference existing agents
+
+no duplicate entity ID
+
+simulation date never moves backward
+```
+
+這些每個 tick 都可以在 debug/test mode 檢查。
+
+---
+
+# 26. 測試策略
+
+建議四層。
+
+### Unit
+
+例如：
+
+```text
+salary calculations
+
+stress equations
+
+productivity
+
+resignation probability
+
+revenue
+```
+
+### Simulation
+
+例如：
+
+```text
+employee leaves after prolonged severe dissatisfaction
+
+salary raise reduces compensation dissatisfaction
+
+high workload raises stress
+
+customer cancellation reduces MRR
+```
+
+### Determinism
+
+```text
+same seed
+same commands
+
+=
+same final hash
+```
+
+### E2E
+
+Playwright：
+
+```text
+launch game
+
+new company
+
+hire employee
+
+advance time
+
+change salary
+
+save
+
+quit
+
+load
+
+verify state
+```
+
+---
+
+# 27. Golden Seeds
+
+建立固定種子：
+
+```text
+golden-001
+golden-002
+golden-003
+```
+
+把結果存起來。
+
+例如：
+
+```text
+golden-001
+year 3
+
+employees: 27
+cash: ...
+customers: 13
+events: ...
+hash: ...
+```
+
+任何 simulation 改動：
+
+CI 都檢查。
+
+如果結果變：
+
+必須明確知道：
+
+> 為什麼變。
+
+---
+
+# 28. 技術棧
+
+我會選：
+
+```text
+Language
+TypeScript
+
+Runtime
+Node.js
+
+Desktop
+Electron
+
+Frontend
+React
+
+Build
+Vite
+
+State / UI
+Zustand
+
+Simulation
+Pure TypeScript
+
+Schema validation
+Zod
+
+Database
+SQLite
+
+Testing
+Vitest
+
+E2E
+Playwright
+
+Packaging
+electron-builder
+
+Styling
+Tailwind CSS
+
+Charts
+Recharts
+
+IDs
+UUID / deterministic entity IDs
+
+Hash
+Node crypto
+```
+
+整體最好：
+
+```text
+pnpm workspace
+```
+
+Monorepo：
+
+```text
+apps/
+  desktop/
+
+packages/
+  simulation/
+  domain/
+  persistence/
+  narrative/
+  ui/
+  shared/
+```
+
+---
+
+# 29. 為什麼 simulation 要獨立 package
+
+必須做到：
+
+```text
+packages/simulation
+```
+
+完全不知道 Electron 是什麼。
+
+例如：
+
+```ts
+const sim = createSimulation({
+  seed: "abc"
+});
+
+sim.execute(command);
+
+sim.advanceDays(30);
+
+console.log(sim.getState());
+```
+
+這樣 benchmark 可以直接：
+
+```text
+Node CLI
+```
+
+跑。
+
+不用開 UI。
+
+這是非常重要的架構要求。
+
+---
+
+# 30. UI State 與 World State 必須分開
+
+禁止：
+
+```text
+React Zustand store
+=
+simulation world state
+```
+
+正確：
+
+```text
+Simulation State
+authoritative truth
+
+       ↓ projections
+
+UI State
+selected employee
+open dialog
+current tab
+filters
+```
+
+UI 不能成為世界真相。
+
+---
+
+# 31. Persistence
+
+Phase 1 可以 SQLite。
+
+tables 類似：
+
+```text
+saves
+
+snapshots
+
+commands
+
+events
+```
+
+不要一開始把每個 Employee 欄位完全 relational normalize。
+
+Simulation snapshot 可以：
+
+```text
+compressed JSON
+```
+
+而 commands/events 使用 structured JSON。
+
+這樣比較適合快速 schema evolution。
+
+---
+
+# 32. LLM Adapter
+
+未來設計：
+
+```ts
+interface NarrativeProvider {
+  generateMessage(context: NarrativeContext):
+    Promise<NarrativeResult>;
+}
+```
+
+實作：
+
+```text
+TemplateNarrativeProvider
+
+OpenAINarrativeProvider
+
+LocalNarrativeProvider
+```
+
+遊戲永遠可以：
+
+```text
+LLM OFF
+```
+
+而完整運作。
+
+---
+
+# 33. LLM Failure Policy
+
+必須預設：
+
+```text
+timeout
+↓
+retry once
+↓
+fallback template
+```
+
+LLM 不得阻塞 simulation。
+
+也不能因 API 掛掉導致：
+
+```text
+advance day
+```
+
+失敗。
+
+---
+
+# 34. Git / GitHub 流程
+
+私人 repository。
+
+建議：
+
+```text
+main
+```
+
+永遠保持：
+
+```text
+buildable
+tested
+playable
+```
+
+開發：
+
+```text
+feature/simulation-employees
+feature/save-system
+feature/dashboard
+fix/replay-divergence
+```
+
+每一個完整 work unit 一次 commit。
+
+例如：
+
+```text
+feat(sim): add deterministic employee stress model
+
+feat(finance): implement monthly payroll
+
+feat(ui): add employee directory
+
+feat(save): implement versioned save format
+
+test(replay): add deterministic state hash verification
+```
+
+不要：
+
+```text
+update stuff
+fix
+misc
+final
+```
+
+---
+
+# 35. CI
+
+GitHub Actions 至少：
+
+```text
+install
+lint
+typecheck
+unit test
+simulation test
+determinism test
+build
+```
+
+release：
+
+```text
+Windows build
+```
+
+未來 tag：
+
+```text
+v0.1.0
+v0.2.0
+v0.3.0
+```
+
+自動建立 artifact。
+
+---
+
+# 36. Phase 1 Definition of Done
+
+Phase 1 完成不能只是：
+
+> App 能開。
+
+我會要求：
+
+```text
+Windows app launches
+
+new company works
+
+3 founders exist
+
+employees can be hired
+
+employees can be fired
+
+salary can be changed
+
+time can advance
+
+employees work
+
+stress changes
+
+relationships change
+
+employees can resign
+
+customers appear
+
+customers generate revenue
+
+customers churn
+
+product progresses
+
+payroll occurs
+
+company can go bankrupt
+
+save works
+
+load works
+
+replay works
+
+same seed is deterministic
+
+100-seed benchmark passes
+
+UI has production-level visual hierarchy
+
+no placeholder core screens
+```
+
+我還會加：
+
+```text
+offline playable = YES
+
+LLM required = NO
+```
+
+---
+
+# 37. Phase 1 最合理的內容邊界
+
+有幾個東西**不要現在做**：
+
+```text
+IPO
+international offices
+complex acquisitions
+unions
+stock market
+full Slack simulation
+LLM agents
+real multiplayer
+mods
+10,000 employee simulation
+```
+
+否則 Phase 1 很容易膨脹失控。
+
+但 architecture 要允許它們未來加入。
+
+---
+
+# 38. 建議的第一個遊戲 Scenario
+
+建立固定 scenario：
+
+**Garage Startup**
+
+```text
+Date:
+2026-01-01
+
+Cash:
+NT$500,000
+
+Employees:
+3
+
+CEO
+CTO
+Engineer
+
+Customers:
+0
+
+Product:
+Prototype
+
+Monthly Revenue:
+NT$0
+```
+
+目標不是「破關」。
+
+讓玩家自由經營。
+
+但可以顯示 milestones：
+
+```text
+First customer
+
+NT$100k MRR
+
+10 employees
+
+Series A
+
+50 employees
+```
+
+---
+
+# 39. 我認為這個專案最值得押注的 Feature
+
+不是 LLM。
+
+而是：
+
+# Why did this happen?
+
+例如：
+
+```text
+Alice resigned.
+```
+
+點：
+
+**Why?**
+
+看到：
+
+```text
+Promotion denied
+      ↓
+Career satisfaction -14
+      ↓
+Relationship with CTO -8
+      ↓
+Project crunch
+      ↓
+Stress +23
+      ↓
+Bob resigned
+      ↓
+Team loyalty -11
+      ↓
+Recruiter contacted Alice
+      ↓
+Alice accepted interview
+      ↓
+Offer received
+      ↓
+Resignation
+```
+
+如果這套做成功，
+
+它會讓整個遊戲的 emergent stories **變得可以理解**。
+
+這比單純用 LLM 生一堆故事強很多。
+
+---
+
+# 40. 可直接交給 Codex 的 Phase 1 Prompt
+
+下面這份我會直接拿去當 Codex 的第一階段總任務。它刻意把 architecture、驗收、測試、Git 和 Windows build 都寫進去，避免 Codex 自己把產品做成 prototype。
+
+# AI Company Simulator — Phase 1 Development Specification
+
+You are beginning implementation of a new production-quality software project.
+
+The project is not a prototype or throwaway demo.
+
+The objective is to build a maintainable deterministic company simulation game that can eventually grow from simulating a 3-person startup into a multinational corporation.
+
+The final product will be distributed as a Windows desktop application.
+
+A private GitHub repository must be maintained throughout development.
+
+---
+
+# PRODUCT
+
+Working title:
+
+AI Company Simulator
+
+Core fantasy:
+
+The player is the founder / CEO of a company.
+
+The player controls company-level decisions, but does not directly control employees.
+
+Employees are autonomous simulated agents with:
+
+- skills
+- personality
+- ambitions
+- expectations
+- stress
+- satisfaction
+- loyalty
+- relationships
+- career goals
+- memories
+
+The player's decisions indirectly affect employee behavior.
+
+Example causal chain:
+
+CEO rejects promotion request
+
+→ employee career satisfaction decreases
+
+→ trust in management decreases
+
+→ employee becomes more receptive to recruiters
+
+→ competing company makes offer
+
+→ employee resigns
+
+The player should experience these events as emergent consequences rather than scripted stories.
+
+---
+
+# NON-NEGOTIABLE ARCHITECTURE PRINCIPLES
+
+The simulation must not depend on an LLM.
+
+The entire game must work offline.
+
+Do not use an LLM in Phase 1.
+
+The simulation must be deterministic.
+
+The same:
+
+- seed
+- initial configuration
+- player commands
+
+must produce exactly the same simulation result.
+
+Never use Math.random() anywhere in simulation code.
+
+All randomness must come through an injected deterministic RNG abstraction.
+
+UI state and simulation state must be separate.
+
+React components must never directly mutate simulation state.
+
+All simulation modifications must happen through commands.
+
+Do not create fake backend behavior or placeholder simulation systems merely to make the interface look functional.
+
+The implementation must be maintainable and suitable for continuous iteration.
+
+---
+
+# TECH STACK
+
+Use:
+
+- TypeScript
+- Node.js
+- pnpm workspace
+- Electron
+- React
+- Vite
+- Zustand for UI state only
+- Zod for runtime schema validation
+- SQLite for persistence
+- Vitest
+- Playwright
+- electron-builder
+- Tailwind CSS
+- Recharts where charts are appropriate
+
+Simulation code must be framework-independent pure TypeScript.
+
+The simulation package must run directly under Node without Electron or React.
+
+---
+
+# REPOSITORY STRUCTURE
+
+Create approximately:
+
+apps/
+  desktop/
+
+packages/
+  domain/
+  simulation/
+  persistence/
+  narrative/
+  shared/
+  ui/
+
+Additional packages may be introduced where architecturally justified.
+
+Do not create unnecessary packages merely for abstraction.
+
+---
+
+# DOMAIN ARCHITECTURE
+
+The authoritative simulation state should be represented by a WorldState.
+
+It should include at minimum:
+
+Company
+
+Employees
+
+Teams
+
+Products
+
+Customers
+
+Relationships
+
+Market
+
+Events
+
+SimulationMetadata
+
+Commands must be the only mechanism for player-driven mutation.
+
+Initial Phase 1 commands should include at least:
+
+CreateCompany
+
+HireEmployee
+
+FireEmployee
+
+ChangeSalary
+
+CreateTeam
+
+MoveEmployeeToTeam
+
+ChangeCompanyStrategy
+
+ChangeProductPriority
+
+AdvanceTime
+
+Additional commands may be introduced when needed.
+
+---
+
+# EMPLOYEE MODEL
+
+Each employee needs persistent identity and simulation state.
+
+Include concepts equivalent to:
+
+Identity
+
+Employment state
+
+Role
+
+Salary
+
+Skills
+
+Personality
+
+Psychological state
+
+Expectations
+
+Goals
+
+Manager
+
+Team
+
+Relationships
+
+Memories
+
+Suggested psychological dimensions:
+
+stress
+
+satisfaction
+
+loyalty
+
+burnout
+
+confidence
+
+companyTrust
+
+managerTrust
+
+exitIntent
+
+Values should have explicitly defined valid ranges.
+
+Do not expose all hidden simulation variables directly to the player.
+
+The interface should distinguish between:
+
+simulation truth
+
+and
+
+player-observable information.
+
+---
+
+# SKILLS
+
+Create an extensible skill profile.
+
+Phase 1 can initially support skills such as:
+
+engineering
+
+product
+
+sales
+
+marketing
+
+leadership
+
+operations
+
+Employees should generate work output according to relevant skills, psychological state, workload and team conditions.
+
+Avoid excessively complicated equations.
+
+Every equation must be deterministic, testable and documented.
+
+---
+
+# PERSONALITY
+
+Create deterministic personality attributes such as:
+
+ambition
+
+riskTolerance
+
+sociability
+
+conscientiousness
+
+adaptability
+
+loyaltyDisposition
+
+Personality should influence simulation outcomes but should not directly determine them.
+
+---
+
+# RELATIONSHIPS
+
+Relationships must be directional.
+
+Alice → Bob is not equivalent to Bob → Alice.
+
+A relationship should support dimensions similar to:
+
+trust
+
+respect
+
+affinity
+
+resentment
+
+rivalry
+
+Relationships should change because of simulation events.
+
+Examples:
+
+working successfully together
+
+management decisions
+
+promotion decisions
+
+team failures
+
+high stress
+
+termination of colleagues
+
+Do not create random relationship movement without a cause.
+
+---
+
+# EMPLOYEE MEMORY
+
+Implement a lightweight employee memory system.
+
+Memory should contain:
+
+id
+
+date
+
+type
+
+related entities
+
+importance
+
+sentiment
+
+emotional impact
+
+decay configuration
+
+Memories should influence relevant employee state.
+
+Memories must not grow forever without bounds.
+
+Use a retention / decay / pruning strategy.
+
+Important memories should remain much longer than trivial memories.
+
+---
+
+# COMPANY
+
+Initial company state:
+
+cash:
+NT$500,000
+
+employees:
+3
+
+customers:
+0
+
+product:
+prototype
+
+Create a default scenario called:
+
+Garage Startup
+
+The three initial employees should correspond roughly to:
+
+CEO / Founder
+
+CTO / Founder
+
+Engineer
+
+Generate them deterministically from the world seed.
+
+---
+
+# FINANCIAL SYSTEM
+
+Implement at minimum:
+
+cash
+
+revenue
+
+MRR
+
+salary expense
+
+operating expenses
+
+monthly burn
+
+runway
+
+monthly payroll
+
+customer revenue
+
+bankruptcy condition
+
+All money calculations must avoid floating-point drift.
+
+Use integer smallest currency units or another explicit deterministic money representation.
+
+---
+
+# PRODUCT SYSTEM
+
+Phase 1 requires one active product.
+
+Product needs:
+
+development progress
+
+quality
+
+technical debt
+
+market fit
+
+priority
+
+Development progress should result from employee work.
+
+Product work must interact with:
+
+skills
+
+staff allocation
+
+stress
+
+workload
+
+technical debt
+
+Product milestones should generate domain events.
+
+---
+
+# CUSTOMER SYSTEM
+
+Implement a simple but real customer simulation.
+
+Customers need:
+
+identity
+
+segment
+
+contract / revenue value
+
+satisfaction
+
+product fit
+
+churn risk
+
+Customers should be acquired through deterministic simulation mechanisms.
+
+Customers generate recurring revenue.
+
+Customers may churn.
+
+Churn must have explainable causes.
+
+Do not create arbitrary churn purely from random chance.
+
+Randomness may modify outcomes, but underlying factors must contribute to probability.
+
+---
+
+# EMPLOYEE WORK SYSTEM
+
+Employees should contribute work on simulation days.
+
+Output should depend on factors including:
+
+skills
+
+role
+
+psychological state
+
+team context
+
+workload
+
+product priority
+
+Do not calculate the entire game using a single generic productivity score.
+
+Maintain clear separation between underlying contributing factors.
+
+---
+
+# STRESS AND BURNOUT
+
+Implement stress dynamics.
+
+Stress should be affected by factors such as:
+
+workload
+
+management conditions
+
+company instability
+
+recent events
+
+Stress should decay when pressure decreases.
+
+Burnout should accumulate more slowly than stress.
+
+Burnout should not instantly disappear.
+
+All calculations must be deterministic.
+
+---
+
+# SATISFACTION AND LOYALTY
+
+Implement meaningful satisfaction and loyalty systems.
+
+Examples of factors:
+
+compensation
+
+career progress
+
+workload
+
+management trust
+
+company performance
+
+relationship environment
+
+Do not make salary the only important variable.
+
+---
+
+# RESIGNATION
+
+Employees must be able to voluntarily leave the company.
+
+Do not implement resignation as a simple constant RNG roll.
+
+Use a staged model such as:
+
+dissatisfaction
+
+→ exit intent
+
+→ external opportunity openness
+
+→ resignation evaluation
+
+Important resignations must produce events explaining contributing factors.
+
+Store causal information internally.
+
+---
+
+# SIMULATION CLOCK
+
+Use:
+
+1 simulation tick = 1 day
+
+Support:
+
+advance one day
+
+advance one week
+
+advance N days
+
+Subsystems should be schedulable at different frequencies.
+
+For example:
+
+daily:
+employee state
+work
+relationships
+product
+customers
+events
+
+weekly:
+planning
+recruitment
+team dynamics
+
+monthly:
+payroll
+financial close
+
+The exact final scheduling design may differ if a cleaner architecture is found.
+
+System execution order must be deterministic and explicit.
+
+---
+
+# EVENT SYSTEM
+
+Important state transitions must generate immutable domain events.
+
+Examples:
+
+EmployeeHired
+
+EmployeeFired
+
+SalaryChanged
+
+EmployeeResigned
+
+ProductMilestoneReached
+
+CustomerAcquired
+
+CustomerChurned
+
+PayrollProcessed
+
+CompanyBankrupt
+
+RelationshipChanged
+
+StrategyChanged
+
+Events should contain:
+
+event id
+
+simulation tick
+
+simulation date
+
+type
+
+payload
+
+causedBy command or event where applicable
+
+visibility
+
+Design events so they can later support:
+
+timeline UI
+
+storytelling
+
+debugging
+
+analytics
+
+replay explanation
+
+---
+
+# CAUSALITY
+
+Preserve causal links where practical.
+
+Example:
+
+StrategyChanged
+
+→ WorkloadChanged
+
+→ EmployeeStressChanged
+
+→ ExitIntentChanged
+
+→ EmployeeResigned
+
+It is not necessary to store every trivial numerical update as a human-visible event.
+
+However, important events should have enough structured explanation data to answer:
+
+"Why did this happen?"
+
+Do not generate the explanation using arbitrary natural language.
+
+Keep machine-readable causes.
+
+---
+
+# RNG
+
+Create a deterministic RNG system.
+
+Never call Math.random in simulation code.
+
+Prefer deterministic named or derived streams so adding an unrelated random call does not necessarily alter the entire future simulation.
+
+Random operations should be attributable to stable contexts such as:
+
+root seed
+
+system
+
+entity
+
+simulation date
+
+operation
+
+Provide unit tests verifying deterministic results.
+
+---
+
+# SAVE SYSTEM
+
+Implement versioned saves.
+
+A save must preserve enough information to restore the simulation exactly.
+
+Save metadata should include:
+
+save schema version
+
+application version
+
+world seed
+
+current simulation tick
+
+simulation date
+
+state hash
+
+Use SQLite as the persistence container.
+
+It is acceptable to store simulation snapshots as validated structured JSON.
+
+Do not over-normalize the simulation model into hundreds of relational fields during Phase 1.
+
+Design explicit save migrations from the beginning.
+
+---
+
+# COMMAND LOG
+
+Persist player commands.
+
+Command records should include:
+
+id
+
+type
+
+simulation tick
+
+arguments
+
+This log must support deterministic replay.
+
+---
+
+# REPLAY
+
+Implement replay from:
+
+initial scenario
+
+seed
+
+player command history
+
+Replaying the same run must produce the same resulting state.
+
+Add an automated test comparing:
+
+original state hash
+
+and
+
+replayed state hash.
+
+They must be identical.
+
+---
+
+# STATE HASHING
+
+Implement canonical deterministic state serialization.
+
+Calculate SHA-256 hashes of canonical world state.
+
+Object key ordering, collection ordering and transient UI information must not alter the hash.
+
+Provide a command or API capable of calculating state hashes during benchmarks.
+
+---
+
+# SIMULATION INVARIANTS
+
+Implement invariant checks in development and tests.
+
+At minimum verify:
+
+all monetary values are finite and valid
+
+employee salary is non-negative
+
+entity IDs are unique
+
+employee cannot belong to multiple active teams
+
+terminated employee does not contribute work
+
+manager cannot be self
+
+references point to existing entities
+
+customer revenue is non-negative
+
+simulation date never decreases
+
+all bounded psychological values remain in range
+
+NaN never enters simulation state
+
+Infinity never enters simulation state
+
+---
+
+# UI
+
+The interface must look like a finished desktop management product rather than a developer dashboard.
+
+Use a coherent visual system.
+
+Prioritize hierarchy, spacing and typography.
+
+Do not fill every screen with cards.
+
+Avoid excessive gradients and gimmicky effects.
+
+Primary layout:
+
+persistent company header
+
+left navigation
+
+main workspace
+
+simulation time controls
+
+Primary navigation:
+
+Dashboard
+
+People
+
+Teams
+
+Product
+
+Customers
+
+Finance
+
+Inbox
+
+Timeline
+
+Settings
+
+---
+
+# DASHBOARD
+
+Show useful player-observable information such as:
+
+cash
+
+monthly revenue
+
+monthly burn
+
+runway
+
+employee count
+
+customer count
+
+product progress
+
+company alerts
+
+recent events
+
+Do not expose hidden psychological values directly.
+
+---
+
+# PEOPLE
+
+Create an employee directory.
+
+Employee detail should show observable information including:
+
+name
+
+role
+
+team
+
+salary where appropriate
+
+tenure
+
+performance information
+
+manager
+
+recent visible events
+
+general observable mood / condition
+
+Do not directly show:
+
+exact loyalty
+
+exact exitIntent
+
+exact hidden resentment
+
+The architecture may expose these values in developer/debug tooling, but not normal gameplay UI.
+
+---
+
+# TEAMS
+
+Display teams and team members.
+
+Allow appropriate player actions such as:
+
+create team
+
+move employee
+
+inspect manager
+
+Display observable team health.
+
+---
+
+# PRODUCT
+
+Display:
+
+development progress
+
+quality
+
+technical debt
+
+current priority
+
+recent milestones
+
+Allow product priority to be changed.
+
+---
+
+# CUSTOMERS
+
+Display customer list.
+
+Show:
+
+segment
+
+revenue
+
+status
+
+visible satisfaction information
+
+recent customer events
+
+---
+
+# FINANCE
+
+Display:
+
+cash
+
+revenue
+
+payroll
+
+operating cost
+
+burn
+
+runway
+
+historical monthly summary
+
+Provide appropriate charts.
+
+---
+
+# INBOX
+
+Implement an initial deterministic inbox / notification system.
+
+No LLM.
+
+Messages may be generated using templates from simulation events.
+
+Examples:
+
+employee concerns
+
+customer notices
+
+financial warnings
+
+product milestones
+
+These messages must reflect actual simulation state and events.
+
+They must never invent world facts.
+
+---
+
+# TIMELINE
+
+Display important domain events chronologically.
+
+Allow selecting an event.
+
+Where causal information exists, display structured contributing causes.
+
+Build this architecture so a future "Why did this happen?" view can be expanded substantially.
+
+---
+
+# DEBUG TOOLS
+
+Provide a development-only debug view or CLI capable of inspecting:
+
+world seed
+
+tick
+
+state hash
+
+hidden employee state
+
+recent events
+
+simulation invariant status
+
+This must not appear in normal production gameplay unless explicitly enabled.
+
+---
+
+# CLI
+
+Create a simulation CLI independent from Electron.
+
+It should support operations similar to:
+
+create scenario
+
+run N days
+
+run N years
+
+print summary
+
+calculate state hash
+
+benchmark seeds
+
+The exact syntax is flexible.
+
+The CLI is required for testing and benchmarking.
+
+---
+
+# BENCHMARK
+
+Create a benchmark runner.
+
+Phase 1 benchmark target:
+
+100 different seeds
+
+5 simulated years each
+
+Automatically report:
+
+runtime
+
+final employee count
+
+customer count
+
+revenue
+
+cash
+
+event count
+
+bankruptcy status
+
+simulation exceptions
+
+invariant violations
+
+NaN count
+
+Infinity count
+
+Acceptance requirement:
+
+0 crashes
+
+0 NaN
+
+0 Infinity
+
+0 corrupted states
+
+0 invariant violations
+
+If some companies fail financially, that is not itself a benchmark failure.
+
+Financial outcomes may vary naturally.
+
+---
+
+# GOLDEN SEEDS
+
+Create at least 3 fixed regression seeds.
+
+Store expected deterministic hashes at selected checkpoints.
+
+For example:
+
+year 1
+
+year 3
+
+year 5
+
+Tests must identify deterministic simulation changes.
+
+When legitimate simulation changes alter golden results, update the fixtures intentionally and document why.
+
+---
+
+# TESTS
+
+Use Vitest.
+
+Implement meaningful unit and integration tests.
+
+Required categories:
+
+RNG determinism
+
+financial calculations
+
+payroll
+
+employee state updates
+
+stress
+
+burnout
+
+productivity
+
+relationships
+
+customer revenue
+
+customer churn
+
+employee resignation
+
+commands
+
+events
+
+save/load
+
+replay
+
+state hashing
+
+simulation invariants
+
+golden seeds
+
+Do not write meaningless snapshot tests simply to increase test count.
+
+---
+
+# E2E
+
+Use Playwright where practical for the Electron/web-rendered UI.
+
+At minimum test a workflow equivalent to:
+
+launch application
+
+create Garage Startup
+
+inspect dashboard
+
+advance simulation
+
+hire employee
+
+change salary
+
+advance simulation
+
+save game
+
+reload game
+
+verify persisted state
+
+---
+
+# DESIGN QUALITY
+
+The application should visually resemble a polished modern management simulator.
+
+Use consistent:
+
+spacing
+
+type scale
+
+component states
+
+navigation behavior
+
+tables
+
+dialogs
+
+buttons
+
+empty states
+
+loading states
+
+error states
+
+Do not leave core screens as placeholders.
+
+Icons must come from a consistent icon library.
+
+Do not use emoji as primary application UI icons.
+
+---
+
+# ACCESSIBILITY
+
+Provide reasonable:
+
+keyboard navigation
+
+focus states
+
+contrast
+
+button labels
+
+semantic structure
+
+Do not sacrifice accessibility solely for appearance.
+
+---
+
+# PERFORMANCE
+
+Do not optimize prematurely.
+
+However, avoid architectures that require React components to rerender the entire WorldState continuously.
+
+Use query/projection boundaries between simulation and interface.
+
+Phase 1 should remain responsive with at least:
+
+1,000 simulated employee entities
+
+even if normal gameplay initially targets fewer employees.
+
+Create a stress benchmark for approximately:
+
+1,000 employees
+
+10 simulation years
+
+Record performance.
+
+This benchmark is observational in Phase 1 unless severe performance problems occur.
+
+---
+
+# NARRATIVE ARCHITECTURE
+
+Create a narrative provider abstraction, but do not integrate an LLM yet.
+
+Implement only deterministic template-based narration.
+
+Suggested interface concept:
+
+NarrativeProvider
+
+A future version should be able to introduce:
+
+OpenAI provider
+
+local model provider
+
+without changing simulation logic.
+
+Narrative output must never mutate authoritative simulation state.
+
+---
+
+# ERROR HANDLING
+
+Do not silently swallow simulation errors.
+
+Simulation failures must contain useful context such as:
+
+system
+
+tick
+
+entity
+
+seed
+
+where appropriate.
+
+UI failures should provide appropriate user-facing error handling.
+
+---
+
+# VERSIONING
+
+Begin application versioning at an appropriate pre-release value such as:
+
+0.1.0
+
+Save schema must have its own explicit version.
+
+---
+
+# GIT
+
+Initialize Git if this is a new repository.
+
+Maintain clean commits throughout development.
+
+Use conventional commit style such as:
+
+feat(sim): implement deterministic employee state system
+
+feat(finance): add monthly payroll
+
+feat(ui): add employee directory
+
+feat(save): add versioned persistence
+
+test(replay): verify deterministic command replay
+
+Do not accumulate the entire Phase 1 implementation into one giant commit.
+
+Commit at meaningful working milestones.
+
+Never commit:
+
+node_modules
+
+build output
+
+credentials
+
+API keys
+
+local temporary files
+
+development databases unless intentionally included as fixtures
+
+---
+
+# GITHUB
+
+Create or use a private GitHub repository.
+
+Push development regularly.
+
+The main branch must remain buildable.
+
+If GitHub authentication is unavailable, complete all local Git work and clearly document the exact blocker rather than pretending a push succeeded.
+
+Do not expose secrets in Git history.
+
+---
+
+# CI
+
+Create GitHub Actions workflows that run on push / pull request.
+
+At minimum run:
+
+install
+
+lint
+
+typecheck
+
+unit tests
+
+simulation tests
+
+determinism tests
+
+build
+
+Where practical, separately support Windows packaging verification.
+
+---
+
+# WINDOWS BUILD
+
+Produce a Windows executable/package using electron-builder.
+
+The Phase 1 acceptance process must include an actual packaged build.
+
+Do not consider a successful Vite browser build sufficient.
+
+Test the packaged application.
+
+---
+
+# DOCUMENTATION
+
+Maintain:
+
+README.md
+
+ARCHITECTURE.md
+
+SIMULATION.md
+
+SAVE_FORMAT.md
+
+TESTING.md
+
+PHASE1_REPORT.md
+
+Document:
+
+architecture decisions
+
+simulation ordering
+
+determinism rules
+
+RNG rules
+
+save format
+
+replay design
+
+benchmark commands
+
+development commands
+
+Windows build process
+
+---
+
+# DEVELOPMENT PROCESS
+
+Do not attempt to implement the entire specification in one uncontrolled code change.
+
+Work incrementally.
+
+A recommended sequence is:
+
+repository and workspace foundation
+
+domain primitives
+
+deterministic RNG
+
+simulation clock
+
+company and employee model
+
+financial system
+
+work/product system
+
+employee psychology
+
+relationships
+
+customer system
+
+events
+
+commands
+
+state hashing
+
+save/load
+
+replay
+
+benchmark harness
+
+desktop shell
+
+dashboard
+
+people
+
+teams
+
+product
+
+customers
+
+finance
+
+inbox
+
+timeline
+
+E2E
+
+Windows packaging
+
+final QA
+
+At each significant stage:
+
+run tests
+
+run typecheck
+
+build
+
+commit working code
+
+Do not knowingly commit broken intermediate states.
+
+---
+
+# PHASE 1 ACCEPTANCE CRITERIA
+
+Phase 1 is complete only when all of the following are true.
+
+The Windows application launches successfully.
+
+A user can create a new Garage Startup company.
+
+The initial state has:
+
+NT$500,000 cash
+
+3 employees
+
+0 customers
+
+1 prototype product.
+
+The player can advance simulation time.
+
+Employees generate useful work.
+
+Employee state changes over time.
+
+Stress and burnout operate.
+
+Relationships operate.
+
+Employees can be hired.
+
+Employees can be fired.
+
+Salaries can be changed.
+
+Employees can resign.
+
+Products progress.
+
+Customers can be acquired.
+
+Customers generate revenue.
+
+Customers can churn.
+
+Monthly payroll works.
+
+Cash and runway are calculated correctly.
+
+The company can become insolvent/bankrupt.
+
+Important events appear in the timeline.
+
+Player-facing messages reflect real simulation events.
+
+Save works.
+
+Load restores exactly the saved state.
+
+Replay reproduces the original deterministic state.
+
+State hashes match across deterministic replay.
+
+The 100-seed / 5-year benchmark completes with:
+
+0 crashes
+
+0 NaN
+
+0 Infinity
+
+0 corrupted states
+
+0 invariant violations.
+
+At least three golden seed regression tests exist.
+
+Unit and integration test suites pass.
+
+The application typechecks.
+
+The application builds.
+
+The packaged Windows application has been manually launched and checked.
+
+Core screens have production-quality visual treatment and are not placeholder engineering pages.
+
+The game works without internet access.
+
+The game uses no LLM in Phase 1.
+
+The Git working tree is clean at final delivery.
+
+All completed work has been committed.
+
+The private GitHub repository has been pushed if authentication is available.
+
+---
+
+# FINAL PHASE 1 VALIDATION
+
+Before declaring the work complete, perform all available validations.
+
+Run:
+
+lint
+
+typecheck
+
+unit tests
+
+simulation tests
+
+determinism tests
+
+golden seed tests
+
+100-seed benchmark
+
+production build
+
+Windows packaging
+
+Playwright / UI tests
+
+Perform a manual packaged Windows smoke test where the environment permits it.
+
+Do not claim a validation passed unless it was actually executed successfully.
+
+If something cannot be tested because of environment limitations, explicitly report:
+
+what was not tested
+
+why
+
+what command or procedure should be used to verify it.
+
+---
+
+# FINAL REPORT
+
+Create:
+
+PHASE1_REPORT.md
+
+Include:
+
+implemented systems
+
+architecture summary
+
+test counts
+
+benchmark results
+
+golden seed results
+
+performance observations
+
+Windows packaging result
+
+manual QA result
+
+known limitations
+
+deferred Phase 2 work
+
+Git commit summary
+
+repository status
+
+Do not describe unfinished systems as complete.
+
+Do not hide failures.
+
+---
+
+# OUT OF SCOPE FOR PHASE 1
+
+Do not implement unless strictly required by the architecture:
+
+LLM integration
+
+full Slack simulation
+
+complex email generation
+
+IPO
+
+stock exchange
+
+international subsidiaries
+
+mergers and acquisitions
+
+unions
+
+large-scale political systems
+
+multiplayer
+
+modding
+
+thousands of fully simulated high-fidelity agents
+
+These belong to later phases.
+
+Architecture may prepare for them, but Phase 1 should remain focused.
+
+---
+
+# PRIMARY ENGINEERING PRIORITIES
+
+When trade-offs are required, prioritize in this order:
+
+1. simulation correctness
+2. determinism
+3. data integrity
+4. testability
+5. maintainability
+6. save/replay reliability
+7. gameplay clarity
+8. UI polish
+9. performance
+10. feature quantity
+
+Do not sacrifice simulation architecture in order to add more superficial features.
+
+Begin implementation of Phase 1 following this specification.
+
+這份 Prompt 已經可以直接拿去開新的 Codex 工作階段，不需要再補產品層面的設計。
+
+我會特別守住三條紅線：**Phase 1 不接 LLM、Replay 從第一天就存在、所有重大結果都保留 machine-readable causality。** 只要這三件事沒有被後續開發破壞，Phase 2 加 Slack、Email、公司政治與真正 Agent 行為時，整個產品會非常自然地長出來，而不需要重寫 simulation core。
