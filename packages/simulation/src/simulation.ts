@@ -4,6 +4,7 @@ import { detachManager, remember, type SystemContext } from './context';
 import { assertInvariants } from './invariants';
 import { garageScenario, makeEmployee } from './scenario';
 import { activeEmployees, SYSTEMS } from './systems';
+import { projectCompany, type CompanyView } from './projection';
 
 export class Simulation {
   private w: WorldState;
@@ -22,10 +23,7 @@ export class Simulation {
   /** All API results are detached; callers never hold authoritative references. */
   snapshot(): WorldState { return structuredClone(this.w); }
   stateHash(): string { return hash(this.w); }
-  query<T>(projection: (state: Readonly<WorldState>) => T): T {
-    // Projections are trusted pure application functions; detach output at boundary.
-    return structuredClone(projection(this.w));
-  }
+  observe(): CompanyView { return projectCompany(this.w); }
   execute(input: Command | unknown): void {
     const command = commandSchema.parse(input);
     if (command.type === 'CreateCompany') throw new Error('CreateCompany is only valid as the initial scenario command');
