@@ -27,7 +27,7 @@ export function App() {
       case 'Finance': return <Finance view={view}/>;
       case 'Inbox': return <Inbox view={view}/>;
       case 'Timeline': return <Timeline view={view}/>;
-      case 'Settings': return <Settings {...props} newCompany={() => setCreating(true)}/>;
+      case 'Settings': return <Settings key={`${view.name}-${view.revision}`} {...props} newCompany={() => setCreating(true)}/>;
     }
   }
   return <div className="app-shell"><aside className="sidebar"><div className="brand"><strong>FOUNDRY</strong><span>AI Company Simulator</span></div><nav aria-label="主要導覽">{navigation.map(([id, label, Icon]) => <button key={id} className={page === id ? 'active' : ''} aria-current={page === id ? 'page' : undefined} disabled={!view} onClick={() => setPage(id as Page)}><Icon size={21} strokeWidth={1.8}/><span>{label}</span></button>)}</nav><div className="sidebar-company"><Building2 size={22}/><strong>{view?.name ?? 'Garage Startup'}</strong><small>Phase 1 · Playable Startup</small></div></aside>

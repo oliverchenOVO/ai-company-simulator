@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:packaged": "playwright test --config playwright.packaged.config.ts",
     "benchmark": "tsx scripts/benchmark.ts",
     "benchmark:stress": "tsx scripts/benchmark.ts --stress",
     "sim": "tsx scripts/cli.ts",

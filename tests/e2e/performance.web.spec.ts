@@ -1,0 +1,22 @@
+import { test, expect } from '@playwright/test';
+import { writeFileSync } from 'node:fs';
+import { performance } from 'node:perf_hooks';
+import { Simulation } from '../../packages/simulation/src/simulation';
+import { createSave } from '../../packages/persistence/src/save';
+import { createCompany } from './helpers';
+test('1,000 employee projection stays paginated and the UI responds during worker simulation', async ({ page }, info) => {
+  const sim = new Simulation({ seed: 'stress-ui', name: 'Scale Lab', scenario: 'garage', employeeCount: 1000, initialCash: 1_000_000_000_000 });
+  const file = info.outputPath('stress-import.json'); writeFileSync(file, JSON.stringify(createSave(sim.snapshot())));
+  await page.goto('/'); await createCompany(page);
+  await page.getByRole('navigation').getByRole('button', { name: '設定', exact: true }).click();
+  await page.getByLabel('匯入存檔檔案').setInputFiles(file); await expect(page.locator('.company-header')).toContainText('Scale Lab');
+  const started = performance.now();
+  await page.getByRole('button', { name: '推進一週', exact: true }).click();
+  await page.getByRole('navigation').getByRole('button', { name: '人員', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '人員', exact: true })).toBeVisible();
+  const navigationMs = Math.round(performance.now() - started);
+  await expect(page.getByText('第 7 天', { exact: true })).toBeVisible();
+  await expect(page.locator('tbody tr')).toHaveCount(25); await expect(page.locator('.pager')).toContainText('1000');
+  await page.getByRole('button', { name: '下一頁', exact: true }).click(); await expect(page.locator('.pager')).toContainText('第 2 / 40 頁');
+  console.log(JSON.stringify({ employees: 1000, navigationDuringSimulationMs: navigationMs, weekAndNavigationMs: Math.round(performance.now() - started), renderedEmployeeRows: 25 }));
+});

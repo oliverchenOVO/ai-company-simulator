@@ -23,7 +23,7 @@ export function projectCompany(w: WorldState) {
     if (!alerts.length) alerts.push({ title: '營運持續推進', body: '團隊與客戶暫無明顯警訊，持續觀察下一步。', severity: 'info' });
   }
   return {
-    name: w.company.name, date: w.meta.date, tick: w.meta.tick, bankrupt: w.company.bankrupt, strategy: w.company.strategy,
+    name: w.company.name, date: w.meta.date, tick: w.meta.tick, revision: w.commands.length, bankrupt: w.company.bankrupt, strategy: w.company.strategy,
     finance: { cash: w.company.cash, revenue: revenue(w), payroll: payroll(w), operatingCost: w.company.monthlyOperatingCost, burn: monthlyBurn, runway: months, history: w.finance.history.map(m => ({ ...m })) },
     employees, teams: Object.values(w.teams).map(t => ({ id: t.id, name: t.name, managerId: t.managerId, managerName: t.managerId ? w.employees[t.managerId].name : '待安排', memberCount: active.filter(e => e.teamId === t.id).length, condition: active.some(e => e.teamId === t.id && e.condition !== '狀態穩定') ? '需要關注' : '運作穩定' })),
     product: { ...w.products['product-1'] },
