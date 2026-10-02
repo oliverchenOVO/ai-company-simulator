@@ -1,9 +1,9 @@
 {
   "kind": "100 seeds / 5 calendar years",
-  "generatedAt": "2026-10-02T19:18:43.632Z",
+  "generatedAt": "2026-10-02T19:49:34.659Z",
   "node": "v24.13.0",
   "platform": "win32",
-  "runtimeMs": 7975,
+  "runtimeMs": 11440,
   "totals": {
     "crashes": 0,
     "nan": 0,
@@ -16,7 +16,7 @@
     {
       "seed": "benchmark-001",
       "days": 1826,
-      "runtimeMs": 188,
+      "runtimeMs": 163,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -29,7 +29,7 @@
     {
       "seed": "benchmark-002",
       "days": 1826,
-      "runtimeMs": 54,
+      "runtimeMs": 55,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -42,7 +42,7 @@
     {
       "seed": "benchmark-003",
       "days": 1826,
-      "runtimeMs": 55,
+      "runtimeMs": 40,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 4,
@@ -55,7 +55,7 @@
     {
       "seed": "benchmark-004",
       "days": 1826,
-      "runtimeMs": 76,
+      "runtimeMs": 61,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 10,
@@ -68,7 +68,7 @@
     {
       "seed": "benchmark-005",
       "days": 1826,
-      "runtimeMs": 47,
+      "runtimeMs": 44,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 11,
@@ -81,7 +81,7 @@
     {
       "seed": "benchmark-006",
       "days": 1826,
-      "runtimeMs": 34,
+      "runtimeMs": 37,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 3,
@@ -94,7 +94,7 @@
     {
       "seed": "benchmark-007",
       "days": 1826,
-      "runtimeMs": 41,
+      "runtimeMs": 53,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 10,
@@ -107,7 +107,7 @@
     {
       "seed": "benchmark-008",
       "days": 1826,
-      "runtimeMs": 45,
+      "runtimeMs": 53,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -120,7 +120,7 @@
     {
       "seed": "benchmark-009",
       "days": 1826,
-      "runtimeMs": 48,
+      "runtimeMs": 49,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -133,7 +133,7 @@
     {
       "seed": "benchmark-010",
       "days": 1826,
-      "runtimeMs": 43,
+      "runtimeMs": 61,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 12,
@@ -146,7 +146,7 @@
     {
       "seed": "benchmark-011",
       "days": 1826,
-      "runtimeMs": 1076,
+      "runtimeMs": 1052,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 72,
@@ -159,7 +159,7 @@
     {
       "seed": "benchmark-012",
       "days": 1826,
-      "runtimeMs": 43,
+      "runtimeMs": 33,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -172,7 +172,7 @@
     {
       "seed": "benchmark-013",
       "days": 1826,
-      "runtimeMs": 43,
+      "runtimeMs": 37,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -185,7 +185,7 @@
     {
       "seed": "benchmark-014",
       "days": 1826,
-      "runtimeMs": 143,
+      "runtimeMs": 37,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -198,7 +198,7 @@
     {
       "seed": "benchmark-015",
       "days": 1826,
-      "runtimeMs": 126,
+      "runtimeMs": 36,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -211,7 +211,7 @@
     {
       "seed": "benchmark-016",
       "days": 1826,
-      "runtimeMs": 1491,
+      "runtimeMs": 1014,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 76,
@@ -224,7 +224,7 @@
     {
       "seed": "benchmark-017",
       "days": 1826,
-      "runtimeMs": 59,
+      "runtimeMs": 57,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 12,
@@ -237,7 +237,7 @@
     {
       "seed": "benchmark-018",
       "days": 1826,
-      "runtimeMs": 42,
+      "runtimeMs": 77,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 10,
@@ -250,7 +250,7 @@
     {
       "seed": "benchmark-019",
       "days": 1826,
-      "runtimeMs": 49,
+      "runtimeMs": 52,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 11,
@@ -263,7 +263,7 @@
     {
       "seed": "benchmark-020",
       "days": 1826,
-      "runtimeMs": 46,
+      "runtimeMs": 36,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -276,7 +276,7 @@
     {
       "seed": "benchmark-021",
       "days": 1826,
-      "runtimeMs": 39,
+      "runtimeMs": 45,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -289,7 +289,7 @@
     {
       "seed": "benchmark-022",
       "days": 1826,
-      "runtimeMs": 30,
+      "runtimeMs": 39,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 4,
@@ -302,7 +302,7 @@
     {
       "seed": "benchmark-023",
       "days": 1826,
-      "runtimeMs": 39,
+      "runtimeMs": 47,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -315,7 +315,7 @@
     {
       "seed": "benchmark-024",
       "days": 1826,
-      "runtimeMs": 34,
+      "runtimeMs": 25,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 3,
@@ -328,7 +328,7 @@
     {
       "seed": "benchmark-025",
       "days": 1826,
-      "runtimeMs": 32,
+      "runtimeMs": 26,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 4,
@@ -341,7 +341,7 @@
     {
       "seed": "benchmark-026",
       "days": 1826,
-      "runtimeMs": 38,
+      "runtimeMs": 36,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -354,7 +354,7 @@
     {
       "seed": "benchmark-027",
       "days": 1826,
-      "runtimeMs": 36,
+      "runtimeMs": 35,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -367,7 +367,7 @@
     {
       "seed": "benchmark-028",
       "days": 1826,
-      "runtimeMs": 34,
+      "runtimeMs": 46,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -380,7 +380,7 @@
     {
       "seed": "benchmark-029",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 41,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -393,7 +393,7 @@
     {
       "seed": "benchmark-030",
       "days": 1826,
-      "runtimeMs": 44,
+      "runtimeMs": 45,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -406,7 +406,7 @@
     {
       "seed": "benchmark-031",
       "days": 1826,
-      "runtimeMs": 52,
+      "runtimeMs": 48,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -419,7 +419,7 @@
     {
       "seed": "benchmark-032",
       "days": 1826,
-      "runtimeMs": 42,
+      "runtimeMs": 47,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 3,
@@ -432,7 +432,7 @@
     {
       "seed": "benchmark-033",
       "days": 1826,
-      "runtimeMs": 44,
+      "runtimeMs": 71,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -445,7 +445,7 @@
     {
       "seed": "benchmark-034",
       "days": 1826,
-      "runtimeMs": 38,
+      "runtimeMs": 45,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -458,7 +458,7 @@
     {
       "seed": "benchmark-035",
       "days": 1826,
-      "runtimeMs": 33,
+      "runtimeMs": 50,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -471,7 +471,7 @@
     {
       "seed": "benchmark-036",
       "days": 1826,
-      "runtimeMs": 41,
+      "runtimeMs": 49,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -484,7 +484,7 @@
     {
       "seed": "benchmark-037",
       "days": 1826,
-      "runtimeMs": 39,
+      "runtimeMs": 58,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -497,7 +497,7 @@
     {
       "seed": "benchmark-038",
       "days": 1826,
-      "runtimeMs": 29,
+      "runtimeMs": 38,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -510,7 +510,7 @@
     {
       "seed": "benchmark-039",
       "days": 1826,
-      "runtimeMs": 30,
+      "runtimeMs": 29,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 3,
@@ -523,7 +523,7 @@
     {
       "seed": "benchmark-040",
       "days": 1826,
-      "runtimeMs": 35,
+      "runtimeMs": 41,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -536,7 +536,7 @@
     {
       "seed": "benchmark-041",
       "days": 1826,
-      "runtimeMs": 37,
+      "runtimeMs": 43,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -549,7 +549,7 @@
     {
       "seed": "benchmark-042",
       "days": 1826,
-      "runtimeMs": 36,
+      "runtimeMs": 46,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -562,7 +562,7 @@
     {
       "seed": "benchmark-043",
       "days": 1826,
-      "runtimeMs": 37,
+      "runtimeMs": 45,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -575,7 +575,7 @@
     {
       "seed": "benchmark-044",
       "days": 1826,
-      "runtimeMs": 36,
+      "runtimeMs": 54,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 4,
@@ -588,7 +588,7 @@
     {
       "seed": "benchmark-045",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 45,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -601,7 +601,7 @@
     {
       "seed": "benchmark-046",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 49,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -614,7 +614,7 @@
     {
       "seed": "benchmark-047",
       "days": 1826,
-      "runtimeMs": 42,
+      "runtimeMs": 70,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -627,7 +627,7 @@
     {
       "seed": "benchmark-048",
       "days": 1826,
-      "runtimeMs": 73,
+      "runtimeMs": 101,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -640,7 +640,7 @@
     {
       "seed": "benchmark-049",
       "days": 1826,
-      "runtimeMs": 69,
+      "runtimeMs": 49,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -666,7 +666,7 @@
     {
       "seed": "benchmark-051",
       "days": 1826,
-      "runtimeMs": 71,
+      "runtimeMs": 208,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 11,
@@ -679,7 +679,7 @@
     {
       "seed": "benchmark-052",
       "days": 1826,
-      "runtimeMs": 54,
+      "runtimeMs": 226,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -692,7 +692,7 @@
     {
       "seed": "benchmark-053",
       "days": 1826,
-      "runtimeMs": 47,
+      "runtimeMs": 81,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -705,7 +705,7 @@
     {
       "seed": "benchmark-054",
       "days": 1826,
-      "runtimeMs": 80,
+      "runtimeMs": 54,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -718,7 +718,7 @@
     {
       "seed": "benchmark-055",
       "days": 1826,
-      "runtimeMs": 82,
+      "runtimeMs": 49,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -731,7 +731,7 @@
     {
       "seed": "benchmark-056",
       "days": 1826,
-      "runtimeMs": 56,
+      "runtimeMs": 69,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -744,7 +744,7 @@
     {
       "seed": "benchmark-057",
       "days": 1826,
-      "runtimeMs": 49,
+      "runtimeMs": 92,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -757,7 +757,7 @@
     {
       "seed": "benchmark-058",
       "days": 1826,
-      "runtimeMs": 53,
+      "runtimeMs": 65,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -770,7 +770,7 @@
     {
       "seed": "benchmark-059",
       "days": 1826,
-      "runtimeMs": 48,
+      "runtimeMs": 43,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 6,
@@ -783,7 +783,7 @@
     {
       "seed": "benchmark-060",
       "days": 1826,
-      "runtimeMs": 34,
+      "runtimeMs": 50,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 2,
@@ -796,7 +796,7 @@
     {
       "seed": "benchmark-061",
       "days": 1826,
-      "runtimeMs": 47,
+      "runtimeMs": 57,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -809,7 +809,7 @@
     {
       "seed": "benchmark-062",
       "days": 1826,
-      "runtimeMs": 36,
+      "runtimeMs": 62,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 3,
@@ -822,7 +822,7 @@
     {
       "seed": "benchmark-063",
       "days": 1826,
-      "runtimeMs": 38,
+      "runtimeMs": 70,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -835,7 +835,7 @@
     {
       "seed": "benchmark-064",
       "days": 1826,
-      "runtimeMs": 42,
+      "runtimeMs": 66,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -848,7 +848,7 @@
     {
       "seed": "benchmark-065",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 43,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -861,7 +861,7 @@
     {
       "seed": "benchmark-066",
       "days": 1826,
-      "runtimeMs": 42,
+      "runtimeMs": 48,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -874,7 +874,7 @@
     {
       "seed": "benchmark-067",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 60,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -900,7 +900,7 @@
     {
       "seed": "benchmark-069",
       "days": 1826,
-      "runtimeMs": 38,
+      "runtimeMs": 76,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -913,7 +913,7 @@
     {
       "seed": "benchmark-070",
       "days": 1826,
-      "runtimeMs": 39,
+      "runtimeMs": 58,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 11,
@@ -926,7 +926,7 @@
     {
       "seed": "benchmark-071",
       "days": 1826,
-      "runtimeMs": 42,
+      "runtimeMs": 40,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -939,7 +939,7 @@
     {
       "seed": "benchmark-072",
       "days": 1826,
-      "runtimeMs": 46,
+      "runtimeMs": 45,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 11,
@@ -952,7 +952,7 @@
     {
       "seed": "benchmark-073",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 61,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -965,7 +965,7 @@
     {
       "seed": "benchmark-074",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 104,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -978,7 +978,7 @@
     {
       "seed": "benchmark-075",
       "days": 1826,
-      "runtimeMs": 31,
+      "runtimeMs": 63,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 2,
@@ -991,7 +991,7 @@
     {
       "seed": "benchmark-076",
       "days": 1826,
-      "runtimeMs": 38,
+      "runtimeMs": 36,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -1004,7 +1004,7 @@
     {
       "seed": "benchmark-077",
       "days": 1826,
-      "runtimeMs": 47,
+      "runtimeMs": 62,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 10,
@@ -1017,7 +1017,7 @@
     {
       "seed": "benchmark-078",
       "days": 1826,
-      "runtimeMs": 39,
+      "runtimeMs": 37,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -1030,7 +1030,7 @@
     {
       "seed": "benchmark-079",
       "days": 1826,
-      "runtimeMs": 49,
+      "runtimeMs": 53,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 12,
@@ -1043,7 +1043,7 @@
     {
       "seed": "benchmark-080",
       "days": 1826,
-      "runtimeMs": 35,
+      "runtimeMs": 47,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 4,
@@ -1056,7 +1056,7 @@
     {
       "seed": "benchmark-081",
       "days": 1826,
-      "runtimeMs": 36,
+      "runtimeMs": 66,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -1069,7 +1069,7 @@
     {
       "seed": "benchmark-082",
       "days": 1826,
-      "runtimeMs": 39,
+      "runtimeMs": 127,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -1082,7 +1082,7 @@
     {
       "seed": "benchmark-083",
       "days": 1826,
-      "runtimeMs": 35,
+      "runtimeMs": 55,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 2,
@@ -1095,7 +1095,7 @@
     {
       "seed": "benchmark-084",
       "days": 1826,
-      "runtimeMs": 41,
+      "runtimeMs": 123,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -1108,7 +1108,7 @@
     {
       "seed": "benchmark-085",
       "days": 1826,
-      "runtimeMs": 40,
+      "runtimeMs": 49,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -1121,7 +1121,7 @@
     {
       "seed": "benchmark-086",
       "days": 1826,
-      "runtimeMs": 822,
+      "runtimeMs": 3037,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 69,
@@ -1134,7 +1134,7 @@
     {
       "seed": "benchmark-087",
       "days": 1826,
-      "runtimeMs": 31,
+      "runtimeMs": 86,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 10,
@@ -1147,7 +1147,7 @@
     {
       "seed": "benchmark-088",
       "days": 1826,
-      "runtimeMs": 33,
+      "runtimeMs": 86,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 4,
@@ -1160,7 +1160,7 @@
     {
       "seed": "benchmark-089",
       "days": 1826,
-      "runtimeMs": 35,
+      "runtimeMs": 85,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -1173,7 +1173,7 @@
     {
       "seed": "benchmark-090",
       "days": 1826,
-      "runtimeMs": 35,
+      "runtimeMs": 154,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -1186,7 +1186,7 @@
     {
       "seed": "benchmark-091",
       "days": 1826,
-      "runtimeMs": 34,
+      "runtimeMs": 120,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 5,
@@ -1199,7 +1199,7 @@
     {
       "seed": "benchmark-092",
       "days": 1826,
-      "runtimeMs": 36,
+      "runtimeMs": 133,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -1212,7 +1212,7 @@
     {
       "seed": "benchmark-093",
       "days": 1826,
-      "runtimeMs": 35,
+      "runtimeMs": 86,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -1225,7 +1225,7 @@
     {
       "seed": "benchmark-094",
       "days": 1826,
-      "runtimeMs": 32,
+      "runtimeMs": 64,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 7,
@@ -1238,7 +1238,7 @@
     {
       "seed": "benchmark-095",
       "days": 1826,
-      "runtimeMs": 32,
+      "runtimeMs": 64,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -1251,7 +1251,7 @@
     {
       "seed": "benchmark-096",
       "days": 1826,
-      "runtimeMs": 41,
+      "runtimeMs": 80,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,
@@ -1264,7 +1264,7 @@
     {
       "seed": "benchmark-097",
       "days": 1826,
-      "runtimeMs": 35,
+      "runtimeMs": 60,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 10,
@@ -1277,7 +1277,7 @@
     {
       "seed": "benchmark-098",
       "days": 1826,
-      "runtimeMs": 30,
+      "runtimeMs": 46,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -1290,7 +1290,7 @@
     {
       "seed": "benchmark-099",
       "days": 1826,
-      "runtimeMs": 38,
+      "runtimeMs": 48,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 9,
@@ -1303,7 +1303,7 @@
     {
       "seed": "benchmark-100",
       "days": 1826,
-      "runtimeMs": 34,
+      "runtimeMs": 58,
       "employees": 3,
       "employeeEntities": 3,
       "customers": 8,

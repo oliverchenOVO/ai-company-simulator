@@ -1,0 +1,6 @@
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import type { CompanyView } from '../../../../packages/simulation/src/projection';
+export default function FinanceChart({ history }: { history: CompanyView['finance']['history'] }) {
+  const data = history.map(m => ({ month: m.month, 現金: m.cash / 100, 收入: m.revenue / 100, 支出: (m.payroll + m.operatingCost) / 100 }));
+  return <div className="finance-chart" role="img" aria-label="每月現金、收入與支出趨勢，詳細金額可在下方表格查看"><ResponsiveContainer width="100%" height="100%"><LineChart data={data} margin={{ top: 12, right: 24, left: 6, bottom: 8 }}><CartesianGrid stroke="#e8ecf1" strokeDasharray="3 3" vertical={false}/><XAxis dataKey="month" tick={{ fontSize: 12 }} minTickGap={28}/><YAxis tick={{ fontSize: 12 }} tickFormatter={v => `${Math.round(Number(v) / 1000)}k`}/><Tooltip formatter={v => `NT$${Number(v).toLocaleString('en-US')}`}/><Legend/><Line type="monotone" dataKey="現金" stroke="#087f83" dot={false} strokeWidth={2.5}/><Line type="monotone" dataKey="收入" stroke="#4387ca" dot={false}/><Line type="monotone" dataKey="支出" stroke="#b58435" dot={false}/></LineChart></ResponsiveContainer></div>;
+}

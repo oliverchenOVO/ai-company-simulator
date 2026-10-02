@@ -1,0 +1,33 @@
+import { lazy, Suspense, useState } from 'react';
+import type { CompanyView } from '../../../../packages/simulation/src/projection';
+import type { Priority } from '../../../../packages/domain/src/model';
+import { Condition, Empty, PageHeading, Pager, Panel, Progress, money, priorities } from '../../../../packages/ui/src/components';
+import { useUi } from '../ui-state';
+import type { Action } from '../use-company';
+const FinanceChart = lazy(() => import('./finance-chart'));
+export function Teams({ view, act, busy }: { view: CompanyView; act: Action; busy: boolean }) {
+  const [name, setName] = useState(''), [managerId, setManagerId] = useState(''), setPage = useUi(s => s.setPage);
+  return <><PageHeading title="團隊" subline="清楚的責任分工，讓組織一起前進。"/>
+    <Panel title="組織與團隊"><div className="table-wrap"><table><thead><tr><th>團隊</th><th>主管</th><th>成員</th><th>觀察</th><th>操作</th></tr></thead><tbody>{view.teams.map(t => <tr key={t.id}><td><strong>{t.name}</strong></td><td>{t.managerName}</td><td>{t.memberCount} 人</td><td><Condition text={t.condition}/></td><td><button className="text-button" onClick={() => setPage('People')}>安排人員</button></td></tr>)}</tbody></table></div></Panel>
+    <Panel title="建立新團隊" className="spaced-panel"><p className="muted-copy">建立後可在人員詳情中調動成員。每位員工只會屬於一個團隊。</p><form className="inline-form" onSubmit={event => { event.preventDefault(); void act({ action: 'execute', command: { type: 'CreateTeam', name, managerId: managerId || null } }).then(response => { if (response) setName(''); }); }}><label>團隊名稱<input required maxLength={80} value={name} onChange={event => setName(event.target.value)} placeholder="例如：產品設計"/></label><label>主管<select value={managerId} onChange={event => setManagerId(event.target.value)}><option value="">暫不指派</option>{view.employees.filter(e => e.status === 'active').map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></label><button className="button primary" disabled={busy || view.bankrupt || !name.trim()}>建立團隊</button></form></Panel>
+  </>;
+}
+export function Product({ view, act, busy }: { view: CompanyView; act: Action; busy: boolean }) {
+  const [priority, setPriority] = useState<Priority>(view.product.priority);
+  return <><PageHeading title="產品" subline="你決定方向，團隊用每天的工作累積成果。"/><div className="dashboard-columns"><Panel title="Atlas"><div className="product-summary"><h3>{view.product.launchedAt === null ? '原型開發中' : '產品已上市'}</h3><p>為團隊打造的 AI 工作空間。</p><Progress value={view.product.progress} label="產品開發進度"/></div><dl className="detail-grid"><div><dt>品質</dt><dd>{Math.round(view.product.quality)} / 100</dd></div><div><dt>技術債</dt><dd>{Math.round(view.product.technicalDebt)} / 100</dd></div><div><dt>目前優先順序</dt><dd>{priorities[view.product.priority]}</dd></div><div><dt>上市時間</dt><dd>{view.product.launchedAt === null ? '尚未上市' : `第 ${view.product.launchedAt} 天`}</dd></div></dl>
+    <form onSubmit={event => { event.preventDefault(); void act({ action: 'execute', command: { type: 'ChangeProductPriority', priority } }); }}><fieldset className="priority-options"><legend>調整投入方向</legend>{Object.entries(priorities).map(([key, label]) => <label key={key}><input type="radio" name="priority" value={key} checked={priority === key} onChange={() => setPriority(key as Priority)}/><strong>{label}</strong><span>{key === 'features' ? '較快推進開發，技術債也會增加。' : key === 'quality' ? '改善體驗，開發進度較慢。' : '降低技術債，開發進度較慢。'}</span></label>)}</fieldset><button className="button primary" disabled={busy || view.bankrupt}>儲存產品方向</button></form></Panel><Panel title="開發里程碑"><ol className="activity-list">{view.events.filter(e => e.channel === '產品').slice(-8).reverse().map(e => <li key={e.id}><div><strong>{e.title}</strong><time>{e.date}</time></div><p>{e.body}</p></li>)}</ol>{!view.events.some(e => e.channel === '產品') ? <Empty title="故事才剛開始" body="推進時間後，團隊的工作會逐步形成產品成果。"/> : null}</Panel></div></>;
+}
+export function Customers({ view }: { view: CompanyView }) {
+  const [former, setFormer] = useState(false), [page, setPage] = useState(0);
+  const customers = view.customers.filter(c => former || c.status === 'active');
+  return <><PageHeading title="客戶" subline="收入來自真實合約，留存取決於產品與客戶的反應。"/><Panel title={`客戶關係 · ${view.customerCount} 位訂閱中`} action={<label className="checkbox"><input type="checkbox" checked={former} onChange={event => { setFormer(event.target.checked); setPage(0); }}/>包含已流失</label>}>
+    {customers.length ? <><div className="table-wrap"><table><thead><tr><th>客戶</th><th>類型</th><th>月合約收入</th><th>開始使用</th><th>近況</th></tr></thead><tbody>{customers.slice(page * 25, page * 25 + 25).map(c => <tr key={c.id}><td><strong>{c.name}</strong></td><td>{c.segment === 'enterprise' ? '企業' : '中小企業'}</td><td>{money(c.mrr)}</td><td>第 {c.acquiredAt} 天</td><td><Condition text={c.condition}/></td></tr>)}</tbody></table></div><Pager page={page} total={customers.length} onChange={setPage}/></> : <Empty title={view.product.launchedAt === null ? '第一位客戶，等待你的產品' : '市場拓展進行中'} body="產品上市後，團隊會根據銷售能力、市場需求與公司策略拓展客戶。"/>}
+    </Panel><Panel title="近期客戶事件" className="spaced-panel"><ul className="simple-events">{view.events.filter(e => e.channel === '客戶').slice(-8).reverse().map(e => <li key={e.id}><time>{e.date}</time><span>{e.title} — {e.body}</span></li>)}</ul>{!view.events.some(e => e.channel === '客戶') ? <p className="muted-copy">目前尚無客戶事件。</p> : null}</Panel></>;
+}
+export function Finance({ view }: { view: CompanyView }) {
+  const f = view.finance;
+  return <><PageHeading title="財務" subline="看清現金流，為下一次管理決策留出空間。"/>
+    <div className="metric-band"><div><span>現金餘額</span><strong className="teal">{money(f.cash)}</strong><small>目前可用資金</small></div><div><span>每月薪資</span><strong>{money(f.payroll)}</strong><small>在職員工月薪總額</small></div><div><span>營運費用</span><strong>{money(f.operatingCost)}</strong><small>每月固定成本</small></div><div><span>現金跑道</span><strong>{f.runway === null ? '自給' : `${f.runway.toFixed(1)} 個月`}</strong><small>以目前月合約與支出估算</small></div></div>
+    <Panel title="月結現金流"><p className="muted-copy">每月第一天結算上個月。新進、離職、薪資調整與客戶合約按實際天數計算。</p>{f.history.length ? <Suspense fallback={<p>載入圖表中…</p>}><FinanceChart history={f.history}/></Suspense> : <Empty title="尚未到第一次月結" body="第一份月結將在 2026-02-01 產生；儀表板顯示的是目前月合約與預估支出。"/>}</Panel>
+    <Panel title="每月財務紀錄" className="spaced-panel">{f.history.length ? <div className="table-wrap"><table><thead><tr><th>月份</th><th>實際收入</th><th>薪資</th><th>營運費用</th><th>月底現金</th></tr></thead><tbody>{f.history.slice().reverse().map(m => <tr key={m.month}><td>{m.month}</td><td>{money(m.revenue)}</td><td>{money(m.payroll)}</td><td>{money(m.operatingCost)}</td><td>{money(m.cash)}</td></tr>)}</tbody></table></div> : <p className="muted-copy">推進時間到下個月即可查看。</p>}</Panel></>;
+}

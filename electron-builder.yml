@@ -1,0 +1,18 @@
+appId: com.foundry.companysim
+productName: Foundry Company Simulator
+directories:
+  output: release
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+  - node_modules/sql.js/**/*
+extraMetadata:
+  main: dist-electron/main.cjs
+asar: true
+asarUnpack:
+  - dist-electron/sql-wasm.wasm
+win:
+  target: portable
+  signAndEditExecutable: false
+artifactName: Foundry-Company-Simulator-${version}-Windows.${ext}

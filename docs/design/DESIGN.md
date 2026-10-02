@@ -5,7 +5,7 @@ Prompt: polished FOUNDRY company management dashboard; navy rail, cool white sur
 
 Tokens: background #f7f8fa, surface #ffffff, rail #142230, ink #101828, muted #667085, border #dde3eb, accent #087f83. 8px radii. System sans including Microsoft JhengHei; 32px heading, 16px body, 13px chrome. Outline Lucide icons, 20px, 1.8 stroke. 24px desktop gutters, 16px small-screen gutters.
 
-Composition: 216px rail, 64px header, 76px footer, open metric band, 65/35 product/team and pulse columns. Employee/customer tables, settings forms and event lists extend the same design system. Forms use native accessible dialogs and labeled inputs. No generated game-world sprites required: management workspace has no rendered physical world.
+Composition: native reference extraction uses a 252px rail, 70px header and 86px footer, open metric band, 65/35 product/team and pulse columns. Compact desktop uses a 176px rail; mobile uses horizontal navigation. Employee/customer tables, settings forms and event lists extend the same design system. Forms use native accessible dialogs and labeled inputs. No generated game-world sprites required: management workspace has no rendered physical world.
 
 Allowed first-screen copy: brand FOUNDRY / AI Company Simulator, company, date, save; Dashboard/People/Teams/Product/Customers/Finance/Inbox/Timeline/Settings; company overview/subline; Cash/Monthly revenue/Monthly burn/Team; Atlas prototype progress; employee identities/roles/observable conditions; pulse warning and actual recent events; day/week time controls.
 

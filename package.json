@@ -1,9 +1,11 @@
 {
   "name": "ai-company-simulator", "version": "0.1.0", "private": true,
+  "description": "Deterministic offline company management simulator",
+  "author": "Foundry contributors",
   "packageManager": "pnpm@11.19.0", "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build && node scripts/build-electron.mjs",
     "build:core": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
