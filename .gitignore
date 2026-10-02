@@ -11,4 +11,5 @@ playwright-report/
 .env*
 !.env.example
 .cache/
+out/
 dist-site/

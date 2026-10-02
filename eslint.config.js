@@ -1,7 +1,7 @@
 import js from '@eslint/js';
 import ts from 'typescript-eslint';
 export default ts.config(
-  { ignores: ['node_modules/**', 'dist/**', 'dist-site/**', 'dist-electron/**', 'release/**', 'test-results/**', 'playwright-report/**'] },
+  { ignores: ['node_modules/**', 'dist/**', 'out/**', 'dist-site/**', 'dist-electron/**', 'release/**', 'test-results/**', 'playwright-report/**'] },
   js.configs.recommended, ...ts.configs.recommended,
   { files: ['**/*.ts', '**/*.tsx'], rules: { '@typescript-eslint/no-explicit-any': 'error' } },
   { files: ['packages/simulation/**/*.ts'], rules: {

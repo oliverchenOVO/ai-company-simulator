@@ -12,5 +12,5 @@ export default defineConfig(({ mode }) => ({
   }],
   base: './', worker: { format: 'es' },
   server: { host: '127.0.0.1', port: 5173, strictPort: true },
-  build: { outDir: mode === 'hosted' ? 'dist-site' : 'dist', emptyOutDir: true }
+  build: { outDir: mode === 'hosted' ? 'out' : 'dist', emptyOutDir: true }
 }));

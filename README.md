@@ -9,7 +9,7 @@ Requires Node.js 24 and pnpm 11.19.0. Install with `pnpm install`.
 
 - `pnpm dev` — development web UI at http://127.0.0.1:5173
 - `pnpm build` — typecheck, production Vite bundle and Electron main/preload bundle
-- `pnpm build:site` — hosted browser bundle with Sites-compatible CSP in dist-site/
+- `pnpm build:site` — hosted browser bundle with Sites-compatible CSP in out/
 - `pnpm test:hosted` — production URL acceptance; intentionally creates isolated test profiles
 - `pnpm desktop` — launch the built desktop application
 - `pnpm typecheck` — strict TypeScript validation

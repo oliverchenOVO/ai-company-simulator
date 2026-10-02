@@ -18,4 +18,4 @@ The CLI `pnpm sim --seed garage-001 --days 120 --debug` inspects seed, tick, has
 
 CI in .github/workflows/ci.yml runs Windows validation and a separate packaging job, uploads benchmark/failure evidence and the portable executable, and performs no public GitHub release. Remote CI status must be inspected separately from local check results.
 
-`pnpm build:site` produces dist-site/ for .openai/hosting.json; default `pnpm build` keeps strict offline CSP in dist/. `pnpm test:hosted` runs the same gameplay, independent-session, persistence, export/replay, offline-loaded and visual workflows on the live ChatGPT Site. Console and page errors remain acceptance failures, including errors introduced by the host.
+`pnpm build:site` produces out/ for .openai/hosting.json; default `pnpm build` keeps strict offline CSP in dist/. `pnpm test:hosted` runs the same gameplay, independent-session, persistence, export/replay, offline-loaded and visual workflows on the live ChatGPT Site. Console and page errors remain acceptance failures, including errors introduced by the host.
