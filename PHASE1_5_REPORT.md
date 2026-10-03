@@ -82,7 +82,9 @@ retention-001：CTO薪資降為0，内部退出風險第17天（僅診斷）、�
 |四場before/after UI操作|4/4相同hash，两版每場瀏覽器錯誤0|
 |100 seeds ×5 years|1,813ms，crash/NaN/Infinity/corruption/invariant/replay mismatch全部0|
 |1,000人 ×10 years|20,876ms，狀態／schema／invariant／round-trip全部通過；未重跑獨立10年replay|
-|Hosted equivalent / production E2E|更新部署與驗收結果由最後文件commit補記|
+|Hosted production-equivalent local E2E|7/7 passed，15.9s|
+|正式網站 production E2E|7/7 passed，29.4s；刷新、獨立session、offline、決策摘要、原因檢視及desktop/mobile視覺驗收|
+|私人GitHub CI|部署來源5e1533f的run 37098172859 completed / success|
 
 一次本機重跑與前一個中止中的test共用preview，server被前一run關閉而產生ERR_CONNECTION_REFUSED；没有隐藏失败，已关闭仅属于本任务的旧test进程并按順序重跑，9/9全通过。Standalone browser lifecycle timeout也记录在playtest notes。最终产品断言未过滤console error，未降低测试标准。
 
@@ -102,8 +104,12 @@ Existing private repository: https://github.com/oliverchenOVO/ai-company-simulat
 - 4169e52 — financial danger, actual time summary, supported causal evidence and UI acceptance
 - c32b41e — warning lead times, recovery, counterfactual differences and low-offer diagnostic
 - a3ab880 — strategy distributions, actual playthrough saves and causal/balance audit
+- 5e1533f — production-equivalent hosted validation and economic audit limitations
+- docs(release): record Phase 1.5 production acceptance — 最後文件提交，記錄部署與正式E2E結果；hash可由Git log查閱
 
-診斷／证据与发布commit在最终提交后补记。全部完成工作将commit并push至此私人repo；未建立公开GitHub repository或release。公开网站继续使用既有项目与audience；最后报告commit仅记录最终运行结果。
+全部完成工作已細分提交並推至既有私人repo；gh repo view確認isPrivate=true。最後文件提交後git status --porcelain為空。未建立公開GitHub repository或release。最後文件提交只記錄結果，不改變已驗證／已部署遊戲內容。
+
+正式網站：[FOUNDRY](https://foundry-company-simulator.oliverchenovo.chatgpt.site)。Sites version3，部署来源5e1533f746f12e299cf14402cdce53e408ae2cd1；deployment appgdep_6ac08d27fb108191a8d4b42f71de6126於2026-10-03T05:06:00Z succeeded，維持既有public audience。版本metadata與production驗收項目見[data/production-acceptance.json](docs/phase1_5/data/production-acceptance.json)。視覺截圖留在本機C:/Users/oliver/.codex/artifacts/foundry-phase1-5-hosted-qa，已檢視mobile總覽、財務及員工詳情。各訪客的browser-local進度互不干擾並可刷新續玩；仍沒有帳號雲端跨裝置同步。
 
 ## Recommendation for Phase 2
 

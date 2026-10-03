@@ -1,0 +1,61 @@
+{
+  "deployment": {
+    "id": "appgdep_6ac08d27fb108191a8d4b42f71de6126",
+    "project_id": "appgprj_6ac00cc0ca308191a1689834e149acb4",
+    "title": "FOUNDRY — AI Company Simulator",
+    "version_id": "appgprj_6ac00cc0ca308191a1689834e149acb4~appgver_0c84a9480e4c8191bd783acb4765c33c",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://foundry-company-simulator.oliverchenovo.chatgpt.site",
+    "has_mcp": false,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6ac00cc0ca308191a1689834e149acb4",
+    "failure_message": null,
+    "env_set_revision": 0,
+    "updated_at": "2026-10-03T05:06:00.120016+00:00"
+  },
+  "version": {
+    "id": "appgprj_6ac00cc0ca308191a1689834e149acb4~appgver_0c84a9480e4c8191bd783acb4765c33c",
+    "project_id": "appgprj_6ac00cc0ca308191a1689834e149acb4",
+    "version_number": 3,
+    "source": {
+      "commit_sha": "5e1533f746f12e299cf14402cdce53e408ae2cd1"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000d1208206bc9c78860d0f5a00",
+      "content_hash": "sha256:a52b94e8493539b973fb7b240b20215630f5deda7e7db5a2b3400742dc87bab7",
+      "size_bytes": 2293760,
+      "file_count": 14
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "hostedEquivalent": {
+    "passed": 7,
+    "total": 7,
+    "durationSeconds": 15.9
+  },
+  "productionE2E": {
+    "passed": 7,
+    "total": 7,
+    "durationSeconds": 29.4,
+    "command": "pnpm test:hosted",
+    "coverage": [
+      "decision cost preview and actual week summary on mobile",
+      "recorded resignation causes and visible concerns",
+      "create, advance, hire, salary, save, refresh, replay",
+      "independent browser sessions",
+      "core screens and keyboard navigation",
+      "fully offline loaded client",
+      "desktop, employee detail, monthly finance and mobile visual evidence"
+    ],
+    "visualEvidenceDirectory": "C:/Users/oliver/.codex/artifacts/foundry-phase1-5-hosted-qa"
+  },
+  "sourceCI": {
+    "runId": 37098172859,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "repositoryPrivate": true
+}
