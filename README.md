@@ -1,6 +1,6 @@
 # FOUNDRY — AI Company Simulator
 
-Deterministic organization simulation and CEO management game. Phase 1: Playable Startup.
+Deterministic organization simulation and CEO management game. Current app: 0.2.1, simulation v3. Phase 2 organization mechanics are implemented; Phase 2.5 human validation/retention diagnostics are documented in [PHASE2_5_REPORT.md](PHASE2_5_REPORT.md). The current gate is further Phase 2.5 iteration, not automatic Phase 3 development.
 See [PHASE1_REPORT.md](PHASE1_REPORT.md) for executed acceptance evidence and limitations.
 Phase 1.5 gameplay findings and the remaining balance gate: [PHASE1_5_REPORT.md](PHASE1_5_REPORT.md).
 
@@ -22,6 +22,9 @@ Requires Node.js 24 and pnpm 11.19.0. Install with `pnpm install`.
 - `pnpm sim --seed garage-001 --years 5` — headless simulation / replay check
 - `pnpm benchmark` — 100 seeds × five calendar years
 - `pnpm benchmark:stress` — 1,000 employees × ten calendar years
+- `pnpm audit:retention` — 13 observable-information policies × 100 shared seeds × five years, with developer-only funnel evidence
+- `pnpm audit:retention:long` — four survival-focused policies × 100 shared seeds × ten years
+- `pnpm audit:retention:controlled` — controlled ten-year retention scenarios and matched interventions
 
 No LLM in simulation or narration. No API key or network connection required for gameplay.
 Money uses integer NT cents. UI projections hide exact employee psychology. Desktop saves use SQLite; a browser adapter uses per-origin IndexedDB so refreshing retains progress.

@@ -55,7 +55,9 @@ Windows 0.2.1 build and actual packaged acceptance are complete. Existing Site p
 - `3b70403`: developer-only retention pipeline, controlled/policy tooling, real v3 compatibility fixture and meaningful retention regression tests; accurate generic concern copy.
 - `b785e38`: weekly funnel counts checked against an independent daily trace, with unchanged departure dates and bounded onset uncertainty.
 - `1d9e93d`: selection-specific promotion explanations, translated causal factors, 0.2.1 metadata and rendered/packaged compatibility tests.
-- Benchmark evidence, human protocol and final acceptance documentation are committed as separate focused milestones after the remaining long run/release gates.
+- `ef894e9`: complete controlled branches and shared-seed five/ten-year funnel evidence.
+- `25897b0`: human protocol, measured retention limitations, actual stories and performance documentation.
+- Final documentation commits link the developer commands and record production acceptance, with no additional world changes.
 
 Existing origin `oliverchenOVO/ai-company-simulator` is private. Committed raw evidence is entirely synthetic; no personal participant data, credentials or local screenshots are committed. [Private CI 37122175713](https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37122175713), source b785e38, passed both validate and windows-package, including the 82-test suite and actual packaged acceptance. Final clean/pushed state and production evidence are recorded after release gates.
 
