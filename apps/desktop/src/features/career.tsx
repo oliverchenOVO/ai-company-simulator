@@ -4,7 +4,7 @@ import type { Role } from '../../../../packages/domain/src/model';
 import { roles } from '../../../../packages/ui/src/components';
 import type { Action } from '../use-company';
 export function Career({ employee: e, view, act, busy }: { employee: EmployeeView; view: CompanyView; act: Action; busy: boolean }) {
-  const [managerId, setManagerId] = useState(e.managerId ?? ''), [track, setTrack] = useState<'specialist' | 'manager'>('specialist'), [role, setRole] = useState<Role>(e.role);
+  const [managerId, setManagerId] = useState(e.managerId ?? ''), [track, setTrack] = useState<'specialist' | 'manager'>(e.organization?.track ?? 'specialist'), [role, setRole] = useState<Role>(e.role);
   const org = e.organization;
   if (!org) return <p className="muted-copy">此公司保留歷史版本規則；新公司的職涯與管理系統使用 v3。</p>;
   const active = e.status === 'active' && !view.bankrupt;

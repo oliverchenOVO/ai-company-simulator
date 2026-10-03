@@ -11,6 +11,7 @@ for (const mobile of [false, true]) test(`v3 career → team → manager → pro
   const nav=page.getByRole('navigation'); await nav.getByRole('button',{name:'團隊',exact:true}).click();
   await expect(page.getByRole('heading',{name:'匯報結構'})).toBeVisible();
   await page.getByLabel('團隊名稱',{exact:true}).fill('Delivery'); await page.getByLabel('主管',{exact:true}).selectOption('employee-2'); await page.getByRole('button',{name:'建立團隊',exact:true}).click();
+  await page.getByRole('button',{name:'更換 Delivery 主管',exact:true}).click(); await page.getByLabel('團隊新主管',{exact:true}).selectOption('employee-3'); await page.getByRole('button',{name:'儲存團隊主管',exact:true}).click();
   await nav.getByRole('button',{name:'人員',exact:true}).click(); await page.getByRole('button',{name:'Carol Wu',exact:true}).click();
   const dialog=page.getByRole('dialog'); await expect(dialog.getByRole('region',{name:'職涯與管理'})).toBeVisible();
   await expect(dialog).toContainText('Mid'); await dialog.getByLabel('調動團隊',{exact:true}).selectOption({label:'Delivery'}); await dialog.getByRole('button',{name:'確認調動',exact:true}).click();

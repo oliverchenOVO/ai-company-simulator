@@ -16,7 +16,9 @@ test('packaged Windows executable accepts decisions and restores its SQLite data
     await createCompany(page); await hireAndAdjust(page);
     expect(await app.evaluate(({ app }) => app.isPackaged)).toBe(true);
     expect(errors).toEqual([]); await app.close();
-    app = await electron.launch({ executablePath, args: [], env }); await verifyPersisted(await app.firstWindow());
+    app = await electron.launch({ executablePath, args: [], env }); const resumed = await app.firstWindow(); await verifyPersisted(resumed);
+    await resumed.getByRole('button', {name:'推進一天',exact:true}).click(); await expect(resumed.getByText('第 9 天',{exact:true})).toBeVisible();
+    await resumed.getByRole('navigation').getByRole('button',{name:'設定',exact:true}).click(); await resumed.getByRole('button',{name:'驗證 Replay',exact:true}).click(); await expect(resumed.getByText('一致性驗證通過',{exact:true})).toBeVisible();
   } finally {
     await app.close();
     rmSync(dir, { recursive: true, force: true });
