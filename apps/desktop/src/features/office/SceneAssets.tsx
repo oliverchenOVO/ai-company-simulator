@@ -4,7 +4,7 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import type { Point3 } from './scene-projection';
 // Immutable shared resources. Components own transforms, never mutate these materials.
 const cube = new BoxGeometry(1, 1, 1), cylinder = new CylinderGeometry(1, 1, 1, 12), sphere = new SphereGeometry(1, 10, 8);
-const softCube = new RoundedBoxGeometry(1,1,1,2,.07);
+const softCube = new RoundedBoxGeometry(1,1,1,1,.07), smallSphere = new SphereGeometry(1,6,4);
 const materials = new Map<string, MeshStandardMaterial>();
 function material(color: string, metal = 0) {
   const key = `${color}:${metal}`;
@@ -14,8 +14,8 @@ function material(color: string, metal = 0) {
 export function Box({ p, s, color, shadow = false, metal = 0, rotation = 0, soft = false }: { p: Point3; s: Point3; color: string; shadow?: boolean; metal?: number; rotation?: number; soft?: boolean }) {
   return <mesh geometry={soft ? softCube : cube} material={material(color, metal)} position={p} scale={s} rotation-y={rotation} castShadow={shadow} receiveShadow dispose={null}/>;
 }
-export function Round({ p, s, color, ball = false, shadow = false }: { p: Point3; s: Point3; color: string; ball?: boolean; shadow?: boolean }) {
-  return <mesh geometry={ball ? sphere : cylinder} material={material(color)} position={p} scale={s} castShadow={shadow} receiveShadow dispose={null}/>;
+export function Round({ p, s, color, ball = false, shadow = false, small = false }: { p: Point3; s: Point3; color: string; ball?: boolean; shadow?: boolean; small?: boolean }) {
+  return <mesh geometry={ball ? small ? smallSphere : sphere : cylinder} material={material(color)} position={p} scale={s} castShadow={shadow} receiveShadow dispose={null}/>;
 }
 export function Label({ text, p, width = 2.1, color = '#375a62', background = '#f2f5ef' }: { text: string; p: Point3; width?: number; color?: string; background?: string }) {
   const texture = useMemo(() => {
@@ -59,7 +59,7 @@ export function Plant({ p, size = 1 }: { p: Point3; size?: number }) {
   return <group position={p} scale={size}>
     <Round p={[0,.24,0]} s={[.23,.48,.23]} color="#d5d8cd" shadow/>
     <Round p={[0,.8,0]} s={[.025,1.05,.025]} color="#6b7952"/>
-    {[0,1,2,3,4,5,6].map(i => <group key={i} rotation-z={(i % 2 ? 1 : -1)*.43} rotation-y={i*2.1} position={[0,.65 + i*.11,0]}><Round p={[.13,.14,0]} s={[.16,.3,.08]} color={i%2 ? '#6d895e' : '#8f9f73'} ball/></group>)}
+    {[0,1,2,3,4,5,6].map(i => <group key={i} rotation-z={(i % 2 ? 1 : -1)*.43} rotation-y={i*2.1} position={[0,.65 + i*.11,0]}><Round p={[.13,.14,0]} s={[.16,.3,.08]} color={i%2 ? '#6d895e' : '#8f9f73'} ball small/></group>)}
   </group>;
 }
 export function Cabinet({ p, shelf = false }: { p: Point3; shelf?: boolean }) {

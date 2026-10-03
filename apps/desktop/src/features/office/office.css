@@ -9,7 +9,7 @@
 .office-accessible-people button { color:#56727a; font-size:11px; background:#f9fbf9; border:1px solid #d3dfdc; border-radius:5px; padding:5px 9px; }
 .office-accessible-people button[aria-pressed=true] { color:#087f83; border-color:#78b4b1; }
 .office-accessible-people button small { display:block; color:#925300; }
-.living-office[data-renderer="3d"] .office-building-panel { border:0; border-radius:0; background:#edf2f1; }
+.living-office[data-renderer="3d"] .office-building-panel { position:relative; min-height:420px; border:0; border-radius:0; background:#edf2f1; }
 .living-office[data-renderer="3d"] .office-floor-picker { background:transparent; border-bottom:0; padding:6px 12px; }
 .living-office[data-renderer="3d"] .office-content { grid-template-columns:minmax(0,1fr) 240px; gap:12px; }
 .living-office[data-renderer="3d"] .page-heading { margin-bottom:12px; }

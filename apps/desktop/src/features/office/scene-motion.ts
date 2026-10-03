@@ -22,10 +22,10 @@ export function sampleMotion(s: SceneSeat, seconds: number, reduced: boolean, cu
     return walk(s.elevator, s.person, (seconds - 4) / 4);
   }
   if ((cue?.type === 'Arriving' || cue?.type === 'Celebrating' || cue?.type === 'Moving') && seconds < 5) return walk(s.elevator, s.person, seconds / 5);
-  if(cue?.type==='Celebrating' && s.seat.role!=='staff' && seconds>=5 && seconds<15) {
-    if(seconds<8) return {...walk(s.person,s.meeting,(seconds-5)/3),document:true};
-    if(seconds<12) return {...rest,position:s.meeting,pose:'Presenting',document:true};
-    return walk(s.meeting,s.person,(seconds-12)/3);
+  if(cue?.type==='Celebrating' && s.seat.role!=='staff' && seconds>=8 && seconds<18) {
+    if(seconds<11) return {...walk(s.person,s.presentation,(seconds-8)/3),document:true};
+    if(seconds<15) return {...rest,position:s.presentation,pose:'Presenting',document:true};
+    return walk(s.presentation,s.person,(seconds-15)/3);
   }
   if (cue?.type === 'Discussing' && manager && manager.seat.floorId!==s.seat.floorId && seconds<18) {
     if(seconds<3) return {...walk(s.person,s.elevator,seconds/3),document:true};
@@ -48,4 +48,11 @@ export function sampleMotion(s: SceneSeat, seconds: number, reduced: boolean, cu
     if (t >= 38 && t < 42) return walk(s.printer, s.person, (t - 38) / 4);
   }
   return rest;
+}
+/** One existing colleague may accompany a real promotion; no meeting is scheduled in the world. */
+export function sampleMeetingCompanion(s:SceneSeat,seconds:number,reduced:boolean):Motion|null {
+  if(reduced || s.seat.vacant || seconds<8 || seconds>=18) return null;
+  if(seconds<11) return walk(s.person,s.meeting,(seconds-8)/3);
+  if(seconds<15) return {position:s.meeting,pose:'Talking',visible:true,document:false};
+  return walk(s.meeting,s.person,(seconds-15)/3);
 }

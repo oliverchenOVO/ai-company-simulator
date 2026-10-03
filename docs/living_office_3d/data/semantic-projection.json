@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-10-03T20:32:41.557Z",
+  "node": "v24.13.0",
+  "platform": "win32",
+  "kind": "detached layout projection; 100 repetitions, rendering measured separately",
+  "rows": [
+    {
+      "employees": 3,
+      "floors": 3,
+      "characters": 3,
+      "fidelity": "individual",
+      "medianMs": 0.013,
+      "p95Ms": 0.04,
+      "heapMiB": 17,
+      "simulationHashUnchanged": true
+    },
+    {
+      "employees": 12,
+      "floors": 4,
+      "characters": 12,
+      "fidelity": "individual",
+      "medianMs": 0.053,
+      "p95Ms": 0.157,
+      "heapMiB": 14.9,
+      "simulationHashUnchanged": true
+    },
+    {
+      "employees": 40,
+      "floors": 7,
+      "characters": 40,
+      "fidelity": "individual",
+      "medianMs": 0.076,
+      "p95Ms": 0.189,
+      "heapMiB": 18.4,
+      "simulationHashUnchanged": true
+    },
+    {
+      "employees": 100,
+      "floors": 15,
+      "characters": 100,
+      "fidelity": "individual",
+      "medianMs": 0.113,
+      "p95Ms": 0.2,
+      "heapMiB": 17.6,
+      "simulationHashUnchanged": true
+    },
+    {
+      "employees": 250,
+      "floors": 33,
+      "characters": 250,
+      "fidelity": "quiet",
+      "medianMs": 0.245,
+      "p95Ms": 0.734,
+      "heapMiB": 18,
+      "simulationHashUnchanged": true
+    },
+    {
+      "employees": 1000,
+      "floors": 127,
+      "characters": 1000,
+      "fidelity": "focused",
+      "medianMs": 1.102,
+      "p95Ms": 2.301,
+      "heapMiB": 25.7,
+      "simulationHashUnchanged": true
+    }
+  ]
+}

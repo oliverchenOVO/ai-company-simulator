@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Group, PerspectiveCamera, Vector3, ACESFilmicToneMapping, BufferGeometry, Mesh, InstancedMesh, Matrix4, MeshStandardMaterial, Line, LineBasicMaterial } from 'three';
 import type { OfficeLayout, OfficeSeat, Overlay } from './projection';
 import { projectOfficeScene, type SceneFloor, type SceneSeat, type OfficeSceneProjection } from './scene-projection';
-import { sampleMotion } from './scene-motion';
+import { sampleMotion, sampleMeetingCompanion } from './scene-motion';
 import { Box, Round, Label, Chair, Desk, Plant, Cabinet, Board, Printer, Meeting, Lounge } from './SceneAssets';
 export interface SceneProps { layout: OfficeLayout; previousScene?:OfficeSceneProjection; selected?: OfficeSeat; floorId: string | null; overlay: Overlay; reduced: boolean; zoom: number; choose: (id: string) => void; failed: () => void }
 
@@ -109,13 +109,13 @@ function Human({ data, layout, selected, reduced, choose, allSeats, previousSeat
     const meetingCue=layout.cues.find(c=>c.type==='Celebrating' && c.employeeId!==data.seat.employeeId && allSeats.get(c.employeeId)?.seat.floorId===data.seat.floorId && allSeats.get(c.employeeId)?.seat.role!=='staff');
     const leader=meetingCue ? allSeats.get(meetingCue.employeeId) : undefined;
     const companion=leader ? [...allSeats.values()].find(s=>s.seat.floorId===leader.seat.floorId && s.seat.employeeId!==leader.seat.employeeId && !s.seat.vacant) : undefined;
-    if(leader && companion?.seat.employeeId===data.seat.employeeId && t>=8 && t<12 && !reduced) motion={...motion,position:[leader.meeting[0]-1.1,leader.meeting[1],leader.meeting[2]],pose:'Talking',document:false};
+    if(leader && companion?.seat.employeeId===data.seat.employeeId) motion=sampleMeetingCompanion(data,t,reduced) ?? motion;
     if (reviewing && t>=7 && t<11 && !reduced) motion={...motion,pose:'Reading',document:true};
     if (!body.current) return;
     const moving = motion.pose==='Walking', seated = motion.pose==='Idle' || motion.pose==='Typing' || motion.pose==='Reading' && !motion.document;
     body.current.position.set(...motion.position); body.current.visible=motion.visible;
     body.current.userData.pose=motion.pose;
-    body.current.userData.atWorkstation=motion.visible && motion.position.every((n,i)=>Math.abs(n-data.person[i])<.01);
+    body.current.userData.atWorkstation=motion.visible && motion.pose!=='Walking' && motion.position.every((n,i)=>Math.abs(n-data.person[i])<.01);
     if(moving){const dx=motion.position[0]-lastPosition.current.x,dz=motion.position[2]-lastPosition.current.z;if(Math.hypot(dx,dz)>.001) body.current.rotation.y=Math.atan2(dx,dz);}else body.current.rotation.y=0;
     lastPosition.current.set(...motion.position);
     const oscillation = reduced ? 0 : Math.sin(t* (moving ? 9 : 3) + a.phase);
@@ -138,9 +138,9 @@ function Human({ data, layout, selected, reduced, choose, allSeats, previousSeat
       <Round p={[0,0,0]} s={[.17,.215,.16]} color={a.skin} ball shadow/>
       <Round p={[0,.13,-.025]} s={[.177,.11,.164]} color={a.hair} ball/>
       {a.hairStyle>=2 ? <Box p={[0,-.05,-.135]} s={[.3,.34,.07]} color={a.hair} shadow/> : null}
-      {a.hairStyle===1 ? <Round p={[.11,.07,-.15]} s={[.085,.09,.09]} color={a.hair} ball/> : null}
-      {[-1,1].map(side => <Round key={side} p={[side*.056,.018,.148]} s={[.013,.014,.008]} color="#344345" ball/>)}
-      {a.accessory ? <>{[-1,1].map(side=><group key={side}><Box p={[side*.066,.016,.16]} s={[.1,.065,.02]} color="#4a5858" soft/><Box p={[side*.066,.016,.174]} s={[.076,.043,.012]} color="#bbd0cd" soft/></group>)}<Box p={[0,.016,.165]} s={[.036,.016,.02]} color="#4a5858"/></> : null}
+      {a.hairStyle===1 ? <Round p={[.11,.07,-.15]} s={[.085,.09,.09]} color={a.hair} ball small/> : null}
+      {[-1,1].map(side => <Round key={side} p={[side*.056,.018,.148]} s={[.013,.014,.008]} color="#344345" ball small/>)}
+      {a.accessory ? <>{[-1,1].map(side=><group key={side}><Box p={[side*.066,.016,.16]} s={[.1,.065,.02]} color="#4a5858" soft/><Box p={[side*.066,.016,.174]} s={[.076,.043,.012]} color="#bbd0cd"/></group>)}<Box p={[0,.016,.165]} s={[.036,.016,.02]} color="#4a5858"/></> : null}
     </group>
     {[-1,1].map(side => <group key={side} ref={side<0 ? leftArm : rightArm} position={[side*.26,1.23,0]}>
       <Round p={[0,-.2,0]} s={[.068,.38,.068]} color={a.clothing} shadow/>
@@ -193,18 +193,18 @@ export default function LivingOfficeScene({layout,previousScene,selected,floorId
   const loading=useRef<HTMLDivElement>(null);
   return <div className="office-3d-stage" data-motion={reduced ? 'reduced' : 'normal'}>
     <div ref={loading} className="office-3d-loading" role="status">正在開啟你的辦公室…</div>
-    <Canvas shadows dpr={[1,1.5]} camera={{fov:32,position:[20,14,30]}} frameloop={reduced ? 'demand' : 'always'} gl={{antialias:true,powerPreference:'high-performance'}} fallback={<p>此装置無法顯示 3D 畫布。</p>} onCreated={({gl,invalidate}) => { gl.toneMapping=ACESFilmicToneMapping; gl.toneMappingExposure=1.1; requestAnimationFrame(()=>invalidate()); }}>
+    <Canvas shadows dpr={[1,1.5]} camera={{fov:32,position:[20,14,30]}} frameloop={reduced ? 'demand' : 'always'} gl={{antialias:true,powerPreference:'high-performance'}} fallback={<p>此裝置無法顯示 3D 畫布。</p>} onCreated={({gl,invalidate}) => { gl.toneMapping=ACESFilmicToneMapping; gl.toneMappingExposure=1.1; requestAnimationFrame(()=>invalidate()); }}>
       <color attach="background" args={['#edf2f1']}/><ambientLight intensity={.45}/><hemisphereLight args={['#fff7e8','#8fa4a5',.8]}/>
       <directionalLight position={[-10,projection.height+12,14]} intensity={2.3} castShadow shadow-mapSize={[2048,2048]} shadow-camera-left={-14} shadow-camera-right={14} shadow-camera-top={projection.height+5} shadow-camera-bottom={-8} shadow-camera-far={100} shadow-bias={-.0004} shadow-normalBias={.04}/>
       <directionalLight position={[12,projection.height,5]} intensity={.6}/>
       <CameraRig height={projection.height} floorY={floorY} zoom={zoom} reduced={reduced}/>
-      <StaticBuilding revision={`${layout.seats.map(s=>`${s.id}:${s.floorId}:${s.slot}:${s.vacant}:${s.overloaded}:${s.concerns.join(',')}`).join('|')}:${selected?.employeeId}:${overlay}`}>
+      <StaticBuilding revision={`${layout.seats.map(s=>`${s.id}:${s.floorId}:${s.zone}:${s.slot}:${s.vacant}:${s.overloaded}:${s.concerns.join(',')}`).join('|')}:${selected?.employeeId}:${overlay}`}>
         <Box p={[0,-.5,0]} s={[19,.26,8]} color="#cbd5d1" shadow/>
         {projection.floors.map(f=><Floor key={f.floor.id} data={f} selected={selected} overlay={overlay}/>)}
       </StaticBuilding>
       {projection.seats.map(s=><Human key={s.seat.employeeId} data={s} previousSeat={previousScene?.seats.find(p=>p.seat.employeeId===s.seat.employeeId)} layout={layout} selected={selected} reduced={reduced} choose={choose} allSeats={allSeats}/>)}
       {overlay==='management' && selected ? projection.seats.filter(s=>s.seat.managerId===selected.employeeId || s.seat.employeeId===selected.employeeId).map(s=>s.seat.managerId && allSeats.has(s.seat.managerId) ? <ReportingPath key={s.seat.id} a={s} b={allSeats.get(s.seat.managerId)!}/> : null) : null}
-      <mesh rotation-x={-Math.PI/2} position={[0,-.65,0]} receiveShadow><planeGeometry args={[300,300]}/><meshStandardMaterial color="#edf2f1" roughness={1}/></mesh>
+      <mesh rotation-x={-Math.PI/2} position={[0,-.65,0]} receiveShadow><planeGeometry args={[300,300]}/><shadowMaterial color="#60766f" opacity={.16} transparent depthWrite={false}/></mesh>
       <Diagnostics ready={()=>{if(loading.current) loading.current.hidden=true;}} failed={failed}/>
     </Canvas>
   </div>;

@@ -3,7 +3,7 @@ import { Simulation, replay } from '../packages/simulation/src/simulation';
 import { readFileSync } from 'node:fs';
 import { projectOffice } from '../apps/desktop/src/features/office/projection';
 import { projectOfficeScene } from '../apps/desktop/src/features/office/scene-projection';
-import { sampleMotion } from '../apps/desktop/src/features/office/scene-motion';
+import { sampleMotion, sampleMeetingCompanion } from '../apps/desktop/src/features/office/scene-motion';
 import { createSave, validateSave } from '../packages/persistence/src/save';
 const scene = (sim: Simulation) => projectOfficeScene(projectOffice(sim.observe()));
 describe('pure 3D Office adapter and presentation motion', () => {
@@ -68,8 +68,19 @@ describe('pure 3D Office adapter and presentation motion', () => {
   it('a real manager promotion can stage a bounded meeting then return to work',()=>{
     const sim=new Simulation({name:'3D',seed:'office-3d',scenario:'garage'},true,3), manager=scene(sim).seats.find(s=>s.seat.role==='management')!;
     const cue={id:'promotion',employeeId:manager.seat.employeeId,type:'Celebrating' as const,priority:2,title:'promotion',tick:0};
-    expect(sampleMotion(manager,9,false,cue).position).toEqual(manager.meeting);expect(sampleMotion(manager,9,false,cue).pose).toBe('Presenting');
-    expect(sampleMotion(manager,16,false,cue).position).toEqual(manager.person);
+    expect(sampleMotion(manager,8,false,cue).position).toEqual(manager.person);
+    expect(sampleMotion(manager,12,false,cue).position).toEqual(manager.presentation);expect(sampleMotion(manager,12,false,cue).pose).toBe('Presenting');
+    expect(manager.presentation[0]).toBeGreaterThan(7.1); // outside even the executive table's edge
+    expect(sampleMotion(manager,19,false,cue).position).toEqual(manager.person);
+  });
+  it('meeting companion walks to a chair and returns instead of teleporting',()=>{
+    const sim=new Simulation({name:'3D',seed:'office-3d',scenario:'garage'},true,3),s=scene(sim).seats[0];
+    expect(sampleMeetingCompanion(s,8,false)?.position).toEqual(s.person);
+    expect(sampleMeetingCompanion(s,9,false)?.pose).toBe('Walking');
+    expect(sampleMeetingCompanion(s,12,false)?.position).toEqual(s.meeting);
+    expect(sampleMeetingCompanion(s,12,false)?.pose).toBe('Talking');
+    expect(sampleMeetingCompanion(s,17.999,false)?.position[1]).toBe(s.person[1]);
+    expect(sampleMeetingCompanion(s,18,false)).toBeNull();expect(sampleMeetingCompanion(s,12,true)).toBeNull();
   });
   for(const file of ['phase1-0.1.0.save.json','phase1-0.1.1.save.json','phase2-0.2.0.save.json']) it(`reconstructs 3D from released ${file} with exact hash`,()=>{
     const saved=validateSave(JSON.parse(readFileSync(`tests/fixtures/${file}`,'utf8'))), sim=Simulation.restore(saved.world),hash=sim.stateHash();

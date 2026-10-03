@@ -1,0 +1,71 @@
+{
+  "generatedAt": "2026-10-03T21:32:54.065Z",
+  "node": "v24.13.0",
+  "platform": "win32",
+  "kind": "pure 3D adapter plus one frame of pose sampling; 100 repetitions; GPU measured in Chrome separately",
+  "rows": [
+    {
+      "employees": 3,
+      "floors": 3,
+      "renderer": "3d",
+      "medianMs": 0.006,
+      "p95Ms": 0.033,
+      "worldHashUnchanged": true,
+      "baseSceneDeterministic": true
+    },
+    {
+      "employees": 12,
+      "floors": 4,
+      "renderer": "3d",
+      "medianMs": 0.009,
+      "p95Ms": 0.03,
+      "worldHashUnchanged": true,
+      "baseSceneDeterministic": true
+    },
+    {
+      "employees": 30,
+      "floors": 6,
+      "renderer": "3d",
+      "medianMs": 0.02,
+      "p95Ms": 0.074,
+      "worldHashUnchanged": true,
+      "baseSceneDeterministic": true
+    },
+    {
+      "employees": 60,
+      "floors": 10,
+      "renderer": "3d",
+      "medianMs": 0.025,
+      "p95Ms": 0.064,
+      "worldHashUnchanged": true,
+      "baseSceneDeterministic": true
+    },
+    {
+      "employees": 100,
+      "floors": 15,
+      "renderer": "3d",
+      "medianMs": 0.046,
+      "p95Ms": 0.123,
+      "worldHashUnchanged": true,
+      "baseSceneDeterministic": true
+    },
+    {
+      "employees": 250,
+      "floors": 33,
+      "renderer": "svg-focused",
+      "medianMs": 0.109,
+      "p95Ms": 0.232,
+      "worldHashUnchanged": true,
+      "baseSceneDeterministic": true
+    },
+    {
+      "employees": 1000,
+      "floors": 127,
+      "renderer": "svg-focused",
+      "medianMs": 0.22,
+      "p95Ms": 0.458,
+      "worldHashUnchanged": true,
+      "baseSceneDeterministic": true
+    }
+  ]
+}
