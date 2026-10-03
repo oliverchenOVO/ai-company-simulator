@@ -1,0 +1,3276 @@
+{
+  "manifest": {
+    "schemaVersion": 2,
+    "appVersion": "0.2.0",
+    "seed": "benchmark-003",
+    "tick": 730,
+    "date": "2028-01-01",
+    "stateHash": "48e0e76957edf9204c1364195ac6f5fa56eb3a6b59b932037629f8a52d5594cf"
+  },
+  "world": {
+    "meta": {
+      "simulationVersion": 3,
+      "seed": "benchmark-003",
+      "tick": 730,
+      "date": "2028-01-01",
+      "startDate": "2026-01-01",
+      "nextEntity": 48,
+      "nextEvent": 118,
+      "nextCommand": 62,
+      "config": {
+        "seed": "benchmark-003",
+        "name": "Garage Startup",
+        "scenario": "garage",
+        "employeeCount": 3,
+        "initialCash": 50000000
+      }
+    },
+    "company": {
+      "id": "company-1",
+      "name": "Garage Startup",
+      "cash": 82650590,
+      "debt": 0,
+      "strategy": "sustainable",
+      "workload": 0.8,
+      "reputation": 45,
+      "bankrupt": false,
+      "monthlyOperatingCost": 1000000,
+      "strategyEventId": "event-2"
+    },
+    "employees": {
+      "employee-1": {
+        "id": "employee-1",
+        "name": "Alice Chen",
+        "role": "CEO",
+        "status": "active",
+        "hiredAt": 0,
+        "leftAt": null,
+        "salary": 1000000,
+        "salaryHistory": [
+          {
+            "tick": 0,
+            "salary": 1000000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": null,
+        "skills": {
+          "engineering": 16,
+          "product": 22,
+          "sales": 65,
+          "marketing": 23,
+          "leadership": 80,
+          "operations": 18
+        },
+        "personality": {
+          "ambition": 47,
+          "riskTolerance": 36,
+          "sociability": 51,
+          "loyalty": 86
+        },
+        "psychology": {
+          "stress": 0,
+          "satisfaction": 55.161,
+          "loyalty": 58.972,
+          "burnout": 0,
+          "confidence": 45.944,
+          "companyTrust": 55.624,
+          "managerTrust": 66.118,
+          "exitIntent": 37.61
+        },
+        "expectations": {
+          "salary": 2500000,
+          "careerGrowth": 61
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [
+          {
+            "id": "memory-event-3-employee-1",
+            "tick": 0,
+            "type": "SalaryChanged",
+            "eventId": "event-3",
+            "importance": 85,
+            "sentiment": -60,
+            "decayRate": 0.02
+          },
+          {
+            "id": "memory-event-4-employee-1",
+            "tick": 7,
+            "type": "CareerGoalProgressed",
+            "eventId": "event-4",
+            "importance": 55,
+            "sentiment": 15,
+            "decayRate": 0.02
+          }
+        ],
+        "performance": 46.1,
+        "workTotal": 330.527,
+        "exitStage": "settled",
+        "lastConcernAt": 0,
+        "lastManagementEvent": "event-3",
+        "career": {
+          "level": "Lead",
+          "track": "manager",
+          "lastProgressAt": 0,
+          "lastConversationAt": 0,
+          "overloaded": false,
+          "goals": [
+            {
+              "type": "leadership",
+              "importance": 47,
+              "progress": 100,
+              "frustration": 0,
+              "createdAt": 0,
+              "targetLevel": null,
+              "causes": []
+            }
+          ]
+        }
+      },
+      "employee-2": {
+        "id": "employee-2",
+        "name": "Bob Lin",
+        "role": "CTO",
+        "status": "fired",
+        "hiredAt": 0,
+        "leftAt": 90,
+        "salary": 4000000,
+        "salaryHistory": [
+          {
+            "tick": 0,
+            "salary": 4000000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": "employee-1",
+        "skills": {
+          "engineering": 75,
+          "product": 21,
+          "sales": 44,
+          "marketing": 35,
+          "leadership": 28,
+          "operations": 38
+        },
+        "personality": {
+          "ambition": 25,
+          "riskTolerance": 47,
+          "sociability": 82,
+          "loyalty": 41
+        },
+        "psychology": {
+          "stress": 0,
+          "satisfaction": 80.965,
+          "loyalty": 83.305,
+          "burnout": 0,
+          "confidence": 64.819,
+          "companyTrust": 76.335,
+          "managerTrust": 73.26,
+          "exitIntent": 0
+        },
+        "expectations": {
+          "salary": 4000000,
+          "careerGrowth": 78
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [
+          {
+            "id": "memory-event-18-employee-2",
+            "tick": 90,
+            "type": "EmployeeFired",
+            "eventId": "event-18",
+            "importance": 95,
+            "sentiment": -90,
+            "decayRate": 0
+          }
+        ],
+        "performance": 62.7,
+        "workTotal": 54.831,
+        "exitStage": "settled",
+        "lastConcernAt": 0,
+        "lastManagementEvent": null,
+        "career": {
+          "level": "Lead",
+          "track": "specialist",
+          "lastProgressAt": 0,
+          "lastConversationAt": 0,
+          "overloaded": false,
+          "goals": [
+            {
+              "type": "mastery",
+              "importance": 25,
+              "progress": 16.817,
+              "frustration": 0,
+              "createdAt": 0,
+              "targetLevel": null,
+              "causes": []
+            }
+          ]
+        }
+      },
+      "employee-3": {
+        "id": "employee-3",
+        "name": "Carol Wu",
+        "role": "Engineer",
+        "status": "active",
+        "hiredAt": 0,
+        "leftAt": null,
+        "salary": 3000000,
+        "salaryHistory": [
+          {
+            "tick": 0,
+            "salary": 3000000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": "employee-1",
+        "skills": {
+          "engineering": 84,
+          "product": 40,
+          "sales": 15,
+          "marketing": 31,
+          "leadership": 21,
+          "operations": 23
+        },
+        "personality": {
+          "ambition": 78,
+          "riskTolerance": 34,
+          "sociability": 53,
+          "loyalty": 58
+        },
+        "psychology": {
+          "stress": 0,
+          "satisfaction": 78.445,
+          "loyalty": 100,
+          "burnout": 0,
+          "confidence": 70.132,
+          "companyTrust": 78.446,
+          "managerTrust": 71.988,
+          "exitIntent": 1.144
+        },
+        "expectations": {
+          "salary": 3360000,
+          "careerGrowth": 61
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [
+          {
+            "id": "memory-event-24-employee-3",
+            "tick": 126,
+            "type": "CareerConcernRaised",
+            "eventId": "event-24",
+            "importance": 55,
+            "sentiment": -15,
+            "decayRate": 0.02
+          },
+          {
+            "id": "memory-event-25-employee-3",
+            "tick": 132,
+            "type": "EmployeePromoted",
+            "eventId": "event-25",
+            "importance": 70,
+            "sentiment": 35,
+            "decayRate": 0.02
+          },
+          {
+            "id": "memory-event-51-employee-3",
+            "tick": 294,
+            "type": "CollaborationStrengthened",
+            "eventId": "event-51",
+            "importance": 30,
+            "sentiment": 10,
+            "decayRate": 0.02
+          }
+        ],
+        "performance": 70.3,
+        "workTotal": 508.459,
+        "exitStage": "settled",
+        "lastConcernAt": 0,
+        "lastManagementEvent": "event-25",
+        "career": {
+          "level": "Senior",
+          "track": "specialist",
+          "lastProgressAt": 132,
+          "lastConversationAt": 126,
+          "overloaded": false,
+          "goals": [
+            {
+              "type": "advancement",
+              "importance": 78,
+              "progress": 100,
+              "frustration": 0,
+              "createdAt": 0,
+              "targetLevel": "Senior",
+              "causes": []
+            }
+          ]
+        }
+      }
+    },
+    "teams": {
+      "team-1": {
+        "id": "team-1",
+        "name": "創始團隊",
+        "managerId": "employee-1",
+        "organization": {
+          "stability": 100,
+          "coordination": 86.81,
+          "output": 893.817,
+          "lastChangeEvent": "event-18",
+          "condition": "steady"
+        }
+      }
+    },
+    "products": {
+      "product-1": {
+        "id": "product-1",
+        "name": "Atlas",
+        "progress": 100,
+        "quality": 100,
+        "technicalDebt": 4.216,
+        "priority": "quality",
+        "launchedAt": 84,
+        "lastMilestone": 4
+      }
+    },
+    "customers": {
+      "customer-4": {
+        "id": "customer-4",
+        "name": "客戶 4",
+        "segment": "small-business",
+        "mrr": 349400,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 98,
+        "churnedAt": null
+      },
+      "customer-5": {
+        "id": "customer-5",
+        "name": "客戶 5",
+        "segment": "small-business",
+        "mrr": 344100,
+        "satisfaction": 79.313,
+        "status": "churned",
+        "acquiredAt": 105,
+        "churnedAt": 140
+      },
+      "customer-6": {
+        "id": "customer-6",
+        "name": "客戶 6",
+        "segment": "small-business",
+        "mrr": 538300,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 119,
+        "churnedAt": null
+      },
+      "customer-7": {
+        "id": "customer-7",
+        "name": "客戶 7",
+        "segment": "small-business",
+        "mrr": 287200,
+        "satisfaction": 88.338,
+        "status": "churned",
+        "acquiredAt": 133,
+        "churnedAt": 231
+      },
+      "customer-8": {
+        "id": "customer-8",
+        "name": "客戶 8",
+        "segment": "small-business",
+        "mrr": 382400,
+        "satisfaction": 98.968,
+        "status": "churned",
+        "acquiredAt": 140,
+        "churnedAt": 343
+      },
+      "customer-9": {
+        "id": "customer-9",
+        "name": "客戶 9",
+        "segment": "small-business",
+        "mrr": 638800,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 168,
+        "churnedAt": null
+      },
+      "customer-10": {
+        "id": "customer-10",
+        "name": "客戶 10",
+        "segment": "small-business",
+        "mrr": 408200,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 196,
+        "churnedAt": null
+      },
+      "customer-11": {
+        "id": "customer-11",
+        "name": "客戶 11",
+        "segment": "small-business",
+        "mrr": 602800,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 203,
+        "churnedAt": null
+      },
+      "customer-12": {
+        "id": "customer-12",
+        "name": "客戶 12",
+        "segment": "enterprise",
+        "mrr": 2071800,
+        "satisfaction": 94.733,
+        "status": "churned",
+        "acquiredAt": 224,
+        "churnedAt": 280
+      },
+      "customer-13": {
+        "id": "customer-13",
+        "name": "客戶 13",
+        "segment": "small-business",
+        "mrr": 532200,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 238,
+        "churnedAt": null
+      },
+      "customer-14": {
+        "id": "customer-14",
+        "name": "客戶 14",
+        "segment": "small-business",
+        "mrr": 645700,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 252,
+        "churnedAt": null
+      },
+      "customer-15": {
+        "id": "customer-15",
+        "name": "客戶 15",
+        "segment": "small-business",
+        "mrr": 284100,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 266,
+        "churnedAt": null
+      },
+      "customer-16": {
+        "id": "customer-16",
+        "name": "客戶 16",
+        "segment": "small-business",
+        "mrr": 336800,
+        "satisfaction": 99.984,
+        "status": "active",
+        "acquiredAt": 273,
+        "churnedAt": null
+      },
+      "customer-17": {
+        "id": "customer-17",
+        "name": "客戶 17",
+        "segment": "small-business",
+        "mrr": 278600,
+        "satisfaction": 99.984,
+        "status": "churned",
+        "acquiredAt": 280,
+        "churnedAt": 504
+      },
+      "customer-18": {
+        "id": "customer-18",
+        "name": "客戶 18",
+        "segment": "small-business",
+        "mrr": 649500,
+        "satisfaction": 99.554,
+        "status": "churned",
+        "acquiredAt": 287,
+        "churnedAt": 294
+      },
+      "customer-19": {
+        "id": "customer-19",
+        "name": "客戶 19",
+        "segment": "small-business",
+        "mrr": 616800,
+        "satisfaction": 100,
+        "status": "churned",
+        "acquiredAt": 329,
+        "churnedAt": 378
+      },
+      "customer-20": {
+        "id": "customer-20",
+        "name": "客戶 20",
+        "segment": "small-business",
+        "mrr": 486300,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 350,
+        "churnedAt": null
+      },
+      "customer-21": {
+        "id": "customer-21",
+        "name": "客戶 21",
+        "segment": "small-business",
+        "mrr": 594900,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 364,
+        "churnedAt": null
+      },
+      "customer-22": {
+        "id": "customer-22",
+        "name": "客戶 22",
+        "segment": "small-business",
+        "mrr": 605900,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 385,
+        "churnedAt": null
+      },
+      "customer-23": {
+        "id": "customer-23",
+        "name": "客戶 23",
+        "segment": "small-business",
+        "mrr": 480300,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 392,
+        "churnedAt": null
+      },
+      "customer-24": {
+        "id": "customer-24",
+        "name": "客戶 24",
+        "segment": "small-business",
+        "mrr": 459500,
+        "satisfaction": 100,
+        "status": "churned",
+        "acquiredAt": 399,
+        "churnedAt": 644
+      },
+      "customer-25": {
+        "id": "customer-25",
+        "name": "客戶 25",
+        "segment": "small-business",
+        "mrr": 639900,
+        "satisfaction": 100,
+        "status": "churned",
+        "acquiredAt": 406,
+        "churnedAt": 490
+      },
+      "customer-26": {
+        "id": "customer-26",
+        "name": "客戶 26",
+        "segment": "small-business",
+        "mrr": 631300,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 462,
+        "churnedAt": null
+      },
+      "customer-27": {
+        "id": "customer-27",
+        "name": "客戶 27",
+        "segment": "small-business",
+        "mrr": 317800,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 476,
+        "churnedAt": null
+      },
+      "customer-28": {
+        "id": "customer-28",
+        "name": "客戶 28",
+        "segment": "small-business",
+        "mrr": 357100,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 483,
+        "churnedAt": null
+      },
+      "customer-29": {
+        "id": "customer-29",
+        "name": "客戶 29",
+        "segment": "small-business",
+        "mrr": 344500,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 490,
+        "churnedAt": null
+      },
+      "customer-30": {
+        "id": "customer-30",
+        "name": "客戶 30",
+        "segment": "small-business",
+        "mrr": 529100,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 511,
+        "churnedAt": null
+      },
+      "customer-31": {
+        "id": "customer-31",
+        "name": "客戶 31",
+        "segment": "small-business",
+        "mrr": 490700,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 532,
+        "churnedAt": null
+      },
+      "customer-32": {
+        "id": "customer-32",
+        "name": "客戶 32",
+        "segment": "small-business",
+        "mrr": 376600,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 539,
+        "churnedAt": null
+      },
+      "customer-33": {
+        "id": "customer-33",
+        "name": "客戶 33",
+        "segment": "small-business",
+        "mrr": 516300,
+        "satisfaction": 100,
+        "status": "churned",
+        "acquiredAt": 546,
+        "churnedAt": 700
+      },
+      "customer-34": {
+        "id": "customer-34",
+        "name": "客戶 34",
+        "segment": "small-business",
+        "mrr": 268100,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 553,
+        "churnedAt": null
+      },
+      "customer-35": {
+        "id": "customer-35",
+        "name": "客戶 35",
+        "segment": "small-business",
+        "mrr": 359200,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 560,
+        "churnedAt": null
+      },
+      "customer-36": {
+        "id": "customer-36",
+        "name": "客戶 36",
+        "segment": "small-business",
+        "mrr": 263600,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 574,
+        "churnedAt": null
+      },
+      "customer-37": {
+        "id": "customer-37",
+        "name": "客戶 37",
+        "segment": "small-business",
+        "mrr": 331400,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 595,
+        "churnedAt": null
+      },
+      "customer-38": {
+        "id": "customer-38",
+        "name": "客戶 38",
+        "segment": "small-business",
+        "mrr": 372300,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 609,
+        "churnedAt": null
+      },
+      "customer-39": {
+        "id": "customer-39",
+        "name": "客戶 39",
+        "segment": "enterprise",
+        "mrr": 1995400,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 616,
+        "churnedAt": null
+      },
+      "customer-40": {
+        "id": "customer-40",
+        "name": "客戶 40",
+        "segment": "small-business",
+        "mrr": 338400,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 644,
+        "churnedAt": null
+      },
+      "customer-41": {
+        "id": "customer-41",
+        "name": "客戶 41",
+        "segment": "small-business",
+        "mrr": 554900,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 651,
+        "churnedAt": null
+      },
+      "customer-42": {
+        "id": "customer-42",
+        "name": "客戶 42",
+        "segment": "small-business",
+        "mrr": 537100,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 665,
+        "churnedAt": null
+      },
+      "customer-43": {
+        "id": "customer-43",
+        "name": "客戶 43",
+        "segment": "small-business",
+        "mrr": 601000,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 672,
+        "churnedAt": null
+      },
+      "customer-44": {
+        "id": "customer-44",
+        "name": "客戶 44",
+        "segment": "small-business",
+        "mrr": 511800,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 679,
+        "churnedAt": null
+      },
+      "customer-45": {
+        "id": "customer-45",
+        "name": "客戶 45",
+        "segment": "small-business",
+        "mrr": 457600,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 700,
+        "churnedAt": null
+      },
+      "customer-46": {
+        "id": "customer-46",
+        "name": "客戶 46",
+        "segment": "small-business",
+        "mrr": 411500,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 707,
+        "churnedAt": null
+      },
+      "customer-47": {
+        "id": "customer-47",
+        "name": "客戶 47",
+        "segment": "small-business",
+        "mrr": 491200,
+        "satisfaction": 100,
+        "status": "active",
+        "acquiredAt": 721,
+        "churnedAt": null
+      }
+    },
+    "relationships": {
+      "employee-1>employee-2": {
+        "id": "employee-1>employee-2",
+        "sourceId": "employee-1",
+        "targetId": "employee-2",
+        "trust": 65,
+        "respect": 65,
+        "affinity": 60,
+        "rivalry": 5,
+        "resentment": 0
+      },
+      "employee-2>employee-3": {
+        "id": "employee-2>employee-3",
+        "sourceId": "employee-2",
+        "targetId": "employee-3",
+        "trust": 67.4,
+        "respect": 65.381,
+        "affinity": 61.44,
+        "rivalry": 5,
+        "resentment": 0
+      },
+      "employee-3>employee-1": {
+        "id": "employee-3>employee-1",
+        "sourceId": "employee-3",
+        "targetId": "employee-1",
+        "trust": 100,
+        "respect": 53.389,
+        "affinity": 71.04,
+        "rivalry": 5,
+        "resentment": 0
+      },
+      "employee-2>employee-1": {
+        "id": "employee-2>employee-1",
+        "sourceId": "employee-2",
+        "targetId": "employee-1",
+        "trust": 61.208,
+        "respect": 60,
+        "affinity": 50,
+        "rivalry": 5,
+        "resentment": 0
+      }
+    },
+    "market": {
+      "demand": 65.474
+    },
+    "finance": {
+      "history": [
+        {
+          "month": "2026-01",
+          "revenue": 0,
+          "payroll": 8000000,
+          "operatingCost": 1000000,
+          "cash": 41000000
+        },
+        {
+          "month": "2026-02",
+          "revenue": 0,
+          "payroll": 8000000,
+          "operatingCost": 1000000,
+          "cash": 32000000
+        },
+        {
+          "month": "2026-03",
+          "revenue": 0,
+          "payroll": 8000000,
+          "operatingCost": 1000000,
+          "cash": 23000000
+        },
+        {
+          "month": "2026-04",
+          "revenue": 446220,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 18446220
+        },
+        {
+          "month": "2026-05",
+          "revenue": 1412151,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 14858371
+        },
+        {
+          "month": "2026-06",
+          "revenue": 1834113,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 11692484
+        },
+        {
+          "month": "2026-07",
+          "revenue": 2581790,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 9274274
+        },
+        {
+          "month": "2026-08",
+          "revenue": 4451578,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 8725852
+        },
+        {
+          "month": "2026-09",
+          "revenue": 6042180,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 9768032
+        },
+        {
+          "month": "2026-10",
+          "revenue": 5548877,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 10316909
+        },
+        {
+          "month": "2026-11",
+          "revenue": 5100100,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 10417009
+        },
+        {
+          "month": "2026-12",
+          "revenue": 5597215,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 11014224
+        },
+        {
+          "month": "2027-01",
+          "revenue": 6231729,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 12245953
+        },
+        {
+          "month": "2027-02",
+          "revenue": 7603932,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 14849885
+        },
+        {
+          "month": "2027-03",
+          "revenue": 7881700,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 17731585
+        },
+        {
+          "month": "2027-04",
+          "revenue": 8484844,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 21216429
+        },
+        {
+          "month": "2027-05",
+          "revenue": 8917639,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 25134068
+        },
+        {
+          "month": "2027-06",
+          "revenue": 9459866,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 29593934
+        },
+        {
+          "month": "2027-07",
+          "revenue": 10956652,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 35550586
+        },
+        {
+          "month": "2027-08",
+          "revenue": 11556474,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 42107060
+        },
+        {
+          "month": "2027-09",
+          "revenue": 13572083,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 50679143
+        },
+        {
+          "month": "2027-10",
+          "revenue": 14410441,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 60089584
+        },
+        {
+          "month": "2027-11",
+          "revenue": 15969600,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 71059184
+        },
+        {
+          "month": "2027-12",
+          "revenue": 16591406,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 82650590
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "event-1",
+        "tick": 0,
+        "date": "2026-01-01",
+        "type": "CompanyCreated",
+        "payload": {
+          "name": "Garage Startup"
+        },
+        "causedBy": "command-1",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-2",
+        "tick": 0,
+        "date": "2026-01-01",
+        "type": "StrategyChanged",
+        "payload": {
+          "strategy": "sustainable",
+          "workload": 0.8
+        },
+        "causedBy": "command-2",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-3",
+        "tick": 0,
+        "date": "2026-01-01",
+        "type": "SalaryChanged",
+        "payload": {
+          "employeeId": "employee-1",
+          "name": "Alice Chen",
+          "previous": 2500000,
+          "salary": 1000000
+        },
+        "causedBy": "command-3",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-4",
+        "tick": 7,
+        "date": "2026-01-08",
+        "type": "CareerGoalProgressed",
+        "payload": {
+          "employeeId": "employee-1",
+          "name": "Alice Chen"
+        },
+        "causedBy": "event-3",
+        "causes": [
+          {
+            "factor": "career-progress",
+            "weight": 1,
+            "eventId": "event-3"
+          }
+        ],
+        "visibility": "management"
+      },
+      {
+        "id": "event-5",
+        "tick": 22,
+        "date": "2026-01-23",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 25
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-6",
+        "tick": 31,
+        "date": "2026-02-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-01",
+          "payroll": 8000000
+        },
+        "causedBy": "command-6",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-7",
+        "tick": 31,
+        "date": "2026-02-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-01",
+          "revenue": 0,
+          "payroll": 8000000,
+          "operatingCost": 1000000,
+          "cash": 41000000
+        },
+        "causedBy": "event-6",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-8",
+        "tick": 43,
+        "date": "2026-02-13",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 50
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-9",
+        "tick": 59,
+        "date": "2026-03-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-02",
+          "payroll": 8000000
+        },
+        "causedBy": "command-8",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-10",
+        "tick": 59,
+        "date": "2026-03-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-02",
+          "revenue": 0,
+          "payroll": 8000000,
+          "operatingCost": 1000000,
+          "cash": 32000000
+        },
+        "causedBy": "event-9",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-11",
+        "tick": 63,
+        "date": "2026-03-05",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 75
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-12",
+        "tick": 84,
+        "date": "2026-03-26",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 100
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-13",
+        "tick": 84,
+        "date": "2026-03-26",
+        "type": "ProductLaunched",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas"
+        },
+        "causedBy": "event-12",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-14",
+        "tick": 84,
+        "date": "2026-03-26",
+        "type": "ProductPriorityChanged",
+        "payload": {
+          "productId": "product-1",
+          "priority": "quality"
+        },
+        "causedBy": "command-10",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-15",
+        "tick": 90,
+        "date": "2026-04-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-03",
+          "payroll": 8000000
+        },
+        "causedBy": "command-11",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-16",
+        "tick": 90,
+        "date": "2026-04-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-03",
+          "revenue": 0,
+          "payroll": 8000000,
+          "operatingCost": 1000000,
+          "cash": 23000000
+        },
+        "causedBy": "event-15",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-17",
+        "tick": 90,
+        "date": "2026-04-01",
+        "type": "RunwayWarning",
+        "payload": {
+          "months": 2.556
+        },
+        "causedBy": "event-15",
+        "causes": [],
+        "visibility": "management"
+      },
+      {
+        "id": "event-18",
+        "tick": 90,
+        "date": "2026-04-01",
+        "type": "EmployeeFired",
+        "payload": {
+          "employeeId": "employee-2",
+          "name": "Bob Lin"
+        },
+        "causedBy": "command-12",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-19",
+        "tick": 98,
+        "date": "2026-04-09",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-4",
+          "name": "客戶 4",
+          "mrr": 349400
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-20",
+        "tick": 105,
+        "date": "2026-04-16",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-5",
+          "name": "客戶 5",
+          "mrr": 344100
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-21",
+        "tick": 119,
+        "date": "2026-04-30",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-6",
+          "name": "客戶 6",
+          "mrr": 538300
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-22",
+        "tick": 120,
+        "date": "2026-05-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-04",
+          "payroll": 4000000
+        },
+        "causedBy": "command-15",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-23",
+        "tick": 120,
+        "date": "2026-05-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-04",
+          "revenue": 446220,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 18446220
+        },
+        "causedBy": "event-22",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-24",
+        "tick": 126,
+        "date": "2026-05-07",
+        "type": "CareerConcernRaised",
+        "payload": {
+          "employeeId": "employee-3",
+          "name": "Carol Wu"
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "career",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "management"
+      },
+      {
+        "id": "event-25",
+        "tick": 132,
+        "date": "2026-05-13",
+        "type": "EmployeePromoted",
+        "payload": {
+          "employeeId": "employee-3",
+          "name": "Carol Wu",
+          "previous": "Mid",
+          "level": "Senior",
+          "track": "specialist",
+          "premature": false,
+          "expectation": 3360000
+        },
+        "causedBy": "command-16",
+        "causes": [
+          {
+            "factor": "career-progress",
+            "weight": 1,
+            "eventId": null
+          },
+          {
+            "factor": "compensation-expectation",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-26",
+        "tick": 133,
+        "date": "2026-05-14",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-7",
+          "name": "客戶 7",
+          "mrr": 287200
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-27",
+        "tick": 140,
+        "date": "2026-05-21",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-5",
+          "name": "客戶 5",
+          "mrr": 344100
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-28",
+        "tick": 140,
+        "date": "2026-05-21",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-8",
+          "name": "客戶 8",
+          "mrr": 382400
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-29",
+        "tick": 151,
+        "date": "2026-06-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-05",
+          "payroll": 4000000
+        },
+        "causedBy": "command-18",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-30",
+        "tick": 151,
+        "date": "2026-06-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-05",
+          "revenue": 1412151,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 14858371
+        },
+        "causedBy": "event-29",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-31",
+        "tick": 168,
+        "date": "2026-06-18",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-9",
+          "name": "客戶 9",
+          "mrr": 638800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-32",
+        "tick": 181,
+        "date": "2026-07-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-06",
+          "payroll": 4000000
+        },
+        "causedBy": "command-20",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-33",
+        "tick": 181,
+        "date": "2026-07-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-06",
+          "revenue": 1834113,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 11692484
+        },
+        "causedBy": "event-32",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-34",
+        "tick": 196,
+        "date": "2026-07-16",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-10",
+          "name": "客戶 10",
+          "mrr": 408200
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-35",
+        "tick": 203,
+        "date": "2026-07-23",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-11",
+          "name": "客戶 11",
+          "mrr": 602800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-36",
+        "tick": 212,
+        "date": "2026-08-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-07",
+          "payroll": 4000000
+        },
+        "causedBy": "command-23",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-37",
+        "tick": 212,
+        "date": "2026-08-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-07",
+          "revenue": 2581790,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 9274274
+        },
+        "causedBy": "event-36",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-38",
+        "tick": 224,
+        "date": "2026-08-13",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-12",
+          "name": "客戶 12",
+          "mrr": 2071800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-39",
+        "tick": 231,
+        "date": "2026-08-20",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-7",
+          "name": "客戶 7",
+          "mrr": 287200
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-40",
+        "tick": 238,
+        "date": "2026-08-27",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-13",
+          "name": "客戶 13",
+          "mrr": 532200
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-41",
+        "tick": 243,
+        "date": "2026-09-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-08",
+          "payroll": 4000000
+        },
+        "causedBy": "command-25",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-42",
+        "tick": 243,
+        "date": "2026-09-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-08",
+          "revenue": 4451578,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 8725852
+        },
+        "causedBy": "event-41",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-43",
+        "tick": 252,
+        "date": "2026-09-10",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-14",
+          "name": "客戶 14",
+          "mrr": 645700
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-44",
+        "tick": 266,
+        "date": "2026-09-24",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-15",
+          "name": "客戶 15",
+          "mrr": 284100
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-45",
+        "tick": 273,
+        "date": "2026-10-01",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-16",
+          "name": "客戶 16",
+          "mrr": 336800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-46",
+        "tick": 273,
+        "date": "2026-10-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-09",
+          "payroll": 4000000
+        },
+        "causedBy": "command-27",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-47",
+        "tick": 273,
+        "date": "2026-10-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-09",
+          "revenue": 6042180,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 9768032
+        },
+        "causedBy": "event-46",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-48",
+        "tick": 280,
+        "date": "2026-10-08",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-12",
+          "name": "客戶 12",
+          "mrr": 2071800
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-49",
+        "tick": 280,
+        "date": "2026-10-08",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-17",
+          "name": "客戶 17",
+          "mrr": 278600
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-50",
+        "tick": 287,
+        "date": "2026-10-15",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-18",
+          "name": "客戶 18",
+          "mrr": 649500
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-51",
+        "tick": 294,
+        "date": "2026-10-22",
+        "type": "CollaborationStrengthened",
+        "payload": {
+          "employeeId": "employee-3",
+          "sourceId": "employee-3",
+          "targetId": "employee-1",
+          "sourceName": "Carol Wu",
+          "targetName": "Alice Chen"
+        },
+        "causedBy": "event-25",
+        "causes": [
+          {
+            "factor": "collaboration",
+            "weight": 1,
+            "eventId": "event-25"
+          }
+        ],
+        "visibility": "management"
+      },
+      {
+        "id": "event-52",
+        "tick": 294,
+        "date": "2026-10-22",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-18",
+          "name": "客戶 18",
+          "mrr": 649500
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-53",
+        "tick": 304,
+        "date": "2026-11-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-10",
+          "payroll": 4000000
+        },
+        "causedBy": "command-29",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-54",
+        "tick": 304,
+        "date": "2026-11-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-10",
+          "revenue": 5548877,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 10316909
+        },
+        "causedBy": "event-53",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-55",
+        "tick": 329,
+        "date": "2026-11-26",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-19",
+          "name": "客戶 19",
+          "mrr": 616800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-56",
+        "tick": 334,
+        "date": "2026-12-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-11",
+          "payroll": 4000000
+        },
+        "causedBy": "command-31",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-57",
+        "tick": 334,
+        "date": "2026-12-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-11",
+          "revenue": 5100100,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 10417009
+        },
+        "causedBy": "event-56",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-58",
+        "tick": 343,
+        "date": "2026-12-10",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-8",
+          "name": "客戶 8",
+          "mrr": 382400
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-59",
+        "tick": 350,
+        "date": "2026-12-17",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-20",
+          "name": "客戶 20",
+          "mrr": 486300
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-60",
+        "tick": 364,
+        "date": "2026-12-31",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-21",
+          "name": "客戶 21",
+          "mrr": 594900
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-61",
+        "tick": 365,
+        "date": "2027-01-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-12",
+          "payroll": 4000000
+        },
+        "causedBy": "command-34",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-62",
+        "tick": 365,
+        "date": "2027-01-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-12",
+          "revenue": 5597215,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 11014224
+        },
+        "causedBy": "event-61",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-63",
+        "tick": 378,
+        "date": "2027-01-14",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-19",
+          "name": "客戶 19",
+          "mrr": 616800
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-64",
+        "tick": 385,
+        "date": "2027-01-21",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-22",
+          "name": "客戶 22",
+          "mrr": 605900
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-65",
+        "tick": 392,
+        "date": "2027-01-28",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-23",
+          "name": "客戶 23",
+          "mrr": 480300
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-66",
+        "tick": 396,
+        "date": "2027-02-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-01",
+          "payroll": 4000000
+        },
+        "causedBy": "command-37",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-67",
+        "tick": 396,
+        "date": "2027-02-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-01",
+          "revenue": 6231729,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 12245953
+        },
+        "causedBy": "event-66",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-68",
+        "tick": 399,
+        "date": "2027-02-04",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-24",
+          "name": "客戶 24",
+          "mrr": 459500
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-69",
+        "tick": 406,
+        "date": "2027-02-11",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-25",
+          "name": "客戶 25",
+          "mrr": 639900
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-70",
+        "tick": 424,
+        "date": "2027-03-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-02",
+          "payroll": 4000000
+        },
+        "causedBy": "command-39",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-71",
+        "tick": 424,
+        "date": "2027-03-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-02",
+          "revenue": 7603932,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 14849885
+        },
+        "causedBy": "event-70",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-72",
+        "tick": 455,
+        "date": "2027-04-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-03",
+          "payroll": 4000000
+        },
+        "causedBy": "command-41",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-73",
+        "tick": 455,
+        "date": "2027-04-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-03",
+          "revenue": 7881700,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 17731585
+        },
+        "causedBy": "event-72",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-74",
+        "tick": 462,
+        "date": "2027-04-08",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-26",
+          "name": "客戶 26",
+          "mrr": 631300
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-75",
+        "tick": 476,
+        "date": "2027-04-22",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-27",
+          "name": "客戶 27",
+          "mrr": 317800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-76",
+        "tick": 483,
+        "date": "2027-04-29",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-28",
+          "name": "客戶 28",
+          "mrr": 357100
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-77",
+        "tick": 485,
+        "date": "2027-05-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-04",
+          "payroll": 4000000
+        },
+        "causedBy": "command-43",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-78",
+        "tick": 485,
+        "date": "2027-05-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-04",
+          "revenue": 8484844,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 21216429
+        },
+        "causedBy": "event-77",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-79",
+        "tick": 490,
+        "date": "2027-05-06",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-25",
+          "name": "客戶 25",
+          "mrr": 639900
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-80",
+        "tick": 490,
+        "date": "2027-05-06",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-29",
+          "name": "客戶 29",
+          "mrr": 344500
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-81",
+        "tick": 504,
+        "date": "2027-05-20",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-17",
+          "name": "客戶 17",
+          "mrr": 278600
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-82",
+        "tick": 511,
+        "date": "2027-05-27",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-30",
+          "name": "客戶 30",
+          "mrr": 529100
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-83",
+        "tick": 516,
+        "date": "2027-06-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-05",
+          "payroll": 4000000
+        },
+        "causedBy": "command-45",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-84",
+        "tick": 516,
+        "date": "2027-06-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-05",
+          "revenue": 8917639,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 25134068
+        },
+        "causedBy": "event-83",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-85",
+        "tick": 532,
+        "date": "2027-06-17",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-31",
+          "name": "客戶 31",
+          "mrr": 490700
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-86",
+        "tick": 539,
+        "date": "2027-06-24",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-32",
+          "name": "客戶 32",
+          "mrr": 376600
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-87",
+        "tick": 546,
+        "date": "2027-07-01",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-33",
+          "name": "客戶 33",
+          "mrr": 516300
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-88",
+        "tick": 546,
+        "date": "2027-07-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-06",
+          "payroll": 4000000
+        },
+        "causedBy": "command-47",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-89",
+        "tick": 546,
+        "date": "2027-07-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-06",
+          "revenue": 9459866,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 29593934
+        },
+        "causedBy": "event-88",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-90",
+        "tick": 553,
+        "date": "2027-07-08",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-34",
+          "name": "客戶 34",
+          "mrr": 268100
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-91",
+        "tick": 560,
+        "date": "2027-07-15",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-35",
+          "name": "客戶 35",
+          "mrr": 359200
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-92",
+        "tick": 574,
+        "date": "2027-07-29",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-36",
+          "name": "客戶 36",
+          "mrr": 263600
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-93",
+        "tick": 577,
+        "date": "2027-08-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-07",
+          "payroll": 4000000
+        },
+        "causedBy": "command-50",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-94",
+        "tick": 577,
+        "date": "2027-08-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-07",
+          "revenue": 10956652,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 35550586
+        },
+        "causedBy": "event-93",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-95",
+        "tick": 595,
+        "date": "2027-08-19",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-37",
+          "name": "客戶 37",
+          "mrr": 331400
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-96",
+        "tick": 608,
+        "date": "2027-09-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-08",
+          "payroll": 4000000
+        },
+        "causedBy": "command-52",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-97",
+        "tick": 608,
+        "date": "2027-09-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-08",
+          "revenue": 11556474,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 42107060
+        },
+        "causedBy": "event-96",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-98",
+        "tick": 609,
+        "date": "2027-09-02",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-38",
+          "name": "客戶 38",
+          "mrr": 372300
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-99",
+        "tick": 616,
+        "date": "2027-09-09",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-39",
+          "name": "客戶 39",
+          "mrr": 1995400
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-100",
+        "tick": 638,
+        "date": "2027-10-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-09",
+          "payroll": 4000000
+        },
+        "causedBy": "command-54",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-101",
+        "tick": 638,
+        "date": "2027-10-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-09",
+          "revenue": 13572083,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 50679143
+        },
+        "causedBy": "event-100",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-102",
+        "tick": 644,
+        "date": "2027-10-07",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-24",
+          "name": "客戶 24",
+          "mrr": 459500
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-103",
+        "tick": 644,
+        "date": "2027-10-07",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-40",
+          "name": "客戶 40",
+          "mrr": 338400
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-104",
+        "tick": 651,
+        "date": "2027-10-14",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-41",
+          "name": "客戶 41",
+          "mrr": 554900
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-105",
+        "tick": 665,
+        "date": "2027-10-28",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-42",
+          "name": "客戶 42",
+          "mrr": 537100
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-106",
+        "tick": 669,
+        "date": "2027-11-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-10",
+          "payroll": 4000000
+        },
+        "causedBy": "command-56",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-107",
+        "tick": 669,
+        "date": "2027-11-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-10",
+          "revenue": 14410441,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 60089584
+        },
+        "causedBy": "event-106",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-108",
+        "tick": 672,
+        "date": "2027-11-04",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-43",
+          "name": "客戶 43",
+          "mrr": 601000
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-109",
+        "tick": 679,
+        "date": "2027-11-11",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-44",
+          "name": "客戶 44",
+          "mrr": 511800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-110",
+        "tick": 699,
+        "date": "2027-12-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-11",
+          "payroll": 4000000
+        },
+        "causedBy": "command-58",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-111",
+        "tick": 699,
+        "date": "2027-12-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-11",
+          "revenue": 15969600,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 71059184
+        },
+        "causedBy": "event-110",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-112",
+        "tick": 700,
+        "date": "2027-12-02",
+        "type": "CustomerChurned",
+        "payload": {
+          "customerId": "customer-33",
+          "name": "客戶 33",
+          "mrr": 516300
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "customer-budget",
+            "weight": 1,
+            "eventId": null
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-113",
+        "tick": 700,
+        "date": "2027-12-02",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-45",
+          "name": "客戶 45",
+          "mrr": 457600
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-114",
+        "tick": 707,
+        "date": "2027-12-09",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-46",
+          "name": "客戶 46",
+          "mrr": 411500
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-115",
+        "tick": 721,
+        "date": "2027-12-23",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-47",
+          "name": "客戶 47",
+          "mrr": 491200
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-116",
+        "tick": 730,
+        "date": "2028-01-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2027-12",
+          "payroll": 4000000
+        },
+        "causedBy": "command-61",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-117",
+        "tick": 730,
+        "date": "2028-01-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2027-12",
+          "revenue": 16591406,
+          "payroll": 4000000,
+          "operatingCost": 1000000,
+          "cash": 82650590
+        },
+        "causedBy": "event-116",
+        "causes": [],
+        "visibility": "public"
+      }
+    ],
+    "commands": [
+      {
+        "id": "command-1",
+        "tick": 0,
+        "command": {
+          "type": "CreateCompany",
+          "config": {
+            "seed": "benchmark-003",
+            "name": "Garage Startup",
+            "scenario": "garage",
+            "employeeCount": 3,
+            "initialCash": 50000000
+          }
+        }
+      },
+      {
+        "id": "command-2",
+        "tick": 0,
+        "command": {
+          "type": "ChangeCompanyStrategy",
+          "strategy": "sustainable"
+        }
+      },
+      {
+        "id": "command-3",
+        "tick": 0,
+        "command": {
+          "type": "ChangeSalary",
+          "employeeId": "employee-1",
+          "salary": 1000000
+        }
+      },
+      {
+        "id": "command-4",
+        "tick": 0,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-5",
+        "tick": 14,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-6",
+        "tick": 28,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-7",
+        "tick": 42,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-8",
+        "tick": 56,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-9",
+        "tick": 70,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-10",
+        "tick": 84,
+        "command": {
+          "type": "ChangeProductPriority",
+          "priority": "quality"
+        }
+      },
+      {
+        "id": "command-11",
+        "tick": 84,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 6
+        }
+      },
+      {
+        "id": "command-12",
+        "tick": 90,
+        "command": {
+          "type": "FireEmployee",
+          "employeeId": "employee-2"
+        }
+      },
+      {
+        "id": "command-13",
+        "tick": 90,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-14",
+        "tick": 104,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-15",
+        "tick": 118,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-16",
+        "tick": 132,
+        "command": {
+          "type": "PromoteEmployee",
+          "employeeId": "employee-3",
+          "track": "specialist"
+        }
+      },
+      {
+        "id": "command-17",
+        "tick": 132,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-18",
+        "tick": 146,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-19",
+        "tick": 160,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-20",
+        "tick": 174,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 7
+        }
+      },
+      {
+        "id": "command-21",
+        "tick": 181,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-22",
+        "tick": 195,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-23",
+        "tick": 209,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-24",
+        "tick": 223,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-25",
+        "tick": 237,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-26",
+        "tick": 251,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-27",
+        "tick": 265,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-28",
+        "tick": 279,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-29",
+        "tick": 293,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-30",
+        "tick": 307,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-31",
+        "tick": 321,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-32",
+        "tick": 335,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-33",
+        "tick": 349,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-34",
+        "tick": 363,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 2
+        }
+      },
+      {
+        "id": "command-35",
+        "tick": 365,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-36",
+        "tick": 379,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-37",
+        "tick": 393,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-38",
+        "tick": 407,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-39",
+        "tick": 421,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-40",
+        "tick": 435,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-41",
+        "tick": 449,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-42",
+        "tick": 463,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-43",
+        "tick": 477,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-44",
+        "tick": 491,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-45",
+        "tick": 505,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-46",
+        "tick": 519,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-47",
+        "tick": 533,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-48",
+        "tick": 547,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-49",
+        "tick": 561,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-50",
+        "tick": 575,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-51",
+        "tick": 589,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-52",
+        "tick": 603,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-53",
+        "tick": 617,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-54",
+        "tick": 631,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-55",
+        "tick": 645,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-56",
+        "tick": 659,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-57",
+        "tick": 673,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-58",
+        "tick": 687,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-59",
+        "tick": 701,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-60",
+        "tick": 715,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-61",
+        "tick": 729,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 1
+        }
+      }
+    ]
+  }
+}

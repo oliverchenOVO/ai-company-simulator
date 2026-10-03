@@ -1,6 +1,6 @@
 import type { WorldState } from '../../packages/domain/src/model';
 import type { CompanyView } from '../../packages/simulation/src/projection';
-export const importantTypes = new Set(['EmployeeResigned','ProductLaunched','ProductMilestoneReached','CompanyBankrupt','CustomerChurned','EmployeeFired']);
+export const importantTypes = new Set(['EmployeeResigned','ProductLaunched','ProductMilestoneReached','CompanyBankrupt','CustomerChurned','EmployeeFired','EmployeePromoted','ManagerChanged','TeamCoordinationChanged','CareerConcernRaised','CareerGoalBlocked','PeerPromotionReaction']);
 export const warningTypes = new Set(['RunwayWarning','EmployeeConcernRaised','RelationshipStrained']);
 export function metrics(v: CompanyView, w: WorldState) {
   const active = v.employees.filter(e=>e.status==='active');

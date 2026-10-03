@@ -6,7 +6,7 @@ import { strategies,decisions } from './gameplay/policies';
 import { metrics } from './gameplay/audit';
 const count=Number(process.argv.find(a=>a.startsWith('--seeds='))?.split('=')[1]??100);
 const horizon=Number(process.argv.find(a=>a.startsWith('--days='))?.split('=')[1]??730);
-const directory=process.argv.find(a=>a.startsWith('--out='))?.slice(6)??'docs/phase1_5b/data'; mkdirSync(directory,{recursive:true});
+const directory=process.argv.find(a=>a.startsWith('--out='))?.slice(6)??'docs/phase2/data'; mkdirSync(directory,{recursive:true});
 const start=performance.now(), rows:unknown[]=[]; let mismatches=0;
 for(const policy of strategies) {
   const policyStart=performance.now();
@@ -35,5 +35,5 @@ for(const policy of strategies) {
   }
   console.log(`${policy}: ${count} seeds completed in ${Math.round(performance.now()-policyStart)}ms`);
 }
-const output={horizon,seeds:count,runtimeMs:Math.round(performance.now()-start),replayOrRestoreMismatches:mismatches,policyInformation:'production CompanyView only; diagnostic fields are post-run only',rows};
+const output={horizon,seeds:count,runtimeMs:Math.round(performance.now()-start),replayOrRestoreMismatches:mismatches,simulationVersion:3,policyInformation:'production CompanyView only; diagnostic fields are post-run only',rows};
 writeFileSync(`${directory}/strategies-${horizon}.json`,JSON.stringify(output,null,2)+'\n'); console.log(JSON.stringify({...output,rows:undefined}));if(mismatches)process.exitCode=1;
