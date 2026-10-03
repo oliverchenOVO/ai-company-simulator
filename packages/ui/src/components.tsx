@@ -14,7 +14,7 @@ export function LinkButton({ children, onClick }: { children: ReactNode; onClick
   return <button className="text-button" onClick={onClick}>{children}<ArrowRight size={16} /></button>;
 }
 export function Empty({ title, body }: { title: string; body: string }) { return <div className="empty"><h3>{title}</h3><p>{body}</p></div>; }
-export function Condition({ text }: { text: string }) { return <span className={`condition ${text.includes('壓力') || text.includes('顧慮') || text.includes('休息') || text.includes('關注') || text.includes('跟進') ? 'caution' : text.includes('離職') || text.includes('流失') ? 'muted' : ''}`}><i aria-hidden="true" />{text}</span>; }
+export function Condition({ text }: { text: string }) { return <span className={`condition ${text.includes('壓力') || text.includes('顧慮') || text.includes('休息') || text.includes('關注') || text.includes('跟進') || text.includes('轉弱') ? 'caution' : text.includes('離職') || text.includes('流失') ? 'muted' : ''}`}><i aria-hidden="true" />{text}</span>; }
 export function Avatar({ name }: { name: string }) { return <span className="avatar" aria-hidden="true">{name.split(' ').map(n => n[0]).join('').slice(0, 2)}</span>; }
 export function Progress({ value, label }: { value: number; label: string }) { return <div className="progress-row"><div className="progress" role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(value)}><span style={{ width: `${value}%` }} /></div><strong>{Math.round(value)}%</strong></div>; }
 export function Modal({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {

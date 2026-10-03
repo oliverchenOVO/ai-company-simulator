@@ -12,7 +12,7 @@ export function Dashboard({ view }: { view: CompanyView }) {
       <div className="panel-heading inner"><h2>團隊（{view.headcount}）</h2><LinkButton onClick={() => setPage('People')}>管理人員</LinkButton></div>
       <div className="table-wrap"><table><thead><tr><th>姓名</th><th>職務</th><th>近況</th></tr></thead><tbody>{employees.map(e => <tr key={e.id}><td><button className="person-button" onClick={() => { setPage('People'); selectEmployee(e.id); }}><Avatar name={e.name}/>{e.name}</button></td><td>{roles[e.role]}<small className="cell-note">{e.teamName}</small></td><td><Condition text={e.condition}/></td></tr>)}</tbody></table></div>
     </Panel><Panel title="公司脈動" action={<Activity size={20} aria-hidden="true"/>}>
-      {view.alerts.map(a => <div className={`alert-card ${a.severity}`} key={a.title}><TriangleAlert size={20} aria-hidden="true"/><div><h3>{a.title}</h3><p>{a.body}</p></div></div>)}
+      {view.alerts.map(a => <div className={`alert-card ${a.severity}`} key={a.title}><TriangleAlert size={20} aria-hidden="true"/><div><h3>{a.title}</h3><p>{a.body}</p>{a.severity!=='info'?<LinkButton onClick={()=>setPage(a.title.includes('團隊')?'People':a.title.includes('客戶')?'Customers':a.title.includes('營收')?'Product':'Finance')}>檢視與處理</LinkButton>:null}</div></div>)}
       <div className="panel-heading inner"><h2>近期動態</h2><LinkButton onClick={() => setPage('Timeline')}>時間軸</LinkButton></div>
       <ol className="activity-list">{view.events.slice(-4).reverse().map(e => <li key={e.id}><div><strong>{e.title}</strong><time>{e.date}</time></div><p>{e.body}</p></li>)}</ol>
     </Panel></div></>;

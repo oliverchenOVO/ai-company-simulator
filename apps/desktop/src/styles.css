@@ -54,3 +54,9 @@ dialog { border:1px solid var(--border); border-radius:12px; padding:24px; width
   .product-summary p { font-size:15px; }
 }
 @media (prefers-reduced-motion:reduce) { *,*:before,*:after { transition:none!important; scroll-behavior:auto!important; } }
+.advance-summary { margin-bottom:24px; } .advance-summary .panel { border-left:4px solid var(--accent); }
+.summary-values,.summary-warning,.cost-preview { font-size:13px; overflow-wrap:anywhere; }
+.summary-warning { color:#925300; margin-top:12px; } .cost-preview { background:#f1f6f7; padding:12px; border-radius:6px; margin-bottom:16px; }
+.event-priority { display:inline-block; font-size:11px; padding:2px 7px; border-radius:4px; background:#edf1f5; color:#526173; white-space:nowrap; }
+.event-priority.critical { background:#ffebe9; color:#a42219; } .event-priority.warning { background:#fff2dc; color:#925300; } .event-priority.important { background:#e4f4f2; color:#08767e; }
+.forecast-panel { margin-bottom:24px; } .forecast-panel > p { font-size:14px; } .cause-list p { margin:4px 0; font-size:13px; }

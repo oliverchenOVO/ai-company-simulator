@@ -8,11 +8,12 @@ import { People } from './features/people';
 import { Customers, Finance, Product, Teams } from './features/operations';
 import { Inbox, Timeline } from './features/communications';
 import { Settings } from './features/settings';
+import { AdvanceSummary } from './features/advance-summary';
 const navigation = [
   ['Dashboard', '總覽', House], ['People', '人員', Users], ['Teams', '團隊', Network], ['Product', '產品', Box], ['Customers', '客戶', Users], ['Finance', '財務', ChartNoAxesColumnIncreasing], ['Inbox', '收件匣', Mail], ['Timeline', '時間軸', Clock3], ['Settings', '設定', SettingsIcon]
 ] as const;
 export function App() {
-  const { view, initialized, busy, error, notice, act, clearError } = useCompany();
+  const { view, initialized, busy, error, notice,summary,dismissSummary, act, clearError } = useCompany();
   const page = useUi(s => s.page), setPage = useUi(s => s.setPage);
   const [creating, setCreating] = useState(false);
   function screen() {
@@ -22,7 +23,7 @@ export function App() {
       case 'Dashboard': return <Dashboard view={view}/>;
       case 'People': return <People {...props}/>;
       case 'Teams': return <Teams {...props}/>;
-      case 'Product': return <Product {...props}/>;
+      case 'Product': return <Product key={view.product.priority} {...props}/>;
       case 'Customers': return <Customers view={view}/>;
       case 'Finance': return <Finance view={view}/>;
       case 'Inbox': return <Inbox view={view}/>;
@@ -33,6 +34,7 @@ export function App() {
   return <div className="app-shell"><aside className="sidebar"><div className="brand"><strong>FOUNDRY</strong><span>AI Company Simulator</span></div><nav aria-label="主要導覽">{navigation.map(([id, label, Icon]) => <button key={id} className={page === id ? 'active' : ''} aria-current={page === id ? 'page' : undefined} disabled={!view} onClick={() => setPage(id as Page)}><Icon size={21} strokeWidth={1.8}/><span>{label}</span></button>)}</nav><div className="sidebar-company"><Building2 size={22}/><strong>{view?.name ?? 'Garage Startup'}</strong><small>Phase 1 · Playable Startup</small></div></aside>
     <div className="workspace"><header className="company-header"><strong>{view?.name ?? 'Garage Startup'}</strong><span className="header-subline">小團隊，也能創造大未來。</span><div className="header-actions"><span className="header-date"><CalendarDays size={19}/>{view?.date ?? '2026-01-01'}</span><button className="button primary" disabled={!view || busy} onClick={() => { void act({ action: 'save' }); }}><Save size={18}/>存檔</button></div></header>
     <main id="main-content" aria-busy={busy}><div className="notices">{error ? <div className="error-banner" role="alert"><span>{error}</span><button className="icon-button" aria-label="關閉錯誤訊息" onClick={clearError}><X size={17}/></button></div> : null}{notice ? <div className="success-banner" role="status">{notice}</div> : null}</div>
+      {summary?<AdvanceSummary summary={summary} dismiss={dismissSummary}/>:null}
       {!initialized ? <div className="loading-state" role="status">正在載入公司進度…</div> : !view ? <Welcome act={act} busy={busy}/> : screen()}
     </main><footer className="time-bar"><div className="time-date"><CalendarDays size={23}/><strong>第 {view?.tick ?? 0} 天</strong><time>{view?.date ?? '2026-01-01'}</time></div><div className="time-hint"><strong>{busy ? '處理中…' : view?.bankrupt ? '營運已停止' : '時間控制'}</strong><span>讓你的決策，隨時間產生結果。</span></div><div className="time-actions"><button className="button secondary" disabled={!view || busy || view.bankrupt} onClick={() => { void act({ action: 'execute', command: { type: 'AdvanceTime', days: 1 } }); }}><Play size={17}/>推進一天</button><button className="button primary" disabled={!view || busy || view.bankrupt} onClick={() => { void act({ action: 'execute', command: { type: 'AdvanceTime', days: 7 } }); }}><SkipForward size={18}/>推進一週</button></div></footer></div>
     {creating ? <Modal title="建立新公司" onClose={() => setCreating(false)}><NewCompanyForm act={act} busy={busy} afterCreate={() => { setCreating(false); setPage('Dashboard'); }}/></Modal> : null}

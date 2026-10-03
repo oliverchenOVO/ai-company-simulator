@@ -4,6 +4,7 @@ import { createSave, validateSave, type SaveEnvelope, type SaveRepository } from
 import { Simulation, replay } from '../../simulation/src/simulation';
 import type { CompanyView } from '../../simulation/src/projection';
 import { invariantViolations } from '../../simulation/src/invariants';
+import { advanceSummary,type AdvanceSummary } from '../../simulation/src/decision-support';
 export const requestSchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('status') }).strict(),
   z.object({ action: z.literal('create'), config: configSchema }).strict(),
@@ -19,6 +20,7 @@ export type SessionRequest = z.input<typeof requestSchema>;
 export interface SessionResponse {
   view: CompanyView | null;
   notice?: string;
+  summary?: AdvanceSummary;
   exported?: SaveEnvelope;
   replay?: { hash: string; matches: boolean };
   debug?: { seed: string; tick: number; hash: string; invariants: string[]; employees: unknown[] };
@@ -44,8 +46,12 @@ export class ApplicationSession {
         extra = { notice: '新公司已成立，進度會自動儲存。' }; break;
       }
       case 'execute': {
+        const before=this.requireSim().observe();
         const candidate = Simulation.restore(this.requireSim().snapshot());
-        candidate.execute(request.command); await this.repository.save('autosave', createSave(candidate.snapshot())); this.sim = candidate; break;
+        candidate.execute(request.command); await this.repository.save('autosave', createSave(candidate.snapshot())); this.sim = candidate;
+        if(request.command.type==='AdvanceTime'&&request.command.days>=7)extra={summary:advanceSummary(before,candidate.observe())};
+        else if(request.command.type!=='AdvanceTime')extra={notice:`決策已生效並自動保存：${candidate.observe().events.at(-1)?.title??'公司安排已更新'}`};
+        break;
       }
       case 'save': await this.repository.save('manual', createSave(this.requireSim().snapshot())); extra = { notice: '手動存檔已保存，可在設定頁載入。' }; break;
       case 'load': {
