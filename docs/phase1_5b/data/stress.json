@@ -1,0 +1,30 @@
+{
+  "kind": "1000 employees / 10 years (capitalized stress scenario)",
+  "generatedAt": "2026-10-03T06:17:20.118Z",
+  "node": "v24.13.0",
+  "platform": "win32",
+  "runtimeMs": 32144,
+  "totals": {
+    "crashes": 0,
+    "nan": 0,
+    "infinity": 0,
+    "corruptedStates": 0,
+    "invariantViolations": 0,
+    "replayMismatches": 0
+  },
+  "rows": [
+    {
+      "seed": "stress-1000",
+      "days": 3652,
+      "runtimeMs": 32119,
+      "employees": 1000,
+      "employeeEntities": 1000,
+      "customers": 155,
+      "revenueNTD": 875918,
+      "cashNTD": 6472595142.39,
+      "events": 1026,
+      "bankrupt": false,
+      "hash": "d970e3edc5227790d937b8e57e6369622d4724a44a6b69b542e0aa5d988c494d"
+    }
+  ]
+}

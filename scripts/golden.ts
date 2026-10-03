@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { Simulation } from '../packages/simulation/src/simulation';
 const results: Record<string, Record<string, string>> = {};
 for (const seed of ['golden-001', 'golden-002', 'golden-003']) {
-  const sim = new Simulation({ seed, name: 'Garage Startup', scenario: 'garage' });
+  const sim = new Simulation({ seed, name: 'Garage Startup', scenario: 'garage' }, true, 1);
   results[seed] = {};
   let tick = 0;
   for (const checkpoint of [365, 1096, 1826]) {
