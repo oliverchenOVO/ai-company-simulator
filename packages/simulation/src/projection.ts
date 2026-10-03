@@ -48,6 +48,8 @@ export function projectCompany(w: WorldState) {
     else if((months??Infinity)<6)alerts.push({title:'現金跑道需要規劃',body:'跑道少於六個月。先評估產品上市速度與支出，合約收入成長尚未保證。',severity:'warning'});
     if (!revenue(w)) alerts.push({ title: '營收尚未開始', body: '設定產品優先順序，同時留意現金跑道。', severity: 'warning' });
     if (active.some(e => e.condition !== '狀態穩定')) alerts.push({ title: '團隊需要你的關注', body: '有同事近期承受壓力，請查看人員與收件匣。', severity: 'warning' });
+    if(active.some(e=>e.organization?.managementLoad==='管理負荷偏高')) alerts.push({title:'主管支持需要重新安排',body:'有主管的直接部屬超過目前可支持的範圍。請查看團隊與匯報結構。',severity:'warning'});
+    if(active.some(e=>e.organization?.careerStatus==='希望討論成長安排'||e.organization?.careerStatus==='職涯期待持續未解')) alerts.push({title:'職涯安排需要回應',body:'有同事提出成長期待，請查看人員詳情與相關事件。',severity:'warning'});
     if(customerRisk)alerts.push({title:'客戶體驗需要跟進',body:'部分客戶的使用體驗轉弱。檢視產品品質、技術債與客戶事件；外部預算變化仍可能沒有預警。',severity:'warning'});
     if (!alerts.length) alerts.push({ title: '營運持續推進', body: '團隊與客戶暫無明顯警訊，持續觀察下一步。', severity: 'info' });
   }

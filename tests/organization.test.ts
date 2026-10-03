@@ -59,7 +59,10 @@ describe('v3 career, reporting and causal relationships', () => {
       expect(e.career!.goals).toHaveLength(1);
       if (e.role !== 'CEO' && e.role !== 'CTO' && e.personality.ambition >= 60) expect(e.career!.goals[0].type).toBe('advancement');
     }
-    a.execute({ type: 'AdvanceTime', days: 220 });
+    a.execute({ type: 'AdvanceTime', days: 7 });
+    expect(a.snapshot().employees['employee-1'].career!.goals[0].progress).toBe(100);
+    expect(a.snapshot().events.some(e=>e.type==='CareerGoalProgressed'&&e.payload.employeeId==='employee-1')).toBe(true);
+    a.execute({ type: 'AdvanceTime', days: 213 });
     expect(JSON.stringify(a.observe())).not.toMatch(/frustration|exitIntent|managerTrust|resentment/);
     expect(replay(a.snapshot()).stateHash()).toBe(a.stateHash());
   });

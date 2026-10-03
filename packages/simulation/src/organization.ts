@@ -119,7 +119,7 @@ export function careerSystem(ctx: SystemContext): void {
     let progress = goal.progress;
     if (goal.type === 'mastery') progress = Math.min(100, e.workTotal / 3);
     if (goal.type === 'stability') progress = clamp(w.teams[e.teamId].organization!.stability - e.psychology.stress * .2);
-    if (goal.type === 'leadership') progress = c.track === 'manager' && (organization.reports.get(e.id) ?? 0) > 0 ? support : Math.min(75, age / 8);
+    if (goal.type === 'leadership') progress = c.track === 'manager' && (organization.reports.get(e.id) ?? 0) > 0 ? 100 : Math.min(75, age / 8); // Leadership goal is obtaining real reporting responsibility; effectiveness remains independent.
     if (goal.type === 'advancement' && goal.progress < 100) progress = Math.min(75, (w.meta.tick - e.hiredAt) / 4 + e.performance * .2);
     const previous = goal.progress; goal.progress = rounded(progress);
     const blocked = (goal.type === 'advancement' || goal.type === 'leadership') && goal.progress < 90 && age > 60;
