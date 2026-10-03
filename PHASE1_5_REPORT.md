@@ -100,6 +100,8 @@ Existing private repository: https://github.com/oliverchenOVO/ai-company-simulat
 
 - d45b5c9 — observable policy harness and replay-verified branches
 - 4169e52 — financial danger, actual time summary, supported causal evidence and UI acceptance
+- c32b41e — warning lead times, recovery, counterfactual differences and low-offer diagnostic
+- a3ab880 — strategy distributions, actual playthrough saves and causal/balance audit
 
 診斷／证据与发布commit在最终提交后补记。全部完成工作将commit并push至此私人repo；未建立公开GitHub repository或release。公开网站继续使用既有项目与audience；最后报告commit仅记录最终运行结果。
 
@@ -113,3 +115,7 @@ Existing private repository: https://github.com/oliverchenOVO/ai-company-simulat
 4. Phase2获准后优先管理质量与有限职业目标／留任取捨，再考虑关系层；当前人际事件常晚于经济失败，先解决经济窗口。Slack／email／LLM叙事不是目前的首要缺口。
 
 新Phase2功能、云同步、多人、3D或LLM均未添加。
+
+## Deployment tooling note
+
+Sites source checkout/credential workflow完成來源驗證、build與push後，bundled packaging helper將Windows路徑傳入bash，造成package-site.sh路徑轉譯失敗。保留來源與既有公開audience，改用本機tar僅打包.openai/hosting.json與out/，再交給native save/version/deploy檢查；沒有打包原始診斷資料、存檔或憑證。Credential只在session memory與workflow hidden stdin使用。這不是遊戲build或simulation失敗。
