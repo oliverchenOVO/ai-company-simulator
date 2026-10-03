@@ -2,6 +2,7 @@
 
 Deterministic organization simulation and CEO management game. Phase 1: Playable Startup.
 See [PHASE1_REPORT.md](PHASE1_REPORT.md) for executed acceptance evidence and limitations.
+Phase 1.5 gameplay findings and the remaining balance gate: [PHASE1_5_REPORT.md](PHASE1_5_REPORT.md).
 
 Play online: https://foundry-company-simulator.oliverchenovo.chatgpt.site . Each browser profile keeps its own local progress; refresh resumes it. Export a backup in Settings before clearing browser data. Cross-device account synchronization is outside Phase 1.
 

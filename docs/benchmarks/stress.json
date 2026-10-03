@@ -1,9 +1,9 @@
 {
   "kind": "1000 employees / 10 years (capitalized stress scenario)",
-  "generatedAt": "2026-10-02T19:19:32.582Z",
+  "generatedAt": "2026-10-03T04:44:25.060Z",
   "node": "v24.13.0",
   "platform": "win32",
-  "runtimeMs": 93605,
+  "runtimeMs": 20876,
   "totals": {
     "crashes": 0,
     "nan": 0,
@@ -16,7 +16,7 @@
     {
       "seed": "stress-1000",
       "days": 3652,
-      "runtimeMs": 93544,
+      "runtimeMs": 20852,
       "employees": 1000,
       "employeeEntities": 1000,
       "customers": 155,

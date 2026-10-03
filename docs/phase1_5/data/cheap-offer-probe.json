@@ -1,0 +1,939 @@
+{
+  "label": "pathological legal-input sensitivity; not recommended strategy or human session",
+  "rows": [
+    {
+      "seed": "benchmark-001",
+      "cashNTD": 2603228.66,
+      "runway": null,
+      "employees": 6,
+      "customers": 47,
+      "mrrNTD": 301992,
+      "payrollNTD": 25005,
+      "revenueNTD": 3858927.98,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 90,
+      "resignationLeadDays": [
+        92,
+        99,
+        127,
+        162,
+        267,
+        92
+      ],
+      "customerChurn": 19,
+      "resignations": 6,
+      "milestones": 4,
+      "launchTick": 37,
+      "observableHealth": {
+        "狀態穩定": 0.16666666666666666,
+        "有所顧慮": 0,
+        "承受壓力": 0.16666666666666666,
+        "需要休息": 0.6666666666666666
+      },
+      "majorWarnings": 49,
+      "majorEvents": 30,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 9,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "ProductPriorityChanged": 1,
+        "CustomerAcquired": 66,
+        "RunwayWarning": 5,
+        "EmployeeConcernRaised": 44,
+        "EmployeeResigned": 6,
+        "CustomerChurned": 19
+      },
+      "eventCount": 205,
+      "quietGapDays": 285,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 10,
+        "privateSearchCount": 17
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-39",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-41",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-44",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-47",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-55",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-78",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-002",
+      "cashNTD": 2560653.98,
+      "runway": null,
+      "employees": 6,
+      "customers": 50,
+      "mrrNTD": 291223,
+      "payrollNTD": 25005,
+      "revenueNTD": 3733587.19,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 90,
+      "resignationLeadDays": [
+        92,
+        162,
+        351,
+        92
+      ],
+      "customerChurn": 13,
+      "resignations": 4,
+      "milestones": 4,
+      "launchTick": 38,
+      "observableHealth": {
+        "狀態穩定": 0.16666666666666666,
+        "有所顧慮": 0,
+        "承受壓力": 0.16666666666666666,
+        "需要休息": 0.6666666666666666
+      },
+      "majorWarnings": 64,
+      "majorEvents": 22,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 7,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 63,
+        "ProductPriorityChanged": 1,
+        "RunwayWarning": 1,
+        "CustomerChurned": 13,
+        "EmployeeConcernRaised": 63,
+        "EmployeeResigned": 4
+      },
+      "eventCount": 207,
+      "quietGapDays": 161,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 8,
+        "privateSearchCount": 42
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-35",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-39",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-57",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-66",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-003",
+      "cashNTD": 2091294.48,
+      "runway": null,
+      "employees": 6,
+      "customers": 50,
+      "mrrNTD": 286429,
+      "payrollNTD": 25005,
+      "revenueNTD": 3370092.33,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 181,
+      "resignationLeadDays": [
+        113,
+        106,
+        225,
+        246,
+        288
+      ],
+      "customerChurn": 11,
+      "resignations": 5,
+      "milestones": 4,
+      "launchTick": 36,
+      "observableHealth": {
+        "狀態穩定": 0,
+        "有所顧慮": 0,
+        "承受壓力": 0.3333333333333333,
+        "需要休息": 0.6666666666666666
+      },
+      "majorWarnings": 47,
+      "majorEvents": 21,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 8,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 61,
+        "ProductPriorityChanged": 1,
+        "CustomerChurned": 11,
+        "RunwayWarning": 2,
+        "EmployeeConcernRaised": 45,
+        "EmployeeResigned": 5
+      },
+      "eventCount": 188,
+      "quietGapDays": 112,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 9,
+        "privateSearchCount": 21
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-39",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-40",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-43",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-45",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-53",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-004",
+      "cashNTD": 2076583.57,
+      "runway": null,
+      "employees": 4,
+      "customers": 51,
+      "mrrNTD": 267736,
+      "payrollNTD": 25003,
+      "revenueNTD": 3268959.23,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 90,
+      "resignationLeadDays": [
+        92,
+        120,
+        141,
+        176,
+        274,
+        113,
+        106,
+        92
+      ],
+      "customerChurn": 19,
+      "resignations": 8,
+      "milestones": 4,
+      "launchTick": 35,
+      "observableHealth": {
+        "狀態穩定": 0.25,
+        "有所顧慮": 0,
+        "承受壓力": 0.25,
+        "需要休息": 0.5
+      },
+      "majorWarnings": 47,
+      "majorEvents": 32,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 9,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 70,
+        "ProductPriorityChanged": 1,
+        "RunwayWarning": 2,
+        "CustomerChurned": 19,
+        "EmployeeConcernRaised": 45,
+        "EmployeeResigned": 8
+      },
+      "eventCount": 209,
+      "quietGapDays": 133,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 10,
+        "privateSearchCount": 18
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-43",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-45",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-47",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-50",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-63",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-82",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-005",
+      "cashNTD": 2500265.38,
+      "runway": null,
+      "employees": 6,
+      "customers": 53,
+      "mrrNTD": 304752,
+      "payrollNTD": 25005,
+      "revenueNTD": 3675843.48,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": null,
+      "resignationLeadDays": [
+        113,
+        148,
+        141,
+        232,
+        113
+      ],
+      "customerChurn": 19,
+      "resignations": 5,
+      "milestones": 4,
+      "launchTick": 34,
+      "observableHealth": {
+        "狀態穩定": 0.16666666666666666,
+        "有所顧慮": 0,
+        "承受壓力": 0.16666666666666666,
+        "需要休息": 0.6666666666666666
+      },
+      "majorWarnings": 54,
+      "majorEvents": 29,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 8,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 72,
+        "ProductPriorityChanged": 1,
+        "CustomerChurned": 19,
+        "EmployeeConcernRaised": 54,
+        "EmployeeResigned": 5
+      },
+      "eventCount": 214,
+      "quietGapDays": 133,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 9,
+        "privateSearchCount": 29
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-39",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-42",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-47",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-56",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-83",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-006",
+      "cashNTD": 2306148.27,
+      "runway": null,
+      "employees": 6,
+      "customers": 50,
+      "mrrNTD": 281966,
+      "payrollNTD": 25005,
+      "revenueNTD": 3532778.79,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 90,
+      "resignationLeadDays": [
+        106,
+        127,
+        169,
+        176,
+        239
+      ],
+      "customerChurn": 17,
+      "resignations": 5,
+      "milestones": 4,
+      "launchTick": 36,
+      "observableHealth": {
+        "狀態穩定": 0,
+        "有所顧慮": 0,
+        "承受壓力": 0.16666666666666666,
+        "需要休息": 0.8333333333333334
+      },
+      "majorWarnings": 47,
+      "majorEvents": 27,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 8,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 67,
+        "ProductPriorityChanged": 1,
+        "RunwayWarning": 6,
+        "CustomerChurned": 17,
+        "EmployeeConcernRaised": 41,
+        "EmployeeResigned": 5
+      },
+      "eventCount": 200,
+      "quietGapDays": 118,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 10,
+        "privateSearchCount": 15
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-45",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-48",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-51",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-53",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-57",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-007",
+      "cashNTD": 2197829.49,
+      "runway": null,
+      "employees": 6,
+      "customers": 47,
+      "mrrNTD": 308812,
+      "payrollNTD": 25005,
+      "revenueNTD": 3371144.86,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 59,
+      "resignationLeadDays": [
+        120,
+        141,
+        204,
+        288,
+        484
+      ],
+      "customerChurn": 17,
+      "resignations": 5,
+      "milestones": 4,
+      "launchTick": 36,
+      "observableHealth": {
+        "狀態穩定": 0.16666666666666666,
+        "有所顧慮": 0,
+        "承受壓力": 0.16666666666666666,
+        "需要休息": 0.6666666666666666
+      },
+      "majorWarnings": 57,
+      "majorEvents": 27,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 8,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "ProductPriorityChanged": 1,
+        "CustomerAcquired": 64,
+        "RunwayWarning": 6,
+        "CustomerChurned": 17,
+        "EmployeeConcernRaised": 51,
+        "EmployeeResigned": 5
+      },
+      "eventCount": 207,
+      "quietGapDays": 90,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 9,
+        "privateSearchCount": 29
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-42",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-44",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-46",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-53",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-75",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-008",
+      "cashNTD": -20422.58,
+      "runway": 0,
+      "employees": 6,
+      "customers": 17,
+      "mrrNTD": 73248,
+      "payrollNTD": 95003,
+      "revenueNTD": 214597.07,
+      "bankrupt": true,
+      "bankruptcyTick": 212,
+      "firstMonthlyWarning": 90,
+      "resignationLeadDays": [],
+      "customerChurn": 3,
+      "resignations": 0,
+      "milestones": 4,
+      "launchTick": 37,
+      "observableHealth": {
+        "狀態穩定": 0,
+        "有所顧慮": 0,
+        "承受壓力": 1,
+        "需要休息": 0
+      },
+      "majorWarnings": 4,
+      "majorEvents": 9,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 3,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 7,
+        "FinancialClose": 7,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 20,
+        "ProductPriorityChanged": 1,
+        "RunwayWarning": 4,
+        "CustomerChurned": 3,
+        "CompanyBankrupt": 1
+      },
+      "eventCount": 53,
+      "quietGapDays": 96,
+      "failureFactors": [
+        "insufficient recurring revenue",
+        "salary burden",
+        "hiring exposure (association, not isolated causation)",
+        "customer revenue loss"
+      ],
+      "diagnostic": {
+        "burnoutCount": 0,
+        "privateSearchCount": 0
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-009",
+      "cashNTD": 2728549.85,
+      "runway": null,
+      "employees": 6,
+      "customers": 52,
+      "mrrNTD": 324245,
+      "payrollNTD": 25005,
+      "revenueNTD": 3972095.15,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 59,
+      "resignationLeadDays": [
+        141,
+        162,
+        190,
+        176
+      ],
+      "customerChurn": 16,
+      "resignations": 4,
+      "milestones": 4,
+      "launchTick": 39,
+      "observableHealth": {
+        "狀態穩定": 0,
+        "有所顧慮": 0,
+        "承受壓力": 0,
+        "需要休息": 1
+      },
+      "majorWarnings": 59,
+      "majorEvents": 25,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 7,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 68,
+        "ProductPriorityChanged": 1,
+        "RunwayWarning": 7,
+        "CustomerChurned": 16,
+        "EmployeeConcernRaised": 52,
+        "EmployeeResigned": 4
+      },
+      "eventCount": 210,
+      "quietGapDays": 161,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 10,
+        "privateSearchCount": 26
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-42",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-45",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-47",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-49",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    },
+    {
+      "seed": "benchmark-010",
+      "cashNTD": 3347878.12,
+      "runway": null,
+      "employees": 6,
+      "customers": 57,
+      "mrrNTD": 368726,
+      "payrollNTD": 25005,
+      "revenueNTD": 4720252.01,
+      "bankrupt": false,
+      "bankruptcyTick": null,
+      "firstMonthlyWarning": 151,
+      "resignationLeadDays": [
+        134,
+        106,
+        190,
+        253,
+        260
+      ],
+      "customerChurn": 16,
+      "resignations": 5,
+      "milestones": 4,
+      "launchTick": 37,
+      "observableHealth": {
+        "狀態穩定": 0,
+        "有所顧慮": 0,
+        "承受壓力": 0.3333333333333333,
+        "需要休息": 0.6666666666666666
+      },
+      "majorWarnings": 49,
+      "majorEvents": 26,
+      "eventCounts": {
+        "CompanyCreated": 1,
+        "StrategyChanged": 1,
+        "EmployeeHired": 8,
+        "ProductMilestoneReached": 4,
+        "PayrollProcessed": 24,
+        "FinancialClose": 24,
+        "ProductLaunched": 1,
+        "CustomerAcquired": 73,
+        "ProductPriorityChanged": 1,
+        "CustomerChurned": 16,
+        "RunwayWarning": 1,
+        "EmployeeConcernRaised": 48,
+        "EmployeeResigned": 5
+      },
+      "eventCount": 207,
+      "quietGapDays": 147,
+      "failureFactors": [],
+      "diagnostic": {
+        "burnoutCount": 9,
+        "privateSearchCount": 23
+      },
+      "diagnosticOnlyNewHireOffers": [
+        {
+          "id": "employee-4",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-5",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-6",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-43",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-46",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-52",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-61",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        },
+        {
+          "id": "employee-63",
+          "salaryNTD": 1,
+          "expectedSalaryNTD": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1148 @@
+{
+  "manifest": {
+    "schemaVersion": 1,
+    "appVersion": "0.1.0",
+    "seed": "benchmark-002",
+    "tick": 1826,
+    "date": "2031-01-01",
+    "stateHash": "c4858abc9bc4b429155f51330681a7760ae73f7f1620958e6afe0aed753cd64b"
+  },
+  "world": {
+    "meta": {
+      "simulationVersion": 1,
+      "seed": "benchmark-002",
+      "tick": 1826,
+      "date": "2031-01-01",
+      "startDate": "2026-01-01",
+      "nextEntity": 14,
+      "nextEvent": 28,
+      "nextCommand": 15,
+      "config": {
+        "seed": "benchmark-002",
+        "name": "Garage Startup",
+        "scenario": "garage",
+        "employeeCount": 3,
+        "initialCash": 50000000
+      }
+    },
+    "company": {
+      "id": "company-1",
+      "name": "Garage Startup",
+      "cash": -5214256,
+      "debt": 0,
+      "strategy": "growth",
+      "workload": 1.4,
+      "reputation": 45,
+      "bankrupt": true,
+      "monthlyOperatingCost": 1000000,
+      "strategyEventId": "event-2"
+    },
+    "employees": {
+      "employee-1": {
+        "id": "employee-1",
+        "name": "Alice Chen",
+        "role": "CEO",
+        "status": "active",
+        "hiredAt": 0,
+        "leftAt": null,
+        "salary": 2500000,
+        "salaryHistory": [
+          {
+            "tick": 0,
+            "salary": 2500000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": null,
+        "skills": {
+          "engineering": 36,
+          "product": 17,
+          "sales": 65,
+          "marketing": 17,
+          "leadership": 80,
+          "operations": 43
+        },
+        "personality": {
+          "ambition": 51,
+          "riskTolerance": 25,
+          "sociability": 34,
+          "loyalty": 44
+        },
+        "psychology": {
+          "stress": 64.5,
+          "satisfaction": 67.641,
+          "loyalty": 80.395,
+          "burnout": 0,
+          "confidence": 77.966,
+          "companyTrust": 73.8,
+          "managerTrust": 74.911,
+          "exitIntent": 0
+        },
+        "expectations": {
+          "salary": 2500000,
+          "careerGrowth": 71
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [],
+        "performance": 81.7,
+        "workTotal": 75.34,
+        "exitStage": "settled",
+        "lastConcernAt": 0,
+        "lastManagementEvent": null
+      },
+      "employee-2": {
+        "id": "employee-2",
+        "name": "Bob Lin",
+        "role": "CTO",
+        "status": "active",
+        "hiredAt": 0,
+        "leftAt": null,
+        "salary": 4000000,
+        "salaryHistory": [
+          {
+            "tick": 0,
+            "salary": 4000000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": "employee-1",
+        "skills": {
+          "engineering": 71,
+          "product": 35,
+          "sales": 28,
+          "marketing": 25,
+          "leadership": 34,
+          "operations": 21
+        },
+        "personality": {
+          "ambition": 83,
+          "riskTolerance": 44,
+          "sociability": 55,
+          "loyalty": 49
+        },
+        "psychology": {
+          "stress": 64.5,
+          "satisfaction": 67.641,
+          "loyalty": 80.395,
+          "burnout": 0,
+          "confidence": 72.414,
+          "companyTrust": 73.8,
+          "managerTrust": 74.911,
+          "exitIntent": 0
+        },
+        "expectations": {
+          "salary": 4000000,
+          "careerGrowth": 39
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [],
+        "performance": 72.5,
+        "workTotal": 66.865,
+        "exitStage": "settled",
+        "lastConcernAt": 0,
+        "lastManagementEvent": null
+      },
+      "employee-3": {
+        "id": "employee-3",
+        "name": "Carol Wu",
+        "role": "Engineer",
+        "status": "active",
+        "hiredAt": 0,
+        "leftAt": null,
+        "salary": 3000000,
+        "salaryHistory": [
+          {
+            "tick": 0,
+            "salary": 3000000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": "employee-1",
+        "skills": {
+          "engineering": 68,
+          "product": 44,
+          "sales": 45,
+          "marketing": 24,
+          "leadership": 35,
+          "operations": 26
+        },
+        "personality": {
+          "ambition": 57,
+          "riskTolerance": 55,
+          "sociability": 69,
+          "loyalty": 73
+        },
+        "psychology": {
+          "stress": 64.5,
+          "satisfaction": 67.641,
+          "loyalty": 80.395,
+          "burnout": 0,
+          "confidence": 70.565,
+          "companyTrust": 73.8,
+          "managerTrust": 74.911,
+          "exitIntent": 0
+        },
+        "expectations": {
+          "salary": 3000000,
+          "careerGrowth": 42
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [],
+        "performance": 69.5,
+        "workTotal": 64.039,
+        "exitStage": "settled",
+        "lastConcernAt": 0,
+        "lastManagementEvent": null
+      },
+      "employee-4": {
+        "id": "employee-4",
+        "name": "Policy hire 0",
+        "role": "Engineer",
+        "status": "active",
+        "hiredAt": 0,
+        "leftAt": null,
+        "salary": 3500000,
+        "salaryHistory": [
+          {
+            "tick": 0,
+            "salary": 3500000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": "employee-1",
+        "skills": {
+          "engineering": 68,
+          "product": 37,
+          "sales": 25,
+          "marketing": 28,
+          "leadership": 28,
+          "operations": 18
+        },
+        "personality": {
+          "ambition": 63,
+          "riskTolerance": 44,
+          "sociability": 67,
+          "loyalty": 59
+        },
+        "psychology": {
+          "stress": 64.5,
+          "satisfaction": 67.851,
+          "loyalty": 80.497,
+          "burnout": 0,
+          "confidence": 70.618,
+          "companyTrust": 73.888,
+          "managerTrust": 74.921,
+          "exitIntent": 0
+        },
+        "expectations": {
+          "salary": 3500000,
+          "careerGrowth": 39
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [
+          {
+            "id": "memory-event-3-employee-4",
+            "tick": 0,
+            "type": "EmployeeHired",
+            "eventId": "event-3",
+            "importance": 60,
+            "sentiment": 30,
+            "decayRate": 0.02
+          }
+        ],
+        "performance": 69.5,
+        "workTotal": 64.122,
+        "exitStage": "settled",
+        "lastConcernAt": 0,
+        "lastManagementEvent": null
+      },
+      "employee-5": {
+        "id": "employee-5",
+        "name": "Policy hire 14",
+        "role": "Engineer",
+        "status": "active",
+        "hiredAt": 14,
+        "leftAt": null,
+        "salary": 3500000,
+        "salaryHistory": [
+          {
+            "tick": 14,
+            "salary": 3500000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": "employee-1",
+        "skills": {
+          "engineering": 75,
+          "product": 39,
+          "sales": 33,
+          "marketing": 24,
+          "leadership": 37,
+          "operations": 36
+        },
+        "personality": {
+          "ambition": 37,
+          "riskTolerance": 53,
+          "sociability": 60,
+          "loyalty": 75
+        },
+        "psychology": {
+          "stress": 56.8,
+          "satisfaction": 69.46,
+          "loyalty": 79.895,
+          "burnout": 0,
+          "confidence": 74.623,
+          "companyTrust": 74.272,
+          "managerTrust": 74.957,
+          "exitIntent": 0
+        },
+        "expectations": {
+          "salary": 3500000,
+          "careerGrowth": 77
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [
+          {
+            "id": "memory-event-5-employee-5",
+            "tick": 14,
+            "type": "EmployeeHired",
+            "eventId": "event-5",
+            "importance": 60,
+            "sentiment": 30,
+            "decayRate": 0.02
+          }
+        ],
+        "performance": 77.4,
+        "workTotal": 59.943,
+        "exitStage": "settled",
+        "lastConcernAt": 14,
+        "lastManagementEvent": null
+      },
+      "employee-6": {
+        "id": "employee-6",
+        "name": "Policy hire 28",
+        "role": "Engineer",
+        "status": "active",
+        "hiredAt": 28,
+        "leftAt": null,
+        "salary": 3500000,
+        "salaryHistory": [
+          {
+            "tick": 28,
+            "salary": 3500000
+          }
+        ],
+        "teamId": "team-1",
+        "managerId": "employee-1",
+        "skills": {
+          "engineering": 82,
+          "product": 38,
+          "sales": 44,
+          "marketing": 40,
+          "leadership": 23,
+          "operations": 16
+        },
+        "personality": {
+          "ambition": 61,
+          "riskTolerance": 39,
+          "sociability": 31,
+          "loyalty": 63
+        },
+        "psychology": {
+          "stress": 49.1,
+          "satisfaction": 70.981,
+          "loyalty": 79.183,
+          "burnout": 0,
+          "confidence": 77.533,
+          "companyTrust": 74.57,
+          "managerTrust": 74.981,
+          "exitIntent": 0
+        },
+        "expectations": {
+          "salary": 3500000,
+          "careerGrowth": 78
+        },
+        "goals": [
+          "craft",
+          "stability"
+        ],
+        "memories": [
+          {
+            "id": "memory-event-7-employee-6",
+            "tick": 28,
+            "type": "EmployeeHired",
+            "eventId": "event-7",
+            "importance": 60,
+            "sentiment": 30,
+            "decayRate": 0.02
+          }
+        ],
+        "performance": 85.3,
+        "workTotal": 53.642,
+        "exitStage": "settled",
+        "lastConcernAt": 28,
+        "lastManagementEvent": null
+      }
+    },
+    "teams": {
+      "team-1": {
+        "id": "team-1",
+        "name": "創始團隊",
+        "managerId": "employee-1"
+      }
+    },
+    "products": {
+      "product-1": {
+        "id": "product-1",
+        "name": "Atlas",
+        "progress": 100,
+        "quality": 73.666,
+        "technicalDebt": 6.788,
+        "priority": "quality",
+        "launchedAt": 38,
+        "lastMilestone": 4
+      }
+    },
+    "customers": {
+      "customer-7": {
+        "id": "customer-7",
+        "name": "客戶 7",
+        "segment": "small-business",
+        "mrr": 594600,
+        "satisfaction": 82.449,
+        "status": "active",
+        "acquiredAt": 42,
+        "churnedAt": null
+      },
+      "customer-8": {
+        "id": "customer-8",
+        "name": "客戶 8",
+        "segment": "small-business",
+        "mrr": 459600,
+        "satisfaction": 83.271,
+        "status": "active",
+        "acquiredAt": 49,
+        "churnedAt": null
+      },
+      "customer-9": {
+        "id": "customer-9",
+        "name": "客戶 9",
+        "segment": "small-business",
+        "mrr": 297800,
+        "satisfaction": 84.278,
+        "status": "active",
+        "acquiredAt": 56,
+        "churnedAt": null
+      },
+      "customer-10": {
+        "id": "customer-10",
+        "name": "客戶 10",
+        "segment": "small-business",
+        "mrr": 648700,
+        "satisfaction": 85.528,
+        "status": "active",
+        "acquiredAt": 63,
+        "churnedAt": null
+      },
+      "customer-11": {
+        "id": "customer-11",
+        "name": "客戶 11",
+        "segment": "small-business",
+        "mrr": 514700,
+        "satisfaction": 87.059,
+        "status": "active",
+        "acquiredAt": 70,
+        "churnedAt": null
+      },
+      "customer-12": {
+        "id": "customer-12",
+        "name": "客戶 12",
+        "segment": "small-business",
+        "mrr": 378400,
+        "satisfaction": 88.936,
+        "status": "active",
+        "acquiredAt": 77,
+        "churnedAt": null
+      },
+      "customer-13": {
+        "id": "customer-13",
+        "name": "客戶 13",
+        "segment": "small-business",
+        "mrr": 408200,
+        "satisfaction": 91.256,
+        "status": "active",
+        "acquiredAt": 84,
+        "churnedAt": null
+      }
+    },
+    "relationships": {
+      "employee-1>employee-2": {
+        "id": "employee-1>employee-2",
+        "sourceId": "employee-1",
+        "targetId": "employee-2",
+        "trust": 67.823,
+        "respect": 66.992,
+        "affinity": 61.734,
+        "rivalry": 4.616,
+        "resentment": 0
+      },
+      "employee-2>employee-3": {
+        "id": "employee-2>employee-3",
+        "sourceId": "employee-2",
+        "targetId": "employee-3",
+        "trust": 67.823,
+        "respect": 66.315,
+        "affinity": 61.734,
+        "rivalry": 5.312,
+        "resentment": 0
+      },
+      "employee-3>employee-1": {
+        "id": "employee-3>employee-1",
+        "sourceId": "employee-3",
+        "targetId": "employee-1",
+        "trust": 67.823,
+        "respect": 69.016,
+        "affinity": 61.734,
+        "rivalry": 5.072,
+        "resentment": 0
+      },
+      "employee-4>employee-1": {
+        "id": "employee-4>employee-1",
+        "sourceId": "employee-4",
+        "targetId": "employee-1",
+        "trust": 57.823,
+        "respect": 61.17,
+        "affinity": 46.734,
+        "rivalry": 5.144,
+        "resentment": 0
+      },
+      "employee-1>employee-4": {
+        "id": "employee-1>employee-4",
+        "sourceId": "employee-1",
+        "targetId": "employee-4",
+        "trust": 57.823,
+        "respect": 58.486,
+        "affinity": 46.734,
+        "rivalry": 4.856,
+        "resentment": 0
+      },
+      "employee-5>employee-1": {
+        "id": "employee-5>employee-1",
+        "sourceId": "employee-5",
+        "targetId": "employee-1",
+        "trust": 57.472,
+        "respect": 60.201,
+        "affinity": 46.49,
+        "rivalry": 4.86,
+        "resentment": 0
+      },
+      "employee-1>employee-5": {
+        "id": "employee-1>employee-5",
+        "sourceId": "employee-1",
+        "targetId": "employee-5",
+        "trust": 57.323,
+        "respect": 59.364,
+        "affinity": 46.433,
+        "rivalry": 5.14,
+        "resentment": 0
+      },
+      "employee-6>employee-1": {
+        "id": "employee-6>employee-1",
+        "sourceId": "employee-6",
+        "targetId": "employee-1",
+        "trust": 57,
+        "respect": 59.203,
+        "affinity": 46.2,
+        "rivalry": 5.08,
+        "resentment": 0
+      },
+      "employee-1>employee-6": {
+        "id": "employee-1>employee-6",
+        "sourceId": "employee-1",
+        "targetId": "employee-6",
+        "trust": 56.823,
+        "respect": 59.703,
+        "affinity": 46.134,
+        "rivalry": 4.92,
+        "resentment": 0
+      }
+    },
+    "market": {
+      "demand": 62.61
+    },
+    "finance": {
+      "history": [
+        {
+          "month": "2026-01",
+          "revenue": 0,
+          "payroll": 15258065,
+          "operatingCost": 1000000,
+          "cash": 33741935
+        },
+        {
+          "month": "2026-02",
+          "revenue": 557057,
+          "payroll": 20000000,
+          "operatingCost": 1000000,
+          "cash": 13298992
+        },
+        {
+          "month": "2026-03",
+          "revenue": 2486752,
+          "payroll": 20000000,
+          "operatingCost": 1000000,
+          "cash": -5214256
+        }
+      ]
+    },
+    "events": [
+      {
+        "id": "event-1",
+        "tick": 0,
+        "date": "2026-01-01",
+        "type": "CompanyCreated",
+        "payload": {
+          "name": "Garage Startup"
+        },
+        "causedBy": "command-1",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-2",
+        "tick": 0,
+        "date": "2026-01-01",
+        "type": "StrategyChanged",
+        "payload": {
+          "strategy": "growth",
+          "workload": 1.4
+        },
+        "causedBy": "command-2",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-3",
+        "tick": 0,
+        "date": "2026-01-01",
+        "type": "EmployeeHired",
+        "payload": {
+          "employeeId": "employee-4",
+          "name": "Policy hire 0",
+          "role": "Engineer",
+          "salary": 3500000
+        },
+        "causedBy": "command-3",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-4",
+        "tick": 12,
+        "date": "2026-01-13",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 25
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-5",
+        "tick": 14,
+        "date": "2026-01-15",
+        "type": "EmployeeHired",
+        "payload": {
+          "employeeId": "employee-5",
+          "name": "Policy hire 14",
+          "role": "Engineer",
+          "salary": 3500000
+        },
+        "causedBy": "command-5",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-6",
+        "tick": 22,
+        "date": "2026-01-23",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 50
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-7",
+        "tick": 28,
+        "date": "2026-01-29",
+        "type": "EmployeeHired",
+        "payload": {
+          "employeeId": "employee-6",
+          "name": "Policy hire 28",
+          "role": "Engineer",
+          "salary": 3500000
+        },
+        "causedBy": "command-7",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-8",
+        "tick": 31,
+        "date": "2026-02-01",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 75
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-9",
+        "tick": 31,
+        "date": "2026-02-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-01",
+          "payroll": 15258065
+        },
+        "causedBy": "command-8",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-10",
+        "tick": 31,
+        "date": "2026-02-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-01",
+          "revenue": 0,
+          "payroll": 15258065,
+          "operatingCost": 1000000,
+          "cash": 33741935
+        },
+        "causedBy": "event-9",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-11",
+        "tick": 31,
+        "date": "2026-02-01",
+        "type": "RunwayWarning",
+        "payload": {
+          "months": 1.607
+        },
+        "causedBy": "event-9",
+        "causes": [],
+        "visibility": "management"
+      },
+      {
+        "id": "event-12",
+        "tick": 38,
+        "date": "2026-02-08",
+        "type": "ProductMilestoneReached",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas",
+          "progress": 100
+        },
+        "causedBy": null,
+        "causes": [
+          {
+            "factor": "team-work",
+            "weight": 1,
+            "eventId": "event-2"
+          }
+        ],
+        "visibility": "public"
+      },
+      {
+        "id": "event-13",
+        "tick": 38,
+        "date": "2026-02-08",
+        "type": "ProductLaunched",
+        "payload": {
+          "productId": "product-1",
+          "name": "Atlas"
+        },
+        "causedBy": "event-12",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-14",
+        "tick": 42,
+        "date": "2026-02-12",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-7",
+          "name": "客戶 7",
+          "mrr": 594600
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-15",
+        "tick": 42,
+        "date": "2026-02-12",
+        "type": "ProductPriorityChanged",
+        "payload": {
+          "productId": "product-1",
+          "priority": "quality"
+        },
+        "causedBy": "command-9",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-16",
+        "tick": 49,
+        "date": "2026-02-19",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-8",
+          "name": "客戶 8",
+          "mrr": 459600
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-17",
+        "tick": 56,
+        "date": "2026-02-26",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-9",
+          "name": "客戶 9",
+          "mrr": 297800
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-18",
+        "tick": 59,
+        "date": "2026-03-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-02",
+          "payroll": 20000000
+        },
+        "causedBy": "command-11",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-19",
+        "tick": 59,
+        "date": "2026-03-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-02",
+          "revenue": 557057,
+          "payroll": 20000000,
+          "operatingCost": 1000000,
+          "cash": 13298992
+        },
+        "causedBy": "event-18",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-20",
+        "tick": 59,
+        "date": "2026-03-01",
+        "type": "RunwayWarning",
+        "payload": {
+          "months": 0.677
+        },
+        "causedBy": "event-18",
+        "causes": [],
+        "visibility": "management"
+      },
+      {
+        "id": "event-21",
+        "tick": 63,
+        "date": "2026-03-05",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-10",
+          "name": "客戶 10",
+          "mrr": 648700
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-22",
+        "tick": 70,
+        "date": "2026-03-12",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-11",
+          "name": "客戶 11",
+          "mrr": 514700
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-23",
+        "tick": 77,
+        "date": "2026-03-19",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-12",
+          "name": "客戶 12",
+          "mrr": 378400
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-24",
+        "tick": 84,
+        "date": "2026-03-26",
+        "type": "CustomerAcquired",
+        "payload": {
+          "customerId": "customer-13",
+          "name": "客戶 13",
+          "mrr": 408200
+        },
+        "causedBy": "event-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-25",
+        "tick": 90,
+        "date": "2026-04-01",
+        "type": "PayrollProcessed",
+        "payload": {
+          "month": "2026-03",
+          "payroll": 20000000
+        },
+        "causedBy": "command-13",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-26",
+        "tick": 90,
+        "date": "2026-04-01",
+        "type": "FinancialClose",
+        "payload": {
+          "month": "2026-03",
+          "revenue": 2486752,
+          "payroll": 20000000,
+          "operatingCost": 1000000,
+          "cash": -5214256
+        },
+        "causedBy": "event-25",
+        "causes": [],
+        "visibility": "public"
+      },
+      {
+        "id": "event-27",
+        "tick": 90,
+        "date": "2026-04-01",
+        "type": "CompanyBankrupt",
+        "payload": {
+          "cash": -5214256
+        },
+        "causedBy": "event-26",
+        "causes": [
+          {
+            "factor": "cash-exhausted",
+            "weight": 1,
+            "eventId": "event-25"
+          }
+        ],
+        "visibility": "public"
+      }
+    ],
+    "commands": [
+      {
+        "id": "command-1",
+        "tick": 0,
+        "command": {
+          "type": "CreateCompany",
+          "config": {
+            "seed": "benchmark-002",
+            "name": "Garage Startup",
+            "scenario": "garage",
+            "employeeCount": 3,
+            "initialCash": 50000000
+          }
+        }
+      },
+      {
+        "id": "command-2",
+        "tick": 0,
+        "command": {
+          "type": "ChangeCompanyStrategy",
+          "strategy": "growth"
+        }
+      },
+      {
+        "id": "command-3",
+        "tick": 0,
+        "command": {
+          "type": "HireEmployee",
+          "name": "Policy hire 0",
+          "role": "Engineer",
+          "salary": 3500000,
+          "teamId": "team-1"
+        }
+      },
+      {
+        "id": "command-4",
+        "tick": 0,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-5",
+        "tick": 14,
+        "command": {
+          "type": "HireEmployee",
+          "name": "Policy hire 14",
+          "role": "Engineer",
+          "salary": 3500000,
+          "teamId": "team-1"
+        }
+      },
+      {
+        "id": "command-6",
+        "tick": 14,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-7",
+        "tick": 28,
+        "command": {
+          "type": "HireEmployee",
+          "name": "Policy hire 28",
+          "role": "Engineer",
+          "salary": 3500000,
+          "teamId": "team-1"
+        }
+      },
+      {
+        "id": "command-8",
+        "tick": 28,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-9",
+        "tick": 42,
+        "command": {
+          "type": "ChangeProductPriority",
+          "priority": "quality"
+        }
+      },
+      {
+        "id": "command-10",
+        "tick": 42,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-11",
+        "tick": 56,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-12",
+        "tick": 70,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 14
+        }
+      },
+      {
+        "id": "command-13",
+        "tick": 84,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 6
+        }
+      },
+      {
+        "id": "command-14",
+        "tick": 90,
+        "command": {
+          "type": "AdvanceTime",
+          "days": 1736
+        }
+      }
+    ]
+  }
+}

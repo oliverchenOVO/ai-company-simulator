@@ -1,0 +1,46 @@
+{
+  "operator": "Codex through real browser controls; not human participant research",
+  "style": "aggressive",
+  "seed": "benchmark-001",
+  "startingCashNTD": 500000,
+  "startingEmployees": 3,
+  "notes": [
+    {
+      "decision": "strategy",
+      "value": "growth"
+    },
+    {
+      "decision": "hire",
+      "name": "Growth Engineer",
+      "salary": 35000
+    },
+    {
+      "decision": "hire",
+      "name": "Second Engineer",
+      "salary": 35000
+    },
+    {
+      "tick": 28,
+      "visible": "公司總覽\n\n下一個篇章，從你的團隊開始。\n\n現金\nNT$500,000\n跑道 2.9 個月（估計）\n月合約收入\nNT$0\n0 位訂閱客戶\n每月淨支出\nNT$175,000\n薪資、營運成本減去合約收入\n團隊\n5 人\n一起打造下一步\n產品開發\n查看產品\nAtlas\n\n為團隊打造的 AI 工作空間。\n\n80%\n原型開發中\n團隊（5）\n管理人員\n姓名\t職務\t近況\n\nAC\nAlice Chen\n\t創辦人 / CEO\n創始團隊\n\t\n狀態穩定\n\nBL\nBob Lin\n\t技術長\n創始團隊\n\t\n狀態穩定\n\nCW\nCarol Wu\n\t工程師\n創始團隊\n\t\n狀態穩定\n\nGE\nGrowth Engineer\n\t工程師\n創始團隊\n\t\n狀態穩定\n\nSE\nSecond Engineer\n\t工程師\n創始團隊\n\t\n狀態穩定\n公司脈動\n留意現金跑道\n\n目前預估跑道少於三個月，請檢視支出。\n\n營收尚未開始\n\n設定產品優先順序，同時留意現金跑道。\n\n近期動態\n時間軸\nAtlas 達成開發里程碑\n2026-01-28\n\n產品完成度達到 75%。\n\nAtlas 達成開發里程碑\n2026-01-19\n\n產品完成度達到 50%。\n\nAtlas 達成開發里程碑\n2026-01-10\n\n產品完成度達到 25%。\n\nSecond Engineer 加入團隊\n2026-01-01\n\n新夥伴已到職，月薪為 NT$35,000。"
+    },
+    {
+      "tick": 56,
+      "visible": "公司總覽\n\n下一個篇章，從你的團隊開始。\n\n現金\nNT$325,000\n跑道 2.0 個月（估計）\n月合約收入\nNT$10,365\n2 位訂閱客戶\n每月淨支出\nNT$164,635\n薪資、營運成本減去合約收入\n團隊\n5 人\n一起打造下一步\n產品開發\n查看產品\nAtlas\n\n為團隊打造的 AI 工作空間。\n\n100%\n已上市 · 持續改善產品\n團隊（5）\n管理人員\n姓名\t職務\t近況\n\nAC\nAlice Chen\n\t創辦人 / CEO\n創始團隊\n\t\n狀態穩定\n\nBL\nBob Lin\n\t技術長\n創始團隊\n\t\n狀態穩定\n\nCW\nCarol Wu\n\t工程師\n創始團隊\n\t\n狀態穩定\n\nGE\nGrowth Engineer\n\t工程師\n創始團隊\n\t\n狀態穩定\n\nSE\nSecond Engineer\n\t工程師\n創始團隊\n\t\n狀態穩定\n公司脈動\n留意現金跑道\n\n目前預估跑道少於三個月，請檢視支出。\n\n近期動態\n時間軸\n客戶 7 成為客戶\n2026-02-26\n\n新增月合約收入 NT$5,491，本月收入依啟用天數結算。\n\n客戶 6 成為客戶\n2026-02-19\n\n新增月合約收入 NT$4,874，本月收入依啟用天數結算。\n\nAtlas 正式上市\n2026-02-06\n\n產品已進入市場，接下來的客戶拓展取決於團隊、市場需求與策略。\n\nAtlas 達成開發里程碑\n2026-02-06\n\n產品完成度達到 100%。"
+    },
+    {
+      "decision": "product quality"
+    },
+    {
+      "tick": 84,
+      "visible": "公司總覽\n\n下一個篇章，從你的團隊開始。\n\n現金\nNT$152,329\n跑道 1.0 個月（估計）\n月合約收入\nNT$28,905\n5 位訂閱客戶\n每月淨支出\nNT$146,095\n薪資、營運成本減去合約收入\n團隊\n5 人\n一起打造下一步\n產品開發\n查看產品\nAtlas\n\n為團隊打造的 AI 工作空間。\n\n100%\n已上市 · 持續改善產品\n團隊（5）\n管理人員\n姓名\t職務\t近況\n\nAC\nAlice Chen\n\t創辦人 / CEO\n創始團隊\n\t\n狀態穩定\n\nBL\nBob Lin\n\t技術長\n創始團隊\n\t\n狀態穩定\n\nCW\nCarol Wu\n\t工程師\n創始團隊\n\t\n狀態穩定\n\nGE\nGrowth Engineer\n\t工程師\n創始團隊\n\t\n狀態穩定\n\nSE\nSecond Engineer\n\t工程師\n創始團隊\n\t\n狀態穩定\n公司脈動\n留意現金跑道\n\n目前預估跑道少於三個月，請檢視支出。\n\n近期動態\n時間軸\n客戶 10 成為客戶\n2026-03-26\n\n新增月合約收入 NT$12,058，本月收入依啟用天數結算。\n\n客戶 9 成為客戶\n2026-03-19\n\n新增月合約收入 NT$3,176，本月收入依啟用天數結算。\n\n客戶 8 成為客戶\n2026-03-05\n\n新增月合約收入 NT$3,306，本月收入依啟用天數結算。\n\n現金跑道不足三個月\n2026-03-01\n\n依目前合約收入與支出估算，請檢視成本與營收策略。"
+    },
+    {
+      "result": {
+        "tick": 91,
+        "bankrupt": true,
+        "cashNTD": -5760.87
+      },
+      "errors": []
+    }
+  ]
+}
