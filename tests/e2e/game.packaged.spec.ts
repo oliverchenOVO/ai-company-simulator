@@ -9,7 +9,7 @@ test('packaged Windows executable accepts decisions and restores its SQLite data
   const env: Record<string, string> = {};
   for (const [key, value] of Object.entries(process.env)) if (value !== undefined) env[key] = value;
   env.FOUNDRY_USER_DATA = dir; delete env.ELECTRON_RUN_AS_NODE;
-  const executablePath = resolve('release/win-unpacked/Foundry Company Simulator.exe');
+  const executablePath = resolve(process.env.FOUNDRY_PACKAGED_EXECUTABLE ?? 'release/win-unpacked/Foundry Company Simulator.exe');
   let app = await electron.launch({ executablePath, args: [], env });
   try {
     const page = await app.firstWindow(); const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
@@ -30,7 +30,7 @@ test('packaged Windows loads released v3 then intervenes, restarts, continues an
   const env: Record<string, string> = {};
   for (const [key, value] of Object.entries(process.env)) if (value !== undefined) env[key] = value;
   env.FOUNDRY_USER_DATA = dir; delete env.ELECTRON_RUN_AS_NODE;
-  const executablePath = resolve('release/win-unpacked/Foundry Company Simulator.exe');
+  const executablePath = resolve(process.env.FOUNDRY_PACKAGED_EXECUTABLE ?? 'release/win-unpacked/Foundry Company Simulator.exe');
   let app = await electron.launch({ executablePath, args: [], env });
   try {
     expect(await app.evaluate(({ app }) => app.isPackaged)).toBe(true);
@@ -60,7 +60,7 @@ test('packaged Windows Living Office persists company then restarts and continue
   const env: Record<string, string> = {};
   for (const [key, value] of Object.entries(process.env)) if (value !== undefined) env[key] = value;
   env.FOUNDRY_USER_DATA = dir; delete env.ELECTRON_RUN_AS_NODE;
-  const executablePath = resolve('release/win-unpacked/Foundry Company Simulator.exe');
+  const executablePath = resolve(process.env.FOUNDRY_PACKAGED_EXECUTABLE ?? 'release/win-unpacked/Foundry Company Simulator.exe');
   let app = await electron.launch({ executablePath, args: [], env });
   const errors: string[] = [];
   try {

@@ -61,13 +61,16 @@ test('Living Office real concern / management / vacancy and reduced-motion mobil
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   await page.goto('/'); await createCompany(page);
   const { sim, employeeId } = controlledScenario('career-3', 'poor-manager'); sim.execute({ type: 'AdvanceTime', days: 182 }); await importWorld(page, sim);
-  await page.getByRole('button', { name: '關切', exact: true }).click(); await capture(page, 'concerns-desktop.png');
+  await page.getByRole('button', { name: '關切', exact: true }).click();
   await page.getByLabel('在辦公室尋找員工').fill('Retention colleague'); await page.getByLabel('辦公室搜尋結果').getByRole('button', { name: 'Retention colleague', exact: true }).click();
   await expect(page.getByLabel('辦公室選取資訊')).toContainText('希望討論成長安排');
+  await capture(page, 'concerns-desktop.png');
   const managerName = sim.observe().employees.find(e => e.id === employeeId)!.managerName;
   await page.getByRole('button', { name: '匯報', exact: true }).click(); await page.getByLabel('辦公室選取資訊').getByRole('button', { name: managerName, exact: true }).click(); await expect(page.getByLabel('辦公室選取資訊')).toContainText('管理負荷偏高'); await capture(page, 'management-heavy.png');
   sim.execute({ type: 'FireEmployee', employeeId }); await importWorld(page, sim);
-  await expect(page.locator(`[data-office-employee="${employeeId}"]`)).toHaveAttribute('data-office-vacant', 'true'); await capture(page, 'departure-vacancy.png');
+  await expect(page.locator(`[data-office-employee="${employeeId}"]`)).toHaveAttribute('data-office-vacant', 'true');
+  await expect.poll(async()=>JSON.parse((await page.locator('canvas').getAttribute('data-presentations')) ?? '{}')[employeeId]?.visible,{timeout:20000}).toBe(false);
+  await page.locator(`[data-office-employee="${employeeId}"]`).click(); await capture(page, 'departure-vacancy.png');
   await page.emulateMedia({ reducedMotion: 'reduce' }); await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.getByLabel('目前樓層同事')).toBeVisible(); await page.getByLabel('選擇樓層').getByRole('button', { name: /執行層/ }).click();
   await page.getByLabel('目前樓層同事').getByRole('button', { name: /Alice Chen/ }).click(); await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
