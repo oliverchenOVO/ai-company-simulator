@@ -17,7 +17,7 @@ export function makeEmployee(seed: string, id: string, name: string, role: Role,
     expectations: { salary: salary || 3_000_000, careerGrowth: rng.int(30, 80) }, goals: ['craft', 'stability'], memories: [], performance: 70, workTotal: 0, exitStage: 'settled', lastConcernAt: tick, lastManagementEvent: null
   };
 }
-export function garageScenario(input: ScenarioInput, simulationVersion: 1 | 2 | 3 = 2): WorldState {
+export function garageScenario(input: ScenarioInput, simulationVersion: 1 | 2 | 3 = 3): WorldState {
   if(simulationVersion!==1&&simulationVersion!==2&&simulationVersion!==3)throw new Error('Unsupported simulation behavior version');
   const config = configSchema.parse(input);
   const world: WorldState = {

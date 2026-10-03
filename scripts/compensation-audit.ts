@@ -15,14 +15,14 @@ const rows:unknown[]=[],offers:unknown[]=[];
 for(let i=1;i<=100;i++) {
   const seed=`benchmark-${String(i).padStart(3,'0')}`;
   for(const role of ['CTO','Engineer','Designer','Sales','Operations'] as const) {
-    const origin=new Simulation({seed,name:'Garage Startup',scenario:'garage'}),candidate=origin.observe().recruitment.find(c=>c.role===role)!;
+    const origin=new Simulation({seed,name:'Garage Startup',scenario:'garage'},true,2),candidate=origin.observe().recruitment.find(c=>c.role===role)!;
     for(const salary of [0,100,10000,candidate.minimum-1,candidate.minimum,candidate.expectation,Math.round(candidate.expectation*1.2),100_000_000]) {
       const sim=Simulation.restore(origin.snapshot());sim.execute({type:'HireEmployee',name:'Offer matrix',role,salary,teamId:'team-1'});verify(sim);
       offers.push({seed,role,expectation:candidate.expectation,minimum:candidate.minimum,salary,accepted:sim.snapshot().events.at(-1)?.type==='EmployeeHired',hash:sim.stateHash()});
     }
   }
   for(const band of ['low','mid','high','absurd','post-hire-cut','growth-no-hire'] as const) {
-    const sim=new Simulation({seed,name:'Garage Startup',scenario:'garage'});let attempts=0;
+    const sim=new Simulation({seed,name:'Garage Startup',scenario:'garage'},true,2);let attempts=0;
     for(let day=0;day<730;day+=14) {
       if(sim.observe().bankrupt){sim.execute({type:'AdvanceTime',days:730-day});break;}
       for(const command of decisions('aggressive',sim.observe())) {
@@ -46,7 +46,7 @@ for(let i=1;i<=100;i++) {
 }
 const branches:unknown[]=[];
 for(const seed of ['benchmark-001','benchmark-002','benchmark-003','benchmark-010','benchmark-050']) {
-  const base=new Simulation({seed,name:'Garage Startup',scenario:'garage'});
+  const base=new Simulation({seed,name:'Garage Startup',scenario:'garage'},true,2);
   const commands:Command[]=[];
   const probe=Simulation.restore(base.snapshot());
   for(let i=0;i<3;i++){const c=probe.observe().recruitment.find(c=>c.role==='Engineer')!;const command:Command={type:'HireEmployee',name:`Engineer ${i}`,role:'Engineer',salary:c.expectation,teamId:'team-1'};commands.push(command);probe.execute(command);}

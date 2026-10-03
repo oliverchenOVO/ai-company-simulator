@@ -20,5 +20,5 @@ export function Settings({ view, act, busy, newCompany }: { view: CompanyView; a
       finally { event.target.value = ''; }
     }}/>{fileError ? <p role="alert" className="error-text">{fileError}</p> : null}<p className="storage-note">{window.foundry ? '桌面進度存於此電腦的 SQLite。' : '瀏覽器進度存於這個瀏覽器的本機資料；清除網站資料會刪除進度。'}匯出存檔可作備份或移轉裝置。</p></Panel>
     <Panel title="重播驗證"><p className="muted-copy">使用原始 seed 與完整指令歷史重新模擬，確認結果與目前進度完全一致。</p><button className="button secondary" disabled={busy} onClick={() => { void act({ action: 'replay' }).then(response => { if (response?.replay) setReplayHash(response.replay.hash); }); }}><RotateCcw size={17}/>驗證 Replay</button>{replayHash ? <div className="replay-result"><strong>一致性驗證通過</strong><code>{replayHash}</code></div> : null}</Panel>
-    <Panel title="開始另一段故事"><p className="muted-copy">建立新公司會替換目前的自動存檔。請先手動儲存或匯出目前進度。</p><button className="button secondary" disabled={busy} onClick={newCompany}>建立新公司</button><p className="storage-note">FOUNDRY 0.1.0 · Phase 1 · 離線可玩</p></Panel></div></>;
+    <Panel title="開始另一段故事"><p className="muted-copy">建立新公司會替換目前的自動存檔。請先手動儲存或匯出目前進度。</p><button className="button secondary" disabled={busy} onClick={newCompany}>建立新公司</button><p className="storage-note">FOUNDRY 0.2.0 · Phase 2 · 離線可玩</p></Panel></div></>;
 }

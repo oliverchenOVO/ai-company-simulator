@@ -19,6 +19,10 @@ export async function hireAndAdjust(page: Page) {
   await dialog.getByLabel('調整月薪（NT$）', { exact: true }).fill('42000');
   await dialog.getByRole('button', { name: '儲存薪資', exact: true }).click();
   await expect(dialog.getByText('NT$42,000', { exact: true })).toBeVisible();
+  await dialog.getByRole('button', { name: '晉升一級', exact: true }).click();
+  await expect(dialog).toContainText('Senior');
+  await dialog.getByLabel('直屬主管', {exact:true}).selectOption('employee-2');
+  await dialog.getByRole('button', {name:'儲存主管',exact:true}).click();
   await dialog.getByRole('button', { name: '關閉對話框', exact: true }).click();
   await page.getByRole('button', { name: '推進一天', exact: true }).click();
   await expect(page.getByText('第 8 天', { exact: true })).toBeVisible();
@@ -31,4 +35,8 @@ export async function verifyPersisted(page: Page) {
   await page.getByRole('navigation').getByRole('button', { name: '人員', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Dana Test', exact: true })).toBeVisible();
   await expect(page.getByText('NT$42,000', { exact: true })).toBeVisible();
+  await page.getByRole('button', {name:'Dana Test',exact:true}).click();
+  await expect(page.getByRole('dialog')).toContainText('Senior');
+  await expect(page.getByRole('dialog').getByLabel('直屬主管',{exact:true})).toHaveValue('employee-2');
+  await page.keyboard.press('Escape');
 }

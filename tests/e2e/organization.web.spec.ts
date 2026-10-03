@@ -1,0 +1,28 @@
+import { test, expect } from '@playwright/test';
+import { mkdirSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { createCompany } from './helpers';
+import { validateSave } from '../../packages/persistence/src/save';
+import { replay } from '../../packages/simulation/src/simulation';
+for (const mobile of [false, true]) test(`v3 career → team → manager → promotion → persistent replay (${mobile?'mobile':'desktop'})`, async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror',e=>errors.push(e.message)); page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  if(mobile) await page.setViewportSize({width:390,height:844});
+  await page.goto('/'); await expect(page).toHaveTitle(/FOUNDRY/); await createCompany(page);
+  const nav=page.getByRole('navigation'); await nav.getByRole('button',{name:'團隊',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'匯報結構'})).toBeVisible();
+  await page.getByLabel('團隊名稱',{exact:true}).fill('Delivery'); await page.getByLabel('主管',{exact:true}).selectOption('employee-2'); await page.getByRole('button',{name:'建立團隊',exact:true}).click();
+  await nav.getByRole('button',{name:'人員',exact:true}).click(); await page.getByRole('button',{name:'Carol Wu',exact:true}).click();
+  const dialog=page.getByRole('dialog'); await expect(dialog.getByRole('region',{name:'職涯與管理'})).toBeVisible();
+  await expect(dialog).toContainText('Mid'); await dialog.getByLabel('調動團隊',{exact:true}).selectOption({label:'Delivery'}); await dialog.getByRole('button',{name:'確認調動',exact:true}).click();
+  await dialog.getByLabel('直屬主管',{exact:true}).selectOption('employee-1'); await dialog.getByRole('button',{name:'儲存主管',exact:true}).click();
+  await dialog.getByLabel('晉升路徑',{exact:true}).selectOption('manager'); await dialog.getByRole('button',{name:'晉升一級',exact:true}).click();
+  await expect(dialog).toContainText('Senior · 管理路徑'); await expect(dialog).toContainText('Carol Wu 晉升至 Senior');
+  expect(await page.locator('body').evaluate(b=>b.scrollWidth<=window.innerWidth)).toBe(true);
+  const dir=resolve(process.env.FOUNDRY_QA_DIR??'C:/Users/oliver/.codex/artifacts/foundry-phase2-qa'); mkdirSync(dir,{recursive:true}); await dialog.evaluate(el=>{el.scrollTop=0;}); await page.screenshot({path:resolve(dir,`career-${mobile?'mobile':'desktop'}.png`)});
+  await page.keyboard.press('Escape'); await page.getByRole('button',{name:'推進一週',exact:true}).click(); await page.getByRole('button',{name:'存檔',exact:true}).click();
+  await page.reload(); await nav.getByRole('button',{name:'人員',exact:true}).click(); await page.getByRole('button',{name:'Carol Wu',exact:true}).click();
+  await expect(dialog).toContainText('Senior · 管理路徑'); await expect(dialog).toContainText('Delivery'); await expect(dialog.getByLabel('直屬主管',{exact:true})).toHaveValue('employee-1');
+  await page.keyboard.press('Escape'); await nav.getByRole('button',{name:'設定',exact:true}).click(); await page.getByRole('button',{name:'驗證 Replay',exact:true}).click(); await expect(page.getByText('一致性驗證通過',{exact:true})).toBeVisible();
+  const pending=page.waitForEvent('download'); await page.getByRole('button',{name:'匯出存檔',exact:true}).click(); const file=await (await pending).path();
+  const save=validateSave(JSON.parse(readFileSync(file!,'utf8'))); expect(save.world.meta.simulationVersion).toBe(3); expect(save.manifest.schemaVersion).toBe(2); expect(save.world.employees['employee-3'].career!.level).toBe('Senior'); expect(replay(save.world).stateHash()).toBe(save.manifest.stateHash); expect(errors).toEqual([]);
+});

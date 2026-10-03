@@ -4,7 +4,7 @@ import { Simulation, replay } from '../packages/simulation/src/simulation';
 const fixture=JSON.parse(readFileSync(new URL('./fixtures/golden-v2.json',import.meta.url),'utf8')) as {results:Record<string,Record<string,string>>};
 describe('explicit compensation v2 golden regression',()=>{
   for(const [seed,checkpoints] of Object.entries(fixture.results))it(`${seed}: rejected and accepted hiring, years1/3/5`,()=>{
-    const sim=new Simulation({seed,name:'Garage Startup',scenario:'garage'});let previous=0;
+    const sim=new Simulation({seed,name:'Garage Startup',scenario:'garage'},true,2);let previous=0;
     sim.execute({type:'HireEmployee',name:'Rejected',role:'Engineer',salary:100,teamId:'team-1'});
     const candidate=sim.observe().recruitment.find(c=>c.role==='Engineer')!;
     sim.execute({type:'HireEmployee',name:'Accepted',role:'Engineer',salary:candidate.expectation,teamId:'team-1'});

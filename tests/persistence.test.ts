@@ -7,7 +7,7 @@ import { SqliteRepository } from '../packages/persistence/src/sqlite';
 import { Simulation, replay } from '../packages/simulation/src/simulation';
 const dirs: string[] = [];
 afterEach(() => { for (const dir of dirs.splice(0)) rmSync(dir, { recursive: true, force: true }); });
-function run() { const sim = new Simulation({ name: 'Saved Company', seed: 'save-001', scenario: 'garage' }); sim.execute({ type: 'AdvanceTime', days: 20 }); return sim; }
+function run() { const sim = new Simulation({ name: 'Saved Company', seed: 'save-001', scenario: 'garage' },true,2); sim.execute({ type: 'AdvanceTime', days: 20 }); return sim; }
 describe('versioned saves', () => {
   it('restores exact hash and continues identically', () => {
     const sim = run(), save = createSave(sim.snapshot()), restored = Simulation.restore(validateSave(JSON.parse(JSON.stringify(save))).world);

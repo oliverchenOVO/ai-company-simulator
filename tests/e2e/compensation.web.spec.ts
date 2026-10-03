@@ -7,6 +7,9 @@ import { replay } from '../../packages/simulation/src/simulation';
 test('candidate expectation, normal rejection, acceptance and persisted v2 replay',async({page})=>{
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
   await page.goto('/');await expect(page).toHaveTitle(/FOUNDRY/);await createCompany(page);
+  await page.getByRole('navigation').getByRole('button',{name:'設定',exact:true}).click();
+  await page.getByLabel('匯入存檔檔案').setInputFiles({name:'legacy-v2.json',mimeType:'application/json',buffer:Buffer.from(readFileSync(resolve('tests/fixtures/phase1-0.1.1.save.json'),'utf8'))});
+  await expect(page.locator('.company-header')).toContainText('V2 compatibility fixture');
   await page.getByRole('navigation').getByRole('button',{name:'人員',exact:true}).click();await page.getByRole('button',{name:'招募員工',exact:true}).click();
   const dialog=page.getByRole('dialog');await expect(dialog.getByText(/期待月薪/)).toBeVisible();
   await dialog.getByLabel('姓名',{exact:true}).fill('Compensation QA');await dialog.getByLabel('月薪（NT$）',{exact:true}).fill('1');

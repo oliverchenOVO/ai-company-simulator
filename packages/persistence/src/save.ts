@@ -24,6 +24,7 @@ export function migrateSave(raw: unknown): unknown {
 export function validateSave(raw: unknown): SaveEnvelope {
   const save = saveSchema.parse(migrateSave(raw));
   const { world: w, manifest: m } = save;
+  if (w.meta.simulationVersion === 3 && m.schemaVersion < 2) throw new Error('Simulation v3 requires save schema 2');
   if (m.seed !== w.meta.seed || m.tick !== w.meta.tick || m.date !== w.meta.date) throw new Error('Save metadata mismatch');
   if (hash(w) !== m.stateHash) throw new Error('Save integrity check failed (SHA-256 mismatch)');
   Simulation.restore(w); validateHistory(w);

@@ -10,7 +10,7 @@ import { projectCompany, type CompanyView } from './projection';
 
 export class Simulation {
   private w: WorldState;
-  constructor(config: ScenarioInput, private readonly validateEachTick = true, simulationVersion: 1 | 2 | 3 = 2) {
+  constructor(config: ScenarioInput, private readonly validateEachTick = true, simulationVersion: 1 | 2 | 3 = 3) {
     this.w = garageScenario(configSchema.parse(config), simulationVersion);
     assertInvariants(this.w);
   }
