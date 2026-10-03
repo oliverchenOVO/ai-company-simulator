@@ -2,7 +2,7 @@
 
 ## Acceptance status
 
-Implemented and accepted locally; Windows packaged and actual hosted production gates are pending at this checkpoint. App 0.2.2. Simulation v1/v2/v3 remain authoritative; no v4, retention/economy change or Phase 3 development. **Human retention validation remains pending. Living Office does not substitute for human playtesting of retention.** No participants, sessions or feedback were fabricated.
+Implemented and accepted locally; Windows packaged acceptance is complete; actual hosted production gates are pending at this checkpoint. App 0.2.2. Simulation v1/v2/v3 remain authoritative; no v4, retention/economy change or Phase 3 development. **Human retention validation remains pending. Living Office does not substitute for human playtesting of retention.** No participants, sessions or feedback were fabricated.
 
 ## Visual scope and rendering technology
 
@@ -60,7 +60,7 @@ Lint/typecheck, desktop/Electron and hosted build pass. Local Web/Electron 17/17
 
 ## Windows
 
-Pending completion of actual portable rebuild and three packaged flows, including create → Office → select → week → save → actual process restart → continue → replay. Original two packaged assertions remain. Unsigned portable release retains existing project signing/configuration; no new GPU assumption.
+Portable 0.2.2 rebuilt: 97,650,962 bytes, SHA-256 41CB8BEBB0D8503436C48245592C4AEC1AA922D82BDCD3FF6635DB786E70B582. Actual packaged app.isPackaged acceptance: 3/3 passed (35.6 seconds), including create → Office → select → week → save → actual process restart → continue → replay. Original two packaged flows remain. Authenticode status NotSigned retains existing signing/configuration; no new GPU assumption.
 
 ## Hosted production
 

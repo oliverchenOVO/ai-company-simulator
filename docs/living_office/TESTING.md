@@ -18,7 +18,7 @@ Commands: pnpm lint; pnpm typecheck; pnpm test; pnpm benchmark:office; pnpm benc
 | Responsive / motion | 390×844: focused floor, readable textual people buttons, no body overflow; reduced motion animationName none |
 | Screenshots | startup, 12 people, 100 people, management-heavy, concerns, promotion, vacancy, mobile outside Git |
 
-Design inspection used view_image on the generated reference and latest screenshots in the same QA pass. Concept file: C:/Users/oliver/.codex/generated_images/01a0fdf2-ddb8-7892-9143-a63447550a1d/exec-5eaaa96d-e7ef-4193-abd1-2b5e4483c4ce.png. Evidence directory: C:/Users/oliver/.codex/artifacts/foundry-phase2-6-qa. Desktop 1440×900 and 1586×992 plus mobile inspected. The generated image native size is 1536×1024; production viewport is close rather than identical. This is structural/style fidelity with intentional primitive-asset deviations, not a claim of photorealistic/pixel-identical reconstruction.
+Design inspection used view_image on the generated reference and latest screenshots in the same QA pass. Concept file: C:/Users/oliver/.codex/generated_images/01a0fdf2-ddb8-7892-9143-a63447550a1d/exec-5eaaa96d-e7ef-4193-abd1-2b5e4483c4ce.png. Evidence directory: C:/Users/oliver/.codex/artifacts/foundry-phase2-6-qa. Desktop 1440×900 and 1586×992 plus mobile inspected. The generated image native size is 1586×992, matching the hosted desktop screenshot viewport. This is structural/style fidelity with intentional primitive-asset deviations, not a claim of photorealistic/pixel-identical reconstruction.
 
 | Comparison point | Concept → implementation / decision |
 |---|---|
