@@ -92,7 +92,7 @@ test.describe('Living Office independently measured company sizes', () => {
     const sim = new Simulation({ name: `Office ${count}`, seed: 'office-performance', scenario: 'garage', employeeCount: count, initialCash: 1_000_000_000_000 }, true, 3);
     const timing = await importWorld(page, sim);
     if(count<=100) await page.evaluate(()=>new Promise<void>(done=>{const start=performance.now();const sample=()=>performance.now()-start>=1200 ? done() : requestAnimationFrame(sample);requestAnimationFrame(sample);}));
-    if (count <= 100 && test.info().project.use.launchOptions?.args?.includes('--use-angle=swiftshader-webgl')) {
+    if (count <= 100 && test.info().project.use.launchOptions?.args?.some(arg => ['--use-angle=swiftshader', '--use-angle=swiftshader-webgl'].includes(arg))) {
       await expect.poll(async () => Number(await page.locator('canvas').getAttribute('data-pixel-ratio'))).toBe(.75);
     }
     const approximateFrameMs=count<=100 ? Number(await page.locator('canvas').getAttribute('data-frame-ms')) || null : null;
