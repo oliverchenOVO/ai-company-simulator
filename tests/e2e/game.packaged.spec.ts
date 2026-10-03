@@ -1,5 +1,5 @@
 import { test, expect, _electron as electron } from '@playwright/test';
-import { mkdtempSync, rmSync, readFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve, join } from 'node:path';
 import { createCompany, hireAndAdjust, verifyPersisted } from './helpers';
@@ -68,6 +68,11 @@ test('packaged Windows Living Office persists company then restarts and continue
     const page = await app.firstWindow(); page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await createCompany(page); await page.getByRole('navigation').getByRole('button', { name: '辦公室', exact: true }).click();
     await expect(page.locator('[data-office-employee]')).toHaveCount(3);
+    await expect(page.locator('canvas[data-office-ready="true"]')).toBeVisible();
+    const qa=resolve(process.env.FOUNDRY_OFFICE_QA_DIR ?? 'C:/Users/oliver/.codex/artifacts/foundry-phase2-6b-qa');
+    mkdirSync(qa,{recursive:true});
+    writeFileSync(join(qa,'packaged-gpu.json'),JSON.stringify(await app.evaluate(({app})=>({version:app.getVersion(),isPackaged:app.isPackaged,graphics:app.getGPUFeatureStatus()})),null,2));
+    await page.screenshot({path:join(qa,'packaged-office.png')});
     const appearance = await page.locator('[data-office-employee="employee-1"]').getAttribute('data-office-appearance');
     await page.locator('[data-office-employee="employee-1"]').click(); await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
     await page.getByRole('button', { name: '推進一週', exact: true }).click(); await expect(page.getByText('第 7 天', { exact: true })).toBeVisible();
@@ -76,6 +81,7 @@ test('packaged Windows Living Office persists company then restarts and continue
     const resumed = await app.firstWindow(); resumed.on('pageerror', e => errors.push(e.message)); resumed.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
     await resumed.getByRole('navigation').getByRole('button', { name: '辦公室', exact: true }).click();
     await expect(resumed.locator('[data-office-employee="employee-1"]')).toHaveAttribute('data-office-appearance', appearance!);
+    await expect(resumed.locator('canvas[data-office-ready="true"]')).toBeVisible();
     await expect(resumed.getByText('第 7 天', { exact: true })).toBeVisible(); await resumed.getByRole('button', { name: '推進一天', exact: true }).click(); await expect(resumed.getByText('第 8 天', { exact: true })).toBeVisible();
     await resumed.getByRole('navigation').getByRole('button', { name: '設定', exact: true }).click(); await resumed.getByRole('button', { name: '驗證 Replay', exact: true }).click(); await expect(resumed.getByText('一致性驗證通過', { exact: true })).toBeVisible();
     expect(errors).toEqual([]);
