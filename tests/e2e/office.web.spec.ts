@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { createCompany } from './helpers';
 import { Simulation } from '../../packages/simulation/src/simulation';
@@ -79,14 +79,22 @@ test('Living Office real concern / management / vacancy and reduced-motion mobil
   expect(await page.locator('body').evaluate(e => e.scrollWidth <= innerWidth)).toBe(true); await capture(page, 'office-mobile.png');
   await context.setOffline(true); await page.getByRole('button', { name: '推進一天', exact: true }).click(); await expect(page.getByText('第 183 天', { exact: true })).toBeVisible(); expect(errors).toEqual([]);
 });
-test('Living Office measures normal range and explicit larger-company fallback', async ({ page }) => {
-  test.setTimeout(180000); const errors: string[] = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-  const started = Date.now(); await page.goto('/'); await createCompany(page); const initialLoadMs = Date.now() - started;
-  const rows = [];
-  for (const count of [3, 12, 30, 40, 60, 100, 250, 1000]) {
+test.describe('Living Office independently measured company sizes', () => {
+  const rows: Record<string, unknown>[] = [];
+  test.beforeAll(() => { mkdirSync(qa, { recursive: true }); rmSync(join(qa, 'browser-performance.json'), { force: true }); });
+  test.afterAll(() => {
+    // No partial or previous-run data may masquerade as a complete benchmark.
+    if (rows.length === 8) writeFileSync(join(qa, 'browser-performance.json'), JSON.stringify({ baseURL: test.info().project.use.baseURL, viewport: test.info().project.use.viewport, rows }, null, 2));
+  });
+  for (const count of [3, 12, 30, 40, 60, 100, 250, 1000]) test(`Living Office measures ${count} employees and real management interactions`, async ({ page }) => {
+    const errors: string[] = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    const started = Date.now(); await page.goto('/'); await createCompany(page); const initialLoadMs = Date.now() - started;
     const sim = new Simulation({ name: `Office ${count}`, seed: 'office-performance', scenario: 'garage', employeeCount: count, initialCash: 1_000_000_000_000 }, true, 3);
     const timing = await importWorld(page, sim);
     if(count<=100) await page.evaluate(()=>new Promise<void>(done=>{const start=performance.now();const sample=()=>performance.now()-start>=1200 ? done() : requestAnimationFrame(sample);requestAnimationFrame(sample);}));
+    if (count <= 100 && test.info().project.use.launchOptions?.args?.includes('--use-angle=swiftshader-webgl')) {
+      await expect.poll(async () => Number(await page.locator('canvas').getAttribute('data-pixel-ratio'))).toBe(.75);
+    }
     const approximateFrameMs=count<=100 ? Number(await page.locator('canvas').getAttribute('data-frame-ms')) || null : null;
     if (count <= 100) await expect(page.locator('[data-office-employee]')).toHaveCount(count);
     else { await expect(page.locator('.office-count')).toContainText(`${count} 位同事`); expect(await page.locator('[data-office-employee]').count()).toBeLessThanOrEqual(8); }
@@ -97,12 +105,13 @@ test('Living Office measures normal range and explicit larger-company fallback',
     const heap = await page.evaluate(() => (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize ?? null);
     const canvas = page.locator('canvas[data-office-ready="true"]');
     if (count<=100) await expect(canvas).toBeVisible();
-    rows.push({ count, ...timing, weekMs, navigationMs, selectionMs, browserHeapBytes: heap, renderer: await page.locator('.living-office').getAttribute('data-renderer'), accessibleSeats: await page.locator('[data-office-employee]').count(), gpuDrawCalls: count<=100 ? Number(await canvas.getAttribute('data-draw-calls')) : null, triangles: count<=100 ? Number(await canvas.getAttribute('data-triangles')) : null, pixelRatio: count<=100 ? Number(await canvas.getAttribute('data-pixel-ratio')) : null, approximateFrameMs, initialLoadMs });
+    const row = { count, ...timing, weekMs, navigationMs, selectionMs, browserHeapBytes: heap, renderer: await page.locator('.living-office').getAttribute('data-renderer'), accessibleSeats: await page.locator('[data-office-employee]').count(), gpuDrawCalls: count<=100 ? Number(await canvas.getAttribute('data-draw-calls')) : null, triangles: count<=100 ? Number(await canvas.getAttribute('data-triangles')) : null, pixelRatio: count<=100 ? Number(await canvas.getAttribute('data-pixel-ratio')) : null, approximateFrameMs, initialLoadMs };
     await page.getByRole('button',{name:'重置視角',exact:true}).click();
     if (count === 12) await capture(page, 'company-12.png'); if(count===30) await capture(page,'company-30.png'); if (count === 100) await capture(page, 'company-100.png');
-  }
-  mkdirSync(qa, { recursive: true }); writeFileSync(join(qa, 'browser-performance.json'), JSON.stringify({ baseURL: test.info().project.use.baseURL, viewport: test.info().project.use.viewport, rows }, null, 2));
-  console.log('Office measurements:', JSON.stringify(rows)); expect(errors).toEqual([]);
+    expect(errors).toEqual([]);
+    rows.push(row);
+    console.log('Office measurement:', JSON.stringify(row));
+  });
 });
 test('Living Office reduced-motion desktop and actual WebGL context-loss fallback keep management usable', async({page})=>{
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));

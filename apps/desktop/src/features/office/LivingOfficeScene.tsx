@@ -183,6 +183,7 @@ function Diagnostics({ ready, failed }: { ready: () => void; failed: () => void 
     if(frames.current===1 || time.current-published.current>=.25) {
       published.current=time.current;
       gl.domElement.dataset.frameCount=String(frames.current);
+      gl.domElement.dataset.pixelRatio=String(gl.getPixelRatio());
       const poses:Record<string,{pose:string;atWorkstation:boolean;visible:boolean;facingYaw:number}>={};
       scene.traverse(object=>{if(object.name.startsWith('employee-')) poses[object.name]={pose:object.userData.pose,atWorkstation:object.userData.atWorkstation,visible:object.visible,facingYaw:object.userData.facingYaw};});
       gl.domElement.dataset.presentations=JSON.stringify(poses);
@@ -210,7 +211,7 @@ export default function LivingOfficeScene({layout,previousScene,selected,floorId
   const loading=useRef<HTMLDivElement>(null);
   return <div className="office-3d-stage" data-motion={reduced ? 'reduced' : 'normal'}>
     <div ref={loading} className="office-3d-loading" role="status">正在開啟你的辦公室…</div>
-    <Canvas shadows dpr={[1,1.5]} camera={{fov:32,position:[20,14,30]}} frameloop="demand" gl={{antialias:true,powerPreference:'high-performance'}} fallback={<p>此裝置無法顯示 3D 畫布。</p>} onCreated={({gl,invalidate,setDpr}) => {
+    <Canvas shadows dpr={software ? .75 : [1,1.5]} camera={{fov:32,position:[20,14,30]}} frameloop="demand" gl={{antialias:true,powerPreference:'high-performance'}} fallback={<p>此裝置無法顯示 3D 畫布。</p>} onCreated={({gl,invalidate,setDpr}) => {
       gl.toneMapping=ACESFilmicToneMapping; gl.toneMappingExposure=1.1;
       const context=gl.getContext(), debug=context.getExtension('WEBGL_debug_renderer_info');
       const renderer=debug ? String(context.getParameter(debug.UNMASKED_RENDERER_WEBGL)) : '';
