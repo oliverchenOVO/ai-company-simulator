@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Group, PerspectiveCamera, Vector3, ACESFilmicToneMapping, BufferGeometry, Mesh, InstancedMesh, Matrix4, MeshStandardMaterial, Line, LineBasicMaterial } from 'three';
 import type { OfficeLayout, OfficeSeat, Overlay } from './projection';
@@ -167,18 +167,20 @@ function Diagnostics({ ready, failed }: { ready: () => void; failed: () => void 
   const { gl, scene } = useThree();
   const recorded = useRef(false);
   const frames=useRef(0), time=useRef(0);
+  const published=useRef(0);
   useEffect(() => { const canvas=gl.domElement; const onLoss=(e: Event) => { e.preventDefault(); failed(); }; canvas.addEventListener('webglcontextlost',onLoss); return () => canvas.removeEventListener('webglcontextlost',onLoss); },[gl,failed]);
   useFrame(({camera},delta) => {
     gl.render(scene,camera); frames.current++; time.current+=delta;
-    if(frames.current===1 || frames.current%30===0) {
+    if(frames.current===1 || time.current-published.current>=.25) {
+      published.current=time.current;
       gl.domElement.dataset.frameCount=String(frames.current);
       const poses:Record<string,{pose:string;atWorkstation:boolean;visible:boolean}>={};
       scene.traverse(object=>{if(object.name.startsWith('employee-')) poses[object.name]={pose:object.userData.pose,atWorkstation:object.userData.atWorkstation,visible:object.visible};});
       gl.domElement.dataset.presentations=JSON.stringify(poses);
+      if(time.current>=.25) gl.domElement.dataset.frameMs=String(Math.round(time.current/frames.current*10000)/10);
     }
-    if(frames.current%30===0) gl.domElement.dataset.frameMs=String(Math.round(time.current/frames.current*10000)/10);
     if (!recorded.current && gl.info.render.calls>0) {
-      recorded.current=true; gl.domElement.dataset.officeReady='true'; gl.domElement.dataset.drawCalls=String(gl.info.render.calls); gl.domElement.dataset.triangles=String(gl.info.render.triangles); gl.domElement.dataset.objects=String(scene.children.length);
+      recorded.current=true; gl.domElement.dataset.officeReady='true'; gl.domElement.dataset.drawCalls=String(gl.info.render.calls); gl.domElement.dataset.triangles=String(gl.info.render.triangles); gl.domElement.dataset.objects=String(scene.children.length); gl.domElement.dataset.pixelRatio=String(gl.getPixelRatio());
       const targets:Record<string,{x:number;y:number}>={};
       scene.traverse(object=>{if(object.name.startsWith('employee-')){const point=object.getWorldPosition(new Vector3());point.y+=1.48;point.project(camera);targets[object.name]={x:(point.x+1)*gl.domElement.clientWidth/2,y:(1-point.y)*gl.domElement.clientHeight/2};}});
       gl.domElement.dataset.employeeTargets=JSON.stringify(targets); ready();
@@ -186,16 +188,30 @@ function Diagnostics({ ready, failed }: { ready: () => void; failed: () => void 
   },1);
   return null;
 }
+function FrameDriver({reduced}:{reduced:boolean}) {
+  const invalidate=useThree(s=>s.invalidate);
+  useEffect(()=>{if(reduced)return;const timer=window.setInterval(()=>invalidate(),1000/30);return()=>window.clearInterval(timer);},[invalidate,reduced]);
+  return null;
+}
 export default function LivingOfficeScene({layout,previousScene,selected,floorId,overlay,reduced,zoom,choose,failed}: SceneProps) {
+  const [software,setSoftware]=useState(false);
   const projection=useMemo(() => projectOfficeScene(layout),[layout]);
   const allSeats=useMemo(() => new Map(projection.seats.map(s=>[s.seat.employeeId,s])),[projection]);
   const floorY=projection.floors.find(f=>f.floor.id===floorId)?.y;
   const loading=useRef<HTMLDivElement>(null);
   return <div className="office-3d-stage" data-motion={reduced ? 'reduced' : 'normal'}>
     <div ref={loading} className="office-3d-loading" role="status">正在開啟你的辦公室…</div>
-    <Canvas shadows dpr={[1,1.5]} camera={{fov:32,position:[20,14,30]}} frameloop={reduced ? 'demand' : 'always'} gl={{antialias:true,powerPreference:'high-performance'}} fallback={<p>此裝置無法顯示 3D 畫布。</p>} onCreated={({gl,invalidate}) => { gl.toneMapping=ACESFilmicToneMapping; gl.toneMappingExposure=1.1; requestAnimationFrame(()=>invalidate()); }}>
+    <Canvas shadows dpr={[1,1.5]} camera={{fov:32,position:[20,14,30]}} frameloop="demand" gl={{antialias:true,powerPreference:'high-performance'}} fallback={<p>此裝置無法顯示 3D 畫布。</p>} onCreated={({gl,invalidate,setDpr}) => {
+      gl.toneMapping=ACESFilmicToneMapping; gl.toneMappingExposure=1.1;
+      const context=gl.getContext(), debug=context.getExtension('WEBGL_debug_renderer_info');
+      const renderer=debug ? String(context.getParameter(debug.UNMASKED_RENDERER_WEBGL)) : '';
+      // Software rasterizers keep every 3D individual, with a smaller pixel budget.
+      if(/swiftshader|llvmpipe|software rasterizer/i.test(renderer)) {setDpr(.75);setSoftware(true);}
+      requestAnimationFrame(()=>invalidate());
+    }}>
+      <FrameDriver reduced={reduced}/>
       <color attach="background" args={['#edf2f1']}/><ambientLight intensity={.45}/><hemisphereLight args={['#fff7e8','#8fa4a5',.8]}/>
-      <directionalLight position={[-10,projection.height+12,14]} intensity={2.3} castShadow shadow-mapSize={[2048,2048]} shadow-camera-left={-14} shadow-camera-right={14} shadow-camera-top={projection.height+5} shadow-camera-bottom={-8} shadow-camera-far={100} shadow-bias={-.0004} shadow-normalBias={.04}/>
+      <directionalLight position={[-10,projection.height+12,14]} intensity={2.3} castShadow shadow-mapSize={software ? [1024,1024] : [2048,2048]} shadow-camera-left={-14} shadow-camera-right={14} shadow-camera-top={projection.height+5} shadow-camera-bottom={-8} shadow-camera-far={100} shadow-bias={-.0004} shadow-normalBias={.04}/>
       <directionalLight position={[12,projection.height,5]} intensity={.6}/>
       <CameraRig height={projection.height} floorY={floorY} zoom={zoom} reduced={reduced}/>
       <StaticBuilding revision={`${layout.seats.map(s=>`${s.id}:${s.floorId}:${s.zone}:${s.slot}:${s.vacant}:${s.overloaded}:${s.concerns.join(',')}`).join('|')}:${selected?.employeeId}:${overlay}`}>

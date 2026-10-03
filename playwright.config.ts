@@ -2,7 +2,9 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e', timeout: 60000, expect: { timeout: 15000 }, workers: 1, fullyParallel: false,
   reporter: [['list']],
-  use: { baseURL: 'http://127.0.0.1:4183', viewport: { width: 1440, height: 900 }, trace: 'retain-on-failure' },
+  use: { baseURL: 'http://127.0.0.1:4183', viewport: { width: 1440, height: 900 }, trace: 'retain-on-failure',
+    // Hosted Windows runners have no reliable hardware GPU; still render real WebGL.
+    launchOptions: process.env.CI ? {args:['--use-gl=angle','--use-angle=swiftshader-webgl','--enable-unsafe-swiftshader']} : undefined },
   projects: [
     { name: 'web', testMatch: '**/*.web.spec.ts', use: { browserName: 'chromium', channel: 'chrome' } },
     { name: 'desktop', testMatch: '**/*.desktop.spec.ts' }

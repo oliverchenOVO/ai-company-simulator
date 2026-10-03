@@ -96,7 +96,7 @@ test('Living Office measures normal range and explicit larger-company fallback',
     const heap = await page.evaluate(() => (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize ?? null);
     const canvas = page.locator('canvas[data-office-ready="true"]');
     if (count<=100) await expect(canvas).toBeVisible();
-    rows.push({ count, ...timing, weekMs, navigationMs, selectionMs, browserHeapBytes: heap, renderer: await page.locator('.living-office').getAttribute('data-renderer'), accessibleSeats: await page.locator('[data-office-employee]').count(), gpuDrawCalls: count<=100 ? Number(await canvas.getAttribute('data-draw-calls')) : null, triangles: count<=100 ? Number(await canvas.getAttribute('data-triangles')) : null, approximateFrameMs, initialLoadMs });
+    rows.push({ count, ...timing, weekMs, navigationMs, selectionMs, browserHeapBytes: heap, renderer: await page.locator('.living-office').getAttribute('data-renderer'), accessibleSeats: await page.locator('[data-office-employee]').count(), gpuDrawCalls: count<=100 ? Number(await canvas.getAttribute('data-draw-calls')) : null, triangles: count<=100 ? Number(await canvas.getAttribute('data-triangles')) : null, pixelRatio: count<=100 ? Number(await canvas.getAttribute('data-pixel-ratio')) : null, approximateFrameMs, initialLoadMs });
     await page.getByRole('button',{name:'重置視角',exact:true}).click();
     if (count === 12) await capture(page, 'company-12.png'); if(count===30) await capture(page,'company-30.png'); if (count === 100) await capture(page, 'company-100.png');
   }
