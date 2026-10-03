@@ -1,11 +1,32 @@
+import { management, organizationIndex, promotionReadiness } from './organization';
 import { recruitmentCandidates, minimumCompensation } from './compensation';
 import type { WorldState } from '../../domain/src/model';
 import { templateNarrative } from '../../narrative/src/templates';
 import { burn, payroll, revenue, runway } from './systems';
 import { causeEvidence,eventPriority,financialForecast } from './decision-support';
 export function projectCompany(w: WorldState) {
+  const index = organizationIndex(w);
+  const adjacency = new Map<string, { name: string; targetId: string; status: string }[]>();
+  for (const r of Object.values(w.relationships)) {
+    const list = adjacency.get(r.sourceId) ?? [];
+    if (list.length < 6 && w.employees[r.targetId].status === 'active') list.push({ name: w.employees[r.targetId].name, targetId: r.targetId, status: r.trust < 35 ? '合作需要修復' : r.trust >= 75 ? '合作信任良好' : '合作尚可' });
+    adjacency.set(r.sourceId, list);
+  }
+  const careerLabels = { advancement: '希望承擔更高職級的責任', leadership: '希望帶領與支持團隊', mastery: '專注累積專業成果', stability: '重視穩定的工作環境' };
+  const organizationView = (e: WorldState['employees'][string]) => {
+    if (!e.career) return null;
+    const m = management(w, e, index), count = index.reports.get(e.id) ?? 0;
+    const capacity = Math.max(2, (3 + e.skills.leadership / 15) * (1 - e.psychology.stress / 250));
+    const goal = e.career.goals[0];
+    return { level: e.career.level, track: e.career.track, direction: careerLabels[goal.type],
+      careerStatus: goal.frustration >= 55 ? '職涯期待持續未解' : goal.frustration >= 20 ? '希望討論成長安排' : goal.progress >= 90 ? '目前目標有進展' : '持續累積中',
+      retention: e.psychology.exitIntent > 55 ? '留任需要關注' : goal.frustration >= 20 ? '職涯需要關注' : m.quality < 45 ? '主管支持需要關注' : '暫無明顯留任警訊',
+      readiness: promotionReadiness(w, e)!, managerSupport: m.quality < 45 ? '支持不足' : m.quality >= 65 ? '支持良好' : '仍在磨合',
+      reportCount: count, managementLoad: count > capacity ? '管理負荷偏高' : count ? '管理負荷可支持' : '無直接部屬',
+      relationships: adjacency.get(e.id) ?? [] };
+  };
   const employees = Object.values(w.employees).sort((a, b) => a.hiredAt - b.hiredAt || (a.id < b.id ? -1 : 1)).map(e => ({
-    id: e.id, name: e.name, role: e.role, status: e.status, salary: e.salary, expectedSalary: e.expectations.salary, minimumAcceptedSalary: w.meta.simulationVersion>=2 && e.role!=='CEO' ? minimumCompensation(e.expectations.salary,e.personality.riskTolerance) : null, teamId: e.teamId, teamName: w.teams[e.teamId].name,
+    organization: organizationView(e), managerId: e.managerId, id: e.id, name: e.name, role: e.role, status: e.status, salary: e.salary, expectedSalary: e.expectations.salary, minimumAcceptedSalary: w.meta.simulationVersion>=2 && e.role!=='CEO' ? minimumCompensation(e.expectations.salary,e.personality.riskTolerance) : null, teamId: e.teamId, teamName: w.teams[e.teamId].name,
     managerName: e.managerId ? w.employees[e.managerId].name : '—', hiredAt: e.hiredAt, tenureDays: (e.leftAt ?? w.meta.tick) - e.hiredAt,
     performance: e.performance, condition: e.status !== 'active' ? '已離職' : e.psychology.burnout > 50 ? '需要休息' : e.psychology.stress > 65 ? '承受壓力' : e.psychology.satisfaction < 50 ? '有所顧慮' : '狀態穩定'
   }));
@@ -33,7 +54,16 @@ export function projectCompany(w: WorldState) {
   return {
     simulationVersion: w.meta.simulationVersion, recruitment: recruitmentCandidates(w), name: w.company.name, date: w.meta.date, tick: w.meta.tick, revision: w.commands.length, bankrupt: w.company.bankrupt, strategy: w.company.strategy,
     finance: { cash: w.company.cash, revenue: revenue(w), payroll: payroll(w), operatingCost: w.company.monthlyOperatingCost, burn: monthlyBurn, runway: months, forecast:financialForecast(w), history: w.finance.history.map(m => ({ ...m })) },
-    employees, teams: Object.values(w.teams).map(t => ({ id: t.id, name: t.name, managerId: t.managerId, managerName: t.managerId ? w.employees[t.managerId].name : '待安排', memberCount: active.filter(e => e.teamId === t.id).length, condition: active.some(e => e.teamId === t.id && e.condition !== '狀態穩定') ? '需要關注' : '運作穩定' })),
+    employees, teams: Object.values(w.teams).map(t => {
+      const members = index.members.get(t.id) ?? [], manager = t.managerId ? w.employees[t.managerId] : null;
+      return { id: t.id, name: t.name, managerId: t.managerId, managerName: manager?.name ?? '待安排', memberCount: members.length,
+        condition: members.some(e => e.psychology.stress > 65 || e.psychology.satisfaction < 50) ? '需要關注' : '運作穩定',
+        organization: t.organization ? { coordination: t.organization.coordination < 50 ? '協作需要支持' : t.organization.coordination >= 70 ? '协作順暢' : '協作磨合中',
+          stability: t.organization.stability < 60 ? '正在適應異動' : '人員逐步穩定',
+          composition: [...new Set(members.map(e=>e.role))], managementLoad: manager ? organizationView(manager)!.managementLoad : '缺少團隊主管',
+          careerConcerns: members.filter(e => e.career!.goals[0].frustration >= 20).length,
+          recentChangeId: t.organization.lastChangeEvent } : null };
+    }),
     product: { ...w.products['product-1'] },
     customers: Object.values(w.customers).map(c => ({ id: c.id, name: c.name, segment: c.segment, mrr: c.mrr, status: c.status, acquiredAt: c.acquiredAt, condition: c.status === 'churned' ? '已流失' : c.satisfaction < 60 ? '需要跟進' : c.satisfaction < 65 ? '體驗轉弱' : '使用穩定' })),
     events: visibleEvents, messages: visibleEvents.filter(e => ['人事', '產品', '客戶', '財務'].includes(e.channel)), alerts,

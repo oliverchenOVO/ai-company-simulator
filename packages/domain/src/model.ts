@@ -46,6 +46,10 @@ export const commandSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('ChangeSalary'), employeeId: id, salary: positiveMoney.max(100_000_000) }).strict(),
   z.object({ type: z.literal('CreateTeam'), name: z.string().trim().min(1).max(80), managerId: id.nullable() }).strict(),
   z.object({ type: z.literal('MoveEmployeeToTeam'), employeeId: id, teamId: id }).strict(),
+  z.object({ type: z.literal('PromoteEmployee'), employeeId: id, track: z.enum(['specialist', 'manager']) }).strict(),
+  z.object({ type: z.literal('AssignManager'), employeeId: id, managerId: id.nullable() }).strict(),
+  z.object({ type: z.literal('AssignTeamManager'), teamId: id, managerId: id.nullable() }).strict(),
+  z.object({ type: z.literal('ChangeEmployeeRole'), employeeId: id, role: roleSchema.exclude(['CEO', 'CTO']) }).strict(),
   z.object({ type: z.literal('ChangeCompanyStrategy'), strategy: strategySchema }).strict(),
   z.object({ type: z.literal('ChangeProductPriority'), priority: prioritySchema }).strict()
 ]);

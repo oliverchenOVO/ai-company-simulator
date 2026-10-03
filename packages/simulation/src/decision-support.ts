@@ -3,11 +3,22 @@ import type { CompanyView } from './projection';
 export type EventPriority='critical'|'warning'|'important'|'informational';
 export function eventPriority(type:string):EventPriority {
   if(['CompanyBankrupt','EmployeeResigned'].includes(type))return 'critical';
-  if(['RunwayWarning','EmployeeConcernRaised','RelationshipStrained','CustomerChurned'].includes(type))return 'warning';
-  if(['ProductMilestoneReached','ProductLaunched','EmployeeHired','EmployeeFired','SalaryChanged','StrategyChanged','ProductPriorityChanged'].includes(type))return 'important';
+  if(['RunwayWarning','EmployeeConcernRaised','RelationshipStrained','CustomerChurned','CareerConcernRaised','CareerGoalBlocked','ManagerOverloaded','TeamCoordinationChanged'].includes(type))return 'warning';
+  if(['ProductMilestoneReached','ProductLaunched','EmployeeHired','EmployeeFired','SalaryChanged','StrategyChanged','ProductPriorityChanged','EmployeePromoted','ManagerChanged','TeamManagerChanged','EmployeeRoleChanged','PeerPromotionReaction','CareerGoalProgressed'].includes(type))return 'important';
   return 'informational';
 }
 const explanations:Record<string,string>={
+  career:'職涯期待長時間沒有取得進展。請查看職涯回饋與晉升、角色安排。',
+  'career-progress':'實際職涯進展或晉升改變了目前目標。',
+  'management-support':'模型記錄的主管支持不足，包括能力、負荷與雙方關係。',
+  'management-capacity':'直接部屬數超過目前管理能力與壓力下可支持的範圍。',
+  'management-change':'主管安排的實際異動需要交接，也會改變支持程度。',
+  'team-stability':'近期人員異動造成適應成本，穩定度需要時間恢復。',
+  'team-size':'團隊規模增加協調成本。',
+  'role-fit':'工作角色與相關專業能力影響成效和工作體驗。',
+  'peer-promotion':'相關同事的晉升改變了自己的成長感受，反應取決於既有關係與職涯期待。',
+  'compensation-expectation':'晉升提高了薪資期待；實際薪資仍由薪資決策決定。',
+  collaboration:'持續的有效合作或主管支持累積了關係變化。',
   compensation:'薪資與既有期待有落差。可檢視近期薪資決策，也要確認調薪後的現金跑道。',
   burnout:'長期疲勞累積。降低營運節奏需要時間，並會放慢工作產出。',
   management:'工作滿意度偏低。此分類本身不足以證明主管失職，請對照同事回饋與近期安排。',

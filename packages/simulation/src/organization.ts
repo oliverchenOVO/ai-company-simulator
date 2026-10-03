@@ -1,11 +1,11 @@
-import type { Employee, WorldState } from '../../domain/src/model';
+import type { Employee, WorldState, Command } from '../../domain/src/model';
 import { clamp, rounded } from '../../shared/src/determinism';
 import { remember, type SystemContext } from './context';
 
 export const levels = ['Junior', 'Mid', 'Senior', 'Lead'] as const;
 export function initializeCareer(e: Employee, tick: number): void {
   const level = e.role === 'CEO' || e.role === 'CTO' ? 'Lead' : 'Mid';
-  const type = e.personality.ambition >= 60 ? (e.skills.leadership >= 55 ? 'leadership' : 'advancement') : e.personality.riskTolerance < 45 ? 'stability' : 'mastery';
+  const type = level === 'Lead' ? (e.role === 'CEO' ? 'leadership' : 'mastery') : e.personality.ambition >= 60 ? (e.skills.leadership >= 55 ? 'leadership' : 'advancement') : e.personality.riskTolerance < 45 ? 'stability' : 'mastery';
   e.career = { level, track: e.role === 'CEO' ? 'manager' : 'specialist', lastProgressAt: tick, lastConversationAt: tick, overloaded: false,
     goals: [{ type, importance: e.personality.ambition, progress: 0, frustration: 0, createdAt: tick, targetLevel: level === 'Lead' ? null : 'Senior', causes: [] }] };
 }
@@ -98,4 +98,123 @@ export function disturbTeam(w: WorldState, teamId: string, eventId: string, seve
 export function organizationalMemory(ctx: SystemContext, e: Employee, type: string, factor: string, sentiment: number) {
   const event = ctx.emit(type, { employeeId: e.id, name: e.name }, e.lastManagementEvent, [{ factor, weight: 1, eventId: e.lastManagementEvent }], 'management');
   remember(ctx.w, e, event, sentiment, 55); return event;
+}
+
+export function promotionReadiness(w: WorldState, e: Employee) {
+  const c = e.career;
+  if (!c) return null;
+  const eligible = c.level !== 'Lead' && e.role !== 'CEO';
+  const reasons: string[] = [];
+  if (w.meta.tick - e.hiredAt < 90) reasons.push('任職尚未滿三個月');
+  if (relevantSkill(e) < (c.level === 'Senior' ? 80 : 70)) reasons.push('專業能力仍需累積');
+  if (e.performance < 65) reasons.push('近期產出仍需支持');
+  return { eligible, status: !eligible ? '已達目前最高職級' : reasons.length ? '可晉升，但建議先累積經驗' : '具備晉升準備', reasons, leadership: e.skills.leadership >= 60 ? '適合嘗試管理' : '管理能力仍需培養' };
+}
+export function careerSystem(ctx: SystemContext): void {
+  const { w, active, organization } = ctx;
+  if (w.meta.simulationVersion !== 3 || !organization) return;
+  for (const e of active) {
+    const c = e.career!, goal = c.goals[0], support = management(w, e, organization).quality;
+    const age = w.meta.tick - c.lastProgressAt;
+    let progress = goal.progress;
+    if (goal.type === 'mastery') progress = Math.min(100, e.workTotal / 3);
+    if (goal.type === 'stability') progress = clamp(w.teams[e.teamId].organization!.stability - e.psychology.stress * .2);
+    if (goal.type === 'leadership') progress = c.track === 'manager' && (organization.reports.get(e.id) ?? 0) > 0 ? support : Math.min(75, age / 8);
+    if (goal.type === 'advancement' && goal.progress < 100) progress = Math.min(75, (w.meta.tick - e.hiredAt) / 4 + e.performance * .2);
+    const previous = goal.progress; goal.progress = rounded(progress);
+    const blocked = (goal.type === 'advancement' || goal.type === 'leadership') && goal.progress < 90 && age > 60;
+    const oldFrustration = goal.frustration;
+    goal.frustration = rounded(clamp(goal.frustration + (blocked ? .9 + goal.importance / 70 + Math.max(0, 55 - support) / 30 : -.8)));
+    goal.causes = blocked ? [{ factor: 'career', eventId: e.lastManagementEvent }, ...(support < 50 ? [{ factor: 'management-support', eventId: e.lastManagementEvent }] : [])] : [];
+    if (previous < 90 && goal.progress >= 90) organizationalMemory(ctx, e, 'CareerGoalProgressed', 'career-progress', 15);
+    if (oldFrustration < 20 && goal.frustration >= 20) {
+      c.lastConversationAt = w.meta.tick; organizationalMemory(ctx, e, 'CareerConcernRaised', 'career', -15);
+    }
+    if (oldFrustration < 55 && goal.frustration >= 55) {
+      c.lastConversationAt = w.meta.tick; organizationalMemory(ctx, e, 'CareerGoalBlocked', 'career', -25);
+    }
+    // Persistent unmet progression affects trust slowly, rather than repeatedly applying the memory sentiment.
+    e.psychology.companyTrust = rounded(clamp(e.psychology.companyTrust - goal.frustration * .007));
+  }
+}
+export function collaborationSystem(ctx: SystemContext): void {
+  const { w, emit, organization } = ctx;
+  if (w.meta.simulationVersion !== 3 || !organization) return;
+  for (const r of Object.values(w.relationships).sort((a,b) => a.id.localeCompare(b.id, 'en'))) {
+    const a = w.employees[r.sourceId], b = w.employees[r.targetId];
+    if (a.status !== 'active' || b.status !== 'active') continue;
+    const old = r.trust;
+    const collaborating = a.teamId === b.teamId && a.performance >= 45 && b.performance >= 45;
+    const support = a.managerId === b.id ? management(w, a, organization).quality : null;
+    const pressure = Math.max(0, a.psychology.stress - 60) / 100;
+    // Changes require ongoing successful work, pressured collaboration or direct managerial support.
+    if (collaborating) {
+      r.trust = rounded(clamp(r.trust + .2 - pressure * .8)); r.affinity = rounded(clamp(r.affinity + .12 - pressure * .3));
+      r.respect = rounded(clamp(r.respect + (b.performance - r.respect) * .01));
+      r.resentment = rounded(clamp(r.resentment + pressure * .4 - .08));
+    }
+    if (support !== null) r.trust = rounded(clamp(r.trust + (support - 55) * .008));
+    const factor = support !== null && support < 50 ? 'management-support' : pressure > 0 ? 'workload' : 'collaboration';
+    if ((old >= 35 && r.trust < 35) || (old < 80 && r.trust >= 80)) {
+      const event = emit(r.trust < 35 ? 'RelationshipStrained' : 'CollaborationStrengthened', { employeeId: a.id, sourceId: a.id, targetId: b.id, sourceName: a.name, targetName: b.name }, a.lastManagementEvent, [{ factor, weight: 1, eventId: factor === 'workload' ? w.company.strategyEventId : a.lastManagementEvent }], 'management');
+      remember(w, a, event, r.trust < 35 ? -10 : 10, 30);
+    }
+  }
+}
+type OrganizationCommand = Extract<Command, { type: 'PromoteEmployee' | 'AssignManager' | 'AssignTeamManager' | 'ChangeEmployeeRole' }>;
+export function executeOrganization(ctx: SystemContext, command: OrganizationCommand): void {
+  const { w, emit } = ctx;
+  if (w.meta.simulationVersion !== 3) throw new Error('組織決策需要 simulation v3；舊存檔保留原有規則');
+  if (command.type === 'AssignTeamManager') {
+    const team = w.teams[command.teamId], previous = team.managerId;
+    if (previous === command.managerId) throw new Error('主管安排未改變');
+    team.managerId = command.managerId;
+    const event = emit('TeamManagerChanged', { teamId: team.id, name: team.name, managerId: command.managerId, previous }, null, [{ factor: 'management-change', weight: 1, eventId: null }]);
+    disturbTeam(w, team.id, event.id, 15);
+    for (const e of ctx.active) if (e.teamId === team.id && e.id !== command.managerId) changeManager(ctx, e, command.managerId, event.id);
+    if (command.managerId && w.employees[command.managerId].managerId && w.employees[command.managerId].teamId === team.id) w.employees[command.managerId].managerId = null;
+    return;
+  }
+  const e = w.employees[command.employeeId];
+  if (command.type === 'AssignManager') { changeManager(ctx, e, command.managerId); return; }
+  if (command.type === 'ChangeEmployeeRole') {
+    if (e.role === 'CEO' || e.role === 'CTO') throw new Error('創辦人職務保留');
+    if (e.role === command.role) throw new Error('職務未改變');
+    const previous = e.role; e.role = command.role;
+    // Existing expectation is retained: reassignment is not a compensation bypass.
+    const event = emit('EmployeeRoleChanged', { employeeId: e.id, name: e.name, role: e.role, previous }, e.lastManagementEvent, [{ factor: 'role-fit', weight: 1, eventId: e.lastManagementEvent }]);
+    e.lastManagementEvent = event.id; disturbTeam(w, e.teamId, event.id, 8); remember(w, e, event, -5, 40); return;
+  }
+  const c = e.career!, readiness = promotionReadiness(w, e)!;
+  if (!readiness.eligible) throw new Error('已達目前最高職級');
+  const previous = c.level; c.level = levels[levels.indexOf(c.level) + 1]; c.track = command.track; c.lastProgressAt = w.meta.tick;
+  const oldExpectation = e.expectations.salary;
+  e.expectations.salary = Math.round(oldExpectation * 1.12);
+  const event = emit('EmployeePromoted', { employeeId: e.id, name: e.name, previous, level: c.level, track: c.track, premature: readiness.reasons.length > 0, expectation: e.expectations.salary }, e.lastManagementEvent,
+    [{ factor: 'career-progress', weight: 1, eventId: e.lastManagementEvent }, { factor: 'compensation-expectation', weight: 1, eventId: null }]);
+  e.lastManagementEvent = event.id;
+  if (c.goals[0].type === 'advancement' || (c.goals[0].type === 'leadership' && c.track === 'manager')) { c.goals[0].progress = 100; c.goals[0].frustration = rounded(c.goals[0].frustration * .25); c.goals[0].causes = [{ factor: 'career-progress', eventId: event.id }]; }
+  e.psychology.companyTrust = rounded(clamp(e.psychology.companyTrust + 5)); remember(w, e, event, 35, 70);
+  if (e.managerId) { const r = ensureRelationship(w, e.id, e.managerId); r.trust = rounded(clamp(r.trust + 4)); }
+  if (c.track === 'manager') disturbTeam(w, e.teamId, event.id, 6);
+  // Only existing relevant peers are evaluated; a promotion never constructs an all-to-all graph.
+  for (const r of Object.values(w.relationships)) if (r.targetId === e.id) {
+    const peer = w.employees[r.sourceId], goal = peer.career?.goals[0];
+    if (peer.status !== 'active' || peer.teamId !== e.teamId || !goal || goal.type !== 'advancement' || goal.progress >= 100) continue;
+    const disappointment = Math.max(0, (peer.personality.ambition - 55) * .2 + goal.frustration * .15 + (readiness.reasons.length ? 5 : 0) - r.trust * .08);
+    const reaction = disappointment >= 8 ? 'concerned' : r.trust >= 65 ? 'motivated' : 'neutral';
+    if (reaction === 'neutral') continue;
+    goal.frustration = rounded(clamp(goal.frustration + (reaction === 'concerned' ? disappointment : -2)));
+    r.resentment = rounded(clamp(r.resentment + (reaction === 'concerned' ? disappointment * .5 : -1)));
+    r.trust = rounded(clamp(r.trust + (reaction === 'concerned' ? -3 : 1)));
+    const peerEvent = emit('PeerPromotionReaction', { employeeId: peer.id, name: peer.name, promotedId: e.id, promotedName: e.name, reaction }, event.id, [{ factor: 'peer-promotion', weight: 1, eventId: event.id }], 'management');
+    goal.causes = [{ factor: 'peer-promotion', eventId: peerEvent.id }]; remember(w, peer, peerEvent, reaction === 'concerned' ? -15 : 10, 50);
+  }
+}
+function changeManager(ctx: SystemContext, e: Employee, managerId: string | null, causedBy?: string) {
+  if (e.managerId === managerId) return;
+  const previous = e.managerId; e.managerId = managerId;
+  const event = ctx.emit('ManagerChanged', { employeeId: e.id, name: e.name, managerId, previous }, causedBy ?? e.lastManagementEvent, [{ factor: 'management-change', weight: 1, eventId: causedBy ?? null }]);
+  if (managerId) ensureRelationship(ctx.w, e.id, managerId);
+  e.lastManagementEvent = event.id; disturbTeam(ctx.w, e.teamId, event.id, 8); remember(ctx.w, e, event, -5, 35);
 }

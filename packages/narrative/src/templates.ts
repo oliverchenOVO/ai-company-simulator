@@ -13,6 +13,15 @@ export class TemplateNarrativeProvider implements NarrativeProvider {
       case 'ManagerOverloaded': title = `${p.name} 的管理負荷偏高`; body = `目前有 ${p.reports} 位直接部屬，支持與工作時間受到限制。可重新安排主管。`; channel = '人事'; break;
       case 'ManagementLoadRecovered': title = `${p.name} 的管理負荷恢復`; body = '直接部屬數已回到目前可支持的範圍。'; channel = '人事'; break;
       case 'TeamCoordinationChanged': title = `${p.name} 的協作狀態改變`; body = p.condition === 'strained' ? '合作效率轉弱，請檢視人員異動、主管支持與團隊規模。' : '合作逐步恢復穩定。'; channel = '人事'; break;
+      case 'CareerConcernRaised': title = `${p.name} 希望討論職涯`; body = '期待更清楚的成長路徑。可以檢視晉升準備、角色與主管支持。'; channel = '人事'; break;
+      case 'CareerGoalBlocked': title = `${p.name} 的職涯期待持續未解`; body = '長時間缺乏進展開始影響對公司的信任；單純調薪未必能解決。'; channel = '人事'; break;
+      case 'CareerGoalProgressed': title = `${p.name} 的職涯目標有進展`; body = '近期工作與安排讓目前目標取得實際進展。'; channel = '人事'; break;
+      case 'EmployeePromoted': title = `${p.name} 晉升至 ${p.level}`; body = `採取${p.track === 'manager' ? '管理' : '專業'}路徑，期待月薪調整為 ${dollars(p.expectation)}；實際薪資不會自動提高。${p.premature ? '準備仍需累積，請留意支持需求。' : '具備本次晉升的準備。'}`; channel = '人事'; break;
+      case 'ManagerChanged': title = `${p.name} 的主管安排已改變`; body = p.managerId ? '新的主管支持將逐步生效，交接期間需要適應。' : '目前沒有直屬主管，請留意支持缺口。'; channel = '人事'; break;
+      case 'TeamManagerChanged': title = `${p.name} 的團隊主管已改變`; body = '成員的匯報安排已更新，團隊需逐步恢復穩定。'; channel = '人事'; break;
+      case 'EmployeeRoleChanged': title = `${p.name} 的工作職務已調整`; body = `目前職務為 ${p.role}，既有薪資期待維持；工作成效取決於相關專業能力。`; channel = '人事'; break;
+      case 'PeerPromotionReaction': title = `${p.name} 回應同事晉升`; body = p.reaction === 'concerned' ? `${p.promotedName} 的晉升讓自己的成長安排更受關注。` : `${p.promotedName} 的晉升帶來了成長動力。`; channel = '人事'; break;
+      case 'CollaborationStrengthened': title = '合作關係逐步增強'; body = `${p.sourceName} 與 ${p.targetName} 的合作累積了信任。`; channel = '人事'; break;
       case 'CompanyCreated': title = '公司成立'; body = `${p.name} 的故事從今天開始。`; break;
       case 'HireOfferRejected': title = `${p.name} 婉拒薪資出價`; body = `出價 ${dollars(p.salary)} 低於此候選人的最低接受額 ${dollars(Math.ceil(Number(p.minimum)/100)*100)}，期待月薪 ${dollars(p.expectation)}。未到職，也未增加薪資支出。`; channel = '人事'; break;
       case 'EmployeeHired': title = `${p.name} 加入團隊`; body = `新夥伴已到職，月薪為 ${dollars(p.salary)}。`; channel = '人事'; break;

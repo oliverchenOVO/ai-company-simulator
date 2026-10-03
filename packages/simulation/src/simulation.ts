@@ -3,7 +3,7 @@ import { hash, simDate } from '../../shared/src/determinism';
 import { detachManager, remember, type SystemContext } from './context';
 import { assertInvariants } from './invariants';
 import { garageScenario, makeEmployee } from './scenario';
-import { disturbTeam, ensureRelationship, initializeCareer } from './organization';
+import { disturbTeam, ensureRelationship, initializeCareer, executeOrganization } from './organization';
 import { candidateFor, minimumCompensation } from './compensation';
 import { activeEmployees, SYSTEMS } from './systems';
 import { projectCompany, type CompanyView } from './projection';
@@ -40,6 +40,8 @@ export class Simulation {
     };
     try {
       switch (command.type) {
+        case 'PromoteEmployee': case 'AssignManager': case 'AssignTeamManager': case 'ChangeEmployeeRole':
+          executeOrganization({ w: this.w, active: activeEmployees(this.w), commandId, emit }, command); break;
         case 'AdvanceTime': this.advance(command.days, commandId, emit); break;
         case 'HireEmployee': {
           const candidate = this.w.meta.simulationVersion >= 2 ? candidateFor(this.w, command.role, command.name, command.teamId) : null;
@@ -115,6 +117,9 @@ export class Simulation {
     }
   }
   private validateCommand(command: Exclude<Command, { type: 'CreateCompany' }>): void {
+    if (['PromoteEmployee', 'AssignManager', 'AssignTeamManager', 'ChangeEmployeeRole'].includes(command.type) && this.w.meta.simulationVersion !== 3) throw new Error('組織決策需要 simulation v3');
+    if ('managerId' in command && command.managerId !== null && this.w.employees[command.managerId]?.status !== 'active') throw new Error('主管必須是在職員工');
+    if (command.type === 'AssignManager' && command.managerId === command.employeeId) throw new Error('主管不能是自己');
     if ('employeeId' in command) {
       const e = this.w.employees[command.employeeId];
       if (!e || e.status !== 'active') throw new Error('找不到在職員工');
@@ -170,6 +175,8 @@ export function validateHistory(w: WorldState): void {
     for (const cause of e.causes) if (cause.eventId && !known.has(cause.eventId)) throw new Error('Missing contributing cause');
     known.add(e.id); lastEventTick = e.tick;
   }
+  for (const e of Object.values(w.employees)) for (const goal of e.career?.goals ?? []) for (const cause of goal.causes) if (cause.eventId && !known.has(cause.eventId)) throw new Error('Missing career cause');
+  for (const t of Object.values(w.teams)) if (t.organization?.lastChangeEvent && !known.has(t.organization.lastChangeEvent)) throw new Error('Missing team cause');
   if (w.meta.nextEvent !== w.events.length + 1) throw new Error('Event counter mismatch');
   for (const e of Object.values(w.employees)) for (const m of e.memories) if (!known.has(m.eventId)) throw new Error('Missing employee memory event');
 }

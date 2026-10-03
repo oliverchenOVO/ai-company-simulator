@@ -1,6 +1,6 @@
 import type { Employee, WorldState } from '../../domain/src/model';
 import { clamp, random, rounded, simDate } from '../../shared/src/determinism';
-import { disturbTeam, organizationInfluence, organizationSystem } from './organization';
+import { disturbTeam, organizationInfluence, organizationSystem, careerSystem, collaborationSystem, relevantSkill } from './organization';
 import { detachManager, remember, type SystemContext } from './context';
 
 export const activeEmployees = (w: WorldState) => Object.values(w.employees).filter(e => e.status === 'active').sort((a, b) => a.id.localeCompare(b.id, 'en'));
@@ -40,7 +40,7 @@ export function psychologySystem({ w, active, emit, organization }: SystemContex
     }
     if (e.role !== 'CEO' && e.exitStage === 'searching' && w.meta.tick % 7 === 0 && random(w.meta.seed, 'employees', e.id, w.meta.tick, 'resignation').chance(p.exitIntent / 100 * 0.08)) {
       const weights = { compensation: underpaid * 50, burnout: p.burnout * 0.45, management: Math.max(0, 65 - p.satisfaction) * 1.2, loyalty: Math.max(0, 50 - p.loyalty) * 0.35 };
-      const causes: Record<string, number> = w.meta.simulationVersion === 3 ? { ...weights, career: e.career!.goals[0].frustration * .3, 'management-support': Math.max(0, 50 - org.trustTarget) * .2, 'team-stability': Math.max(0, 70 - w.teams[e.teamId].organization!.stability) * .08, 'role-fit': Math.max(0, 60 - (e.role === 'Sales' ? e.skills.sales : e.skills.engineering)) * .12 } : weights;
+      const causes: Record<string, number> = w.meta.simulationVersion === 3 ? { ...weights, career: e.career!.goals[0].frustration * .3, 'management-support': Math.max(0, 50 - org.trustTarget) * .2, 'team-stability': Math.max(0, 70 - w.teams[e.teamId].organization!.stability) * .08, 'role-fit': Math.max(0, 60 - relevantSkill(e)) * .12 } : weights;
       const sum = Object.values(causes).reduce((s, n) => s + n, 0) || 1;
       const event = emit('EmployeeResigned', { employeeId: e.id, name: e.name }, e.memories.at(-1)?.eventId ?? null,
         Object.entries(causes).map(([factor, value]) => ({ factor, weight: rounded(value / sum), eventId: e.lastManagementEvent ?? w.company.strategyEventId })));
@@ -158,9 +158,11 @@ export function financeSystem({ w, emit, commandId }: SystemContext): void {
 }
 
 export const SYSTEMS = [
-  { name: 'organization', frequency: 'daily', run: organizationSystem },
+  { name: 'organization', frequency: 'daily', run: organizationSystem, careerSystem, collaborationSystem, relevantSkill },
   { name: 'psychology', frequency: 'daily', run: psychologySystem },
+  { name: 'career', frequency: 'weekly', run: careerSystem },
   { name: 'work', frequency: 'daily', run: workSystem },
+  { name: 'collaboration', frequency: 'weekly', run: collaborationSystem },
   { name: 'relationships', frequency: 'weekly', run: relationshipSystem },
   { name: 'product', frequency: 'daily', run: productSystem },
   { name: 'customers', frequency: 'daily', run: customerSystem },
