@@ -1,5 +1,6 @@
 import type { Employee, WorldState } from '../../domain/src/model';
 import { clamp, random, rounded, simDate } from '../../shared/src/determinism';
+import { disturbTeam, organizationInfluence, organizationSystem } from './organization';
 import { detachManager, remember, type SystemContext } from './context';
 
 export const activeEmployees = (w: WorldState) => Object.values(w.employees).filter(e => e.status === 'active').sort((a, b) => a.id.localeCompare(b.id, 'en'));
@@ -12,21 +13,22 @@ export function productivity(e: Employee, workload: number): number {
   const skill = e.role === 'Designer' ? e.skills.product : e.role === 'Sales' ? e.skills.sales : e.role === 'CEO' ? e.skills.leadership : e.role === 'Operations' ? e.skills.operations : e.skills.engineering;
   return rounded((skill / 100) * (0.55 + e.psychology.satisfaction / 200) * (1 - e.psychology.burnout / 150) * Math.min(workload, 1.15));
 }
-export function psychologySystem({ w, active, emit }: SystemContext): void {
+export function psychologySystem({ w, active, emit, organization }: SystemContext): void {
   for (const e of active) {
+    const org = organizationInfluence(w, e, organization);
     const p = e.psychology, workload = w.company.workload;
     const underpaid = clamp(1 - e.salary / Math.max(1, e.expectations.salary), 0, 1);
     let memoryEffect = 0;
     for (const m of e.memories) memoryEffect += m.sentiment * (m.importance / 100) * Math.exp(-m.decayRate * (w.meta.tick - m.tick));
-    p.stress = rounded(clamp(p.stress + (workload - 0.9) * 1.8 + underpaid * 0.7 - 0.35));
+    p.stress = rounded(clamp(p.stress + (workload - 0.9) * 1.8 + underpaid * 0.7 - 0.35 + org.stress));
     p.burnout = rounded(clamp(p.burnout + (p.stress > 65 ? (p.stress - 65) / 100 : -0.15)));
-    const target = clamp(78 - p.stress * 0.23 - p.burnout * 0.25 - underpaid * 45 + memoryEffect * 0.04);
+    const target = clamp(78 - p.stress * 0.23 - p.burnout * 0.25 - underpaid * 45 + memoryEffect * 0.04 + org.satisfaction);
     p.satisfaction = rounded(clamp(p.satisfaction + (target - p.satisfaction) * 0.025));
     p.loyalty = rounded(clamp(p.loyalty + (p.satisfaction - 60) * 0.005));
     p.companyTrust = rounded(clamp(p.companyTrust + (p.satisfaction - p.companyTrust) * 0.005));
-    p.managerTrust = rounded(clamp(p.managerTrust + (p.companyTrust - p.managerTrust) * 0.003));
+    p.managerTrust = rounded(clamp(p.managerTrust + ((w.meta.simulationVersion === 3 ? org.trustTarget : p.companyTrust) - p.managerTrust) * 0.003));
     p.confidence = rounded(clamp(p.confidence + (e.performance - p.confidence) * 0.01));
-    const intentTarget = clamp(underpaid * 50 + p.burnout * 0.45 + Math.max(0, 65 - p.satisfaction) * 1.2 + Math.max(0, 50 - p.loyalty) * 0.35);
+    const intentTarget = clamp(underpaid * 50 + p.burnout * 0.45 + Math.max(0, 65 - p.satisfaction) * 1.2 + Math.max(0, 50 - p.loyalty) * 0.35 + org.retention);
     p.exitIntent = rounded(clamp(p.exitIntent + (intentTarget - p.exitIntent) * 0.05));
     if (e.role !== 'CEO' && p.exitIntent > 30 && w.meta.tick - e.lastConcernAt >= 30) {
       const event = emit('EmployeeConcernRaised', { employeeId: e.id, name: e.name, concern: underpaid > 0.3 ? 'compensation' : 'workload' }, e.lastManagementEvent ?? w.company.strategyEventId, [], 'management');
@@ -38,10 +40,11 @@ export function psychologySystem({ w, active, emit }: SystemContext): void {
     }
     if (e.role !== 'CEO' && e.exitStage === 'searching' && w.meta.tick % 7 === 0 && random(w.meta.seed, 'employees', e.id, w.meta.tick, 'resignation').chance(p.exitIntent / 100 * 0.08)) {
       const weights = { compensation: underpaid * 50, burnout: p.burnout * 0.45, management: Math.max(0, 65 - p.satisfaction) * 1.2, loyalty: Math.max(0, 50 - p.loyalty) * 0.35 };
-      const sum = Object.values(weights).reduce((s, n) => s + n, 0) || 1;
+      const causes: Record<string, number> = w.meta.simulationVersion === 3 ? { ...weights, career: e.career!.goals[0].frustration * .3, 'management-support': Math.max(0, 50 - org.trustTarget) * .2, 'team-stability': Math.max(0, 70 - w.teams[e.teamId].organization!.stability) * .08, 'role-fit': Math.max(0, 60 - (e.role === 'Sales' ? e.skills.sales : e.skills.engineering)) * .12 } : weights;
+      const sum = Object.values(causes).reduce((s, n) => s + n, 0) || 1;
       const event = emit('EmployeeResigned', { employeeId: e.id, name: e.name }, e.memories.at(-1)?.eventId ?? null,
-        Object.entries(weights).map(([factor, value]) => ({ factor, weight: rounded(value / sum), eventId: e.lastManagementEvent ?? w.company.strategyEventId })));
-      e.status = 'resigned'; e.leftAt = w.meta.tick; detachManager(w, e.id); remember(w, e, event, -80, 95);
+        Object.entries(causes).map(([factor, value]) => ({ factor, weight: rounded(value / sum), eventId: e.lastManagementEvent ?? w.company.strategyEventId })));
+      e.status = 'resigned'; e.leftAt = w.meta.tick; detachManager(w, e.id); disturbTeam(w, e.teamId, event.id); remember(w, e, event, -80, 95);
       // A departure is an actual observable event and affects surviving colleagues.
       for (const r of Object.values(w.relationships)) if (r.targetId === e.id && w.employees[r.sourceId].status === 'active') {
         const colleague = w.employees[r.sourceId]; colleague.psychology.loyalty = rounded(clamp(colleague.psychology.loyalty - r.affinity / 20)); remember(w, colleague, event, -30, 70);
@@ -49,11 +52,15 @@ export function psychologySystem({ w, active, emit }: SystemContext): void {
     }
   }
 }
-export function workSystem({ w, active }: SystemContext): void {
+export function workSystem({ w, active, organization }: SystemContext): void {
   const p = w.products['product-1'];
   for (const e of active) {
     if (e.status !== 'active') continue; // Employee may have resigned earlier this tick.
-    const output = productivity(e, w.company.workload);
+    const org = organizationInfluence(w, e, organization);
+    const reports = organization?.reports.get(e.id) ?? 0;
+    const managementTime = w.meta.simulationVersion === 3 ? Math.min(.65, reports * .065 + (e.career!.track === 'manager' ? .15 : 0)) : 0;
+    const output = rounded(productivity(e, w.company.workload) * org.work * (1 - managementTime));
+    if (w.meta.simulationVersion === 3) w.teams[e.teamId].organization!.output = rounded(w.teams[e.teamId].organization!.output + output);
     e.workTotal = rounded(e.workTotal + output); e.performance = rounded(clamp(output * 100));
     if (e.role !== 'Sales' && e.role !== 'Operations') {
       p.progress = rounded(clamp(p.progress + output * (p.priority === 'features' ? 0.7 : 0.32)));
@@ -63,6 +70,7 @@ export function workSystem({ w, active }: SystemContext): void {
   }
 }
 export function relationshipSystem({ w, emit }: SystemContext): void {
+  if (w.meta.simulationVersion === 3) return; // v3 uses event-anchored collaboration in its own weekly system.
   for (const r of Object.values(w.relationships).sort((a, b) => a.id.localeCompare(b.id, 'en'))) {
     const source = w.employees[r.sourceId], target = w.employees[r.targetId];
     if (source.status !== 'active' || target.status !== 'active') continue;
@@ -150,6 +158,7 @@ export function financeSystem({ w, emit, commandId }: SystemContext): void {
 }
 
 export const SYSTEMS = [
+  { name: 'organization', frequency: 'daily', run: organizationSystem },
   { name: 'psychology', frequency: 'daily', run: psychologySystem },
   { name: 'work', frequency: 'daily', run: workSystem },
   { name: 'relationships', frequency: 'weekly', run: relationshipSystem },

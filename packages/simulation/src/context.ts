@@ -1,5 +1,7 @@
 import type { DomainEvent, Employee, WorldState } from '../../domain/src/model';
+import type { OrganizationIndex } from './organization';
 export interface SystemContext {
+  organization?: OrganizationIndex;
   w: WorldState;
   active: Employee[];
   commandId: string;

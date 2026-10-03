@@ -5,7 +5,7 @@ import { burn, payroll, revenue, runway } from './systems';
 import { causeEvidence,eventPriority,financialForecast } from './decision-support';
 export function projectCompany(w: WorldState) {
   const employees = Object.values(w.employees).sort((a, b) => a.hiredAt - b.hiredAt || (a.id < b.id ? -1 : 1)).map(e => ({
-    id: e.id, name: e.name, role: e.role, status: e.status, salary: e.salary, expectedSalary: e.expectations.salary, minimumAcceptedSalary: w.meta.simulationVersion===2 && e.role!=='CEO' ? minimumCompensation(e.expectations.salary,e.personality.riskTolerance) : null, teamId: e.teamId, teamName: w.teams[e.teamId].name,
+    id: e.id, name: e.name, role: e.role, status: e.status, salary: e.salary, expectedSalary: e.expectations.salary, minimumAcceptedSalary: w.meta.simulationVersion>=2 && e.role!=='CEO' ? minimumCompensation(e.expectations.salary,e.personality.riskTolerance) : null, teamId: e.teamId, teamName: w.teams[e.teamId].name,
     managerName: e.managerId ? w.employees[e.managerId].name : '—', hiredAt: e.hiredAt, tenureDays: (e.leftAt ?? w.meta.tick) - e.hiredAt,
     performance: e.performance, condition: e.status !== 'active' ? '已離職' : e.psychology.burnout > 50 ? '需要休息' : e.psychology.stress > 65 ? '承受壓力' : e.psychology.satisfaction < 50 ? '有所顧慮' : '狀態穩定'
   }));

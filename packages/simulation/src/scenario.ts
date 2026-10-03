@@ -1,5 +1,6 @@
 import type { Employee, Role, ScenarioInput, WorldState } from '../../domain/src/model';
 import { configSchema } from '../../domain/src/model';
+import { initializeOrganization } from './organization';
 import { random } from '../../shared/src/determinism';
 
 export function makeEmployee(seed: string, id: string, name: string, role: Role, salary: number, teamId: string, tick: number, managerId: string | null): Employee {
@@ -16,8 +17,8 @@ export function makeEmployee(seed: string, id: string, name: string, role: Role,
     expectations: { salary: salary || 3_000_000, careerGrowth: rng.int(30, 80) }, goals: ['craft', 'stability'], memories: [], performance: 70, workTotal: 0, exitStage: 'settled', lastConcernAt: tick, lastManagementEvent: null
   };
 }
-export function garageScenario(input: ScenarioInput, simulationVersion: 1 | 2 = 2): WorldState {
-  if(simulationVersion!==1&&simulationVersion!==2)throw new Error('Unsupported simulation behavior version');
+export function garageScenario(input: ScenarioInput, simulationVersion: 1 | 2 | 3 = 2): WorldState {
+  if(simulationVersion!==1&&simulationVersion!==2&&simulationVersion!==3)throw new Error('Unsupported simulation behavior version');
   const config = configSchema.parse(input);
   const world: WorldState = {
     meta: { simulationVersion, seed: config.seed, tick: 0, date: '2026-01-01', startDate: '2026-01-01', nextEntity: config.employeeCount + 1, nextEvent: 2, nextCommand: 2, config },
@@ -42,5 +43,6 @@ export function garageScenario(input: ScenarioInput, simulationVersion: 1 | 2 = 
     const rid = `${sourceId}>${targetId}`;
     world.relationships[rid] = { id: rid, sourceId, targetId, trust: 65, respect: 65, affinity: 60, rivalry: 5, resentment: 0 };
   }
+  if (simulationVersion === 3) initializeOrganization(world);
   return world;
 }

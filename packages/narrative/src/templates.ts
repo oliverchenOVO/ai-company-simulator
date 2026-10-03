@@ -10,6 +10,9 @@ export class TemplateNarrativeProvider implements NarrativeProvider {
     const p = event.payload;
     let title: string, body: string, channel: NarrativeMessage['channel'] = '公司';
     switch (event.type) {
+      case 'ManagerOverloaded': title = `${p.name} 的管理負荷偏高`; body = `目前有 ${p.reports} 位直接部屬，支持與工作時間受到限制。可重新安排主管。`; channel = '人事'; break;
+      case 'ManagementLoadRecovered': title = `${p.name} 的管理負荷恢復`; body = '直接部屬數已回到目前可支持的範圍。'; channel = '人事'; break;
+      case 'TeamCoordinationChanged': title = `${p.name} 的協作狀態改變`; body = p.condition === 'strained' ? '合作效率轉弱，請檢視人員異動、主管支持與團隊規模。' : '合作逐步恢復穩定。'; channel = '人事'; break;
       case 'CompanyCreated': title = '公司成立'; body = `${p.name} 的故事從今天開始。`; break;
       case 'HireOfferRejected': title = `${p.name} 婉拒薪資出價`; body = `出價 ${dollars(p.salary)} 低於此候選人的最低接受額 ${dollars(Math.ceil(Number(p.minimum)/100)*100)}，期待月薪 ${dollars(p.expectation)}。未到職，也未增加薪資支出。`; channel = '人事'; break;
       case 'EmployeeHired': title = `${p.name} 加入團隊`; body = `新夥伴已到職，月薪為 ${dollars(p.salary)}。`; channel = '人事'; break;

@@ -19,7 +19,24 @@ export function invariantViolations(w: WorldState, previousTick?: number): strin
     check(key === entity.id, `Entity key mismatch ${key}`);
     check(!allIds.has(entity.id), `Duplicate ID ${entity.id}`); allIds.add(entity.id);
   }
+  const finished = new Set<string>();
+  for (const start of Object.keys(w.employees)) {
+    const path = new Set<string>(); let cursor: string | null = start;
+    while (cursor && !finished.has(cursor)) {
+      if (path.has(cursor)) { check(false, `Manager cycle ${cursor}`); break; }
+      path.add(cursor); cursor = w.employees[cursor]?.managerId ?? null;
+    }
+    for (const id of path) finished.add(id);
+  }
   for (const e of Object.values(w.employees)) {
+    check(w.meta.simulationVersion === 3 ? !!e.career : !e.career, `Versioned career ${e.id}`);
+    if (e.career) {
+      check(e.career.lastProgressAt <= w.meta.tick && e.career.lastConversationAt <= w.meta.tick, `Future career ${e.id}`);
+      for (const g of e.career.goals) {
+        check(g.createdAt <= w.meta.tick, `Future goal ${e.id}`);
+        for (const v of [g.importance, g.progress, g.frustration]) check(v >= 0 && v <= 100, `Career range ${e.id}`);
+      }
+    }
     check(Number.isSafeInteger(e.expectations.salary) && (w.meta.simulationVersion === 1 ? e.expectations.salary >= 0 : e.expectations.salary > 0), `Invalid compensation expectation ${e.id}`);
     check(e.salary >= 0 && Number.isSafeInteger(e.salary), `Invalid salary ${e.id}`);
     check(!!w.teams[e.teamId], `Missing team ${e.id}`);
@@ -31,7 +48,11 @@ export function invariantViolations(w: WorldState, previousTick?: number): strin
     check(e.status === 'active' ? e.leftAt === null : e.leftAt !== null, `Employment dates ${e.id}`);
     check(e.hiredAt <= w.meta.tick && (e.leftAt === null || e.leftAt <= w.meta.tick), `Future employment ${e.id}`);
   }
-  for (const team of Object.values(w.teams)) check(team.managerId === null || w.employees[team.managerId]?.status === 'active', `Invalid team manager ${team.id}`);
+  for (const team of Object.values(w.teams)) {
+    check(w.meta.simulationVersion === 3 ? !!team.organization : !team.organization, `Versioned team ${team.id}`);
+    if (team.organization) for (const v of [team.organization.stability, team.organization.coordination]) check(v >= 0 && v <= 100, `Team range ${team.id}`);
+    check(team.managerId === null || w.employees[team.managerId]?.status === 'active', `Invalid team manager ${team.id}`);
+  }
   for (const r of Object.values(w.relationships)) {
     check(!!w.employees[r.sourceId] && !!w.employees[r.targetId], `Missing relationship endpoint ${r.id}`);
     check(r.sourceId !== r.targetId, `Self relationship ${r.id}`);

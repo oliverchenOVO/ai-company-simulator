@@ -3,13 +3,14 @@ import { hash, simDate } from '../../shared/src/determinism';
 import { detachManager, remember, type SystemContext } from './context';
 import { assertInvariants } from './invariants';
 import { garageScenario, makeEmployee } from './scenario';
+import { disturbTeam, ensureRelationship, initializeCareer } from './organization';
 import { candidateFor, minimumCompensation } from './compensation';
 import { activeEmployees, SYSTEMS } from './systems';
 import { projectCompany, type CompanyView } from './projection';
 
 export class Simulation {
   private w: WorldState;
-  constructor(config: ScenarioInput, private readonly validateEachTick = true, simulationVersion: 1 | 2 = 2) {
+  constructor(config: ScenarioInput, private readonly validateEachTick = true, simulationVersion: 1 | 2 | 3 = 2) {
     this.w = garageScenario(configSchema.parse(config), simulationVersion);
     assertInvariants(this.w);
   }
@@ -41,7 +42,7 @@ export class Simulation {
       switch (command.type) {
         case 'AdvanceTime': this.advance(command.days, commandId, emit); break;
         case 'HireEmployee': {
-          const candidate = this.w.meta.simulationVersion === 2 ? candidateFor(this.w, command.role, command.name, command.teamId) : null;
+          const candidate = this.w.meta.simulationVersion >= 2 ? candidateFor(this.w, command.role, command.name, command.teamId) : null;
           const id = `employee-${this.w.meta.nextEntity++}`;
           if (candidate && command.salary < candidate.minimum) {
             emit('HireOfferRejected', { candidateId: id, name: command.name, role: command.role, salary: command.salary, expectation: candidate.expectation, minimum: candidate.minimum });
@@ -50,6 +51,7 @@ export class Simulation {
           const managerId = this.w.teams[command.teamId].managerId;
           const employee = makeEmployee(this.w.meta.seed, id, command.name, command.role, command.salary, command.teamId, this.w.meta.tick, managerId);
           if (candidate) employee.expectations.salary = candidate.expectation;
+          if (this.w.meta.simulationVersion === 3) { initializeCareer(employee, this.w.meta.tick); if (managerId) ensureRelationship(this.w, id, managerId); }
           this.w.employees[id] = employee;
           const colleague = activeEmployees(this.w).find(e => e.id !== id && e.teamId === command.teamId);
           if (colleague) for (const [sourceId, targetId] of [[id, colleague.id], [colleague.id, id]]) {
@@ -57,17 +59,17 @@ export class Simulation {
             this.w.relationships[rid] = { id: rid, sourceId, targetId, trust: 55, respect: 55, affinity: 45, rivalry: 5, resentment: 0 };
           }
           const event = emit('EmployeeHired', { employeeId: id, name: employee.name, role: employee.role, salary: employee.salary });
-          remember(this.w, employee, event, 30); break;
+          disturbTeam(this.w, employee.teamId, event.id, 8); remember(this.w, employee, event, 30); break;
         }
         case 'FireEmployee': {
           const employee = this.w.employees[command.employeeId];
           employee.status = 'fired'; employee.leftAt = this.w.meta.tick; detachManager(this.w, employee.id);
           const event = emit('EmployeeFired', { employeeId: employee.id, name: employee.name });
-          remember(this.w, employee, event, -90, 95); break;
+          disturbTeam(this.w, employee.teamId, event.id, 16); remember(this.w, employee, event, -90, 95); break;
         }
         case 'ChangeSalary': {
           const e = this.w.employees[command.employeeId], previous = e.salary;
-          if(this.w.meta.simulationVersion===2 && e.role!=='CEO' && command.salary<previous) {
+          if(this.w.meta.simulationVersion>=2 && e.role!=='CEO' && command.salary<previous) {
             const minimum=minimumCompensation(e.expectations.salary,e.personality.riskTolerance);
             if(command.salary<minimum) {
               emit('SalaryOfferRejected',{employeeId:e.id,name:e.name,salary:command.salary,previous,expectation:e.expectations.salary,minimum});
@@ -83,15 +85,17 @@ export class Simulation {
         }
         case 'CreateTeam': {
           const id = `team-${this.w.meta.nextEntity++}`;
-          this.w.teams[id] = { id, name: command.name, managerId: command.managerId };
+          this.w.teams[id] = { id, name: command.name, managerId: command.managerId, ...(this.w.meta.simulationVersion === 3 ? { organization: { stability: 85, coordination: 65, output: 0, lastChangeEvent: null, condition: 'steady' as const } } : {}) };
           emit('TeamCreated', { teamId: id, name: command.name, managerId: command.managerId }); break;
         }
         case 'MoveEmployeeToTeam': {
-          const e = this.w.employees[command.employeeId]; e.teamId = command.teamId;
+          const e = this.w.employees[command.employeeId], previousTeam = e.teamId; e.teamId = command.teamId;
           const manager = this.w.teams[command.teamId].managerId;
           e.managerId = manager === e.id ? null : manager;
           const event = emit('EmployeeMoved', { employeeId: e.id, name: e.name, teamId: e.teamId });
-          e.lastManagementEvent = event.id; remember(this.w, e, event, -5, 30); break;
+          e.lastManagementEvent = event.id; if (previousTeam !== e.teamId) { disturbTeam(this.w, previousTeam, event.id); disturbTeam(this.w, e.teamId, event.id); }
+          if (this.w.meta.simulationVersion === 3 && e.managerId) ensureRelationship(this.w, e.id, e.managerId);
+          remember(this.w, e, event, -5, 30); break;
         }
         case 'ChangeCompanyStrategy': {
           this.w.company.strategy = command.strategy;
