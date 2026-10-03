@@ -39,7 +39,7 @@ export function App() {
       {summary?<AdvanceSummary summary={summary} dismiss={dismissSummary}/>:null}
       {!initialized ? <div className="loading-state" role="status">正在載入公司進度…</div> : !view ? <Welcome act={act} busy={busy}/> : screen()}
     </main><footer className="time-bar"><div className="time-date"><CalendarDays size={23}/><strong>第 {view?.tick ?? 0} 天</strong><time>{view?.date ?? '2026-01-01'}</time></div><div className="time-hint"><strong>{busy ? '處理中…' : view?.bankrupt ? '營運已停止' : '時間控制'}</strong><span>讓你的決策，隨時間產生結果。</span></div><div className="time-actions"><button className="button secondary" disabled={!view || busy || view.bankrupt} onClick={() => { void act({ action: 'execute', command: { type: 'AdvanceTime', days: 1 } }); }}><Play size={17}/>推進一天</button><button className="button primary" disabled={!view || busy || view.bankrupt} onClick={() => { void act({ action: 'execute', command: { type: 'AdvanceTime', days: 7 } }); }}><SkipForward size={18}/>推進一週</button></div></footer></div>
-    {creating ? <Modal title="建立新公司" onClose={() => setCreating(false)}><NewCompanyForm act={act} busy={busy} afterCreate={() => { setCreating(false); setPage('Dashboard'); }}/></Modal> : null}
+    {creating ? <Modal title="建立新公司" onClose={() => setCreating(false)}><NewCompanyForm act={act} busy={busy} afterCreate={() => { useUi.getState().setOfficeHistory(null); setCreating(false); setPage('Dashboard'); }}/></Modal> : null}
   </div>;
 }
 function Welcome({ act, busy }: { act: Action; busy: boolean }) {

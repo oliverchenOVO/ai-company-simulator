@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { Simulation } from '../packages/simulation/src/simulation';
+import { Simulation, replay } from '../packages/simulation/src/simulation';
+import { readFileSync } from 'node:fs';
 import { projectOffice } from '../apps/desktop/src/features/office/projection';
 import { projectOfficeScene } from '../apps/desktop/src/features/office/scene-projection';
 import { sampleMotion } from '../apps/desktop/src/features/office/scene-motion';
@@ -25,6 +26,7 @@ describe('pure 3D Office adapter and presentation motion', () => {
     const sim=new Simulation({name:'3D',seed:'office-3d',scenario:'garage'},true,3); sim.execute({type:'AdvanceTime',days:30});
     const saved=createSave(sim.snapshot()); const loaded=validateSave(JSON.parse(JSON.stringify(saved)));
     const restored=Simulation.restore(loaded.world); expect(scene(restored)).toEqual(scene(sim));
+    expect(scene(replay(loaded.world))).toEqual(scene(sim));
   });
   it('reduced motion holds workstation and hides former employees', () => {
     const sim=new Simulation({name:'3D',seed:'office-3d',scenario:'garage'},true,3); const s=scene(sim).seats[0];
@@ -53,5 +55,24 @@ describe('pure 3D Office adapter and presentation motion', () => {
     expect(sampleMotion(s,6,false,cue).pose).toBe('Presenting'); expect(sampleMotion(s,6,false,cue).document).toBe(true);
     expect(sampleMotion(s,14,false,cue).position).toEqual(s.person);
     expect(sampleMotion(s,6,false).document).toBe(false);
+  });
+  it('cross-floor handoff uses the actual manager floor and returns without an invented outcome',()=>{
+    const sim=new Simulation({name:'3D',seed:'office-3d',scenario:'garage'},true,3), projected=scene(sim);
+    const worker=projected.seats.find(s=>s.seat.employeeId==='employee-3')!,manager=projected.seats.find(s=>s.seat.employeeId==='employee-2')!;
+    const cue={id:'public',employeeId:worker.seat.employeeId,type:'Discussing' as const,priority:3,title:'manager change',tick:0};
+    expect(sampleMotion(worker,3.5,false,cue,manager).visible).toBe(false);
+    expect(sampleMotion(worker,4,false,cue,manager).position).toEqual(manager.elevator);
+    const handoff=sampleMotion(worker,8,false,cue,manager);expect(handoff.pose).toBe('Talking');expect(handoff.document).toBe(true);expect(handoff.position[1]).toBe(manager.person[1]);
+    expect(sampleMotion(worker,19,false,cue,manager).position).toEqual(worker.person);
+  });
+  it('a real manager promotion can stage a bounded meeting then return to work',()=>{
+    const sim=new Simulation({name:'3D',seed:'office-3d',scenario:'garage'},true,3), manager=scene(sim).seats.find(s=>s.seat.role==='management')!;
+    const cue={id:'promotion',employeeId:manager.seat.employeeId,type:'Celebrating' as const,priority:2,title:'promotion',tick:0};
+    expect(sampleMotion(manager,9,false,cue).position).toEqual(manager.meeting);expect(sampleMotion(manager,9,false,cue).pose).toBe('Presenting');
+    expect(sampleMotion(manager,16,false,cue).position).toEqual(manager.person);
+  });
+  for(const file of ['phase1-0.1.0.save.json','phase1-0.1.1.save.json','phase2-0.2.0.save.json']) it(`reconstructs 3D from released ${file} with exact hash`,()=>{
+    const saved=validateSave(JSON.parse(readFileSync(`tests/fixtures/${file}`,'utf8'))), sim=Simulation.restore(saved.world),hash=sim.stateHash();
+    expect(scene(sim)).toEqual(scene(replay(saved.world)));expect(sim.stateHash()).toBe(hash);expect(hash).toBe(saved.manifest.stateHash);
   });
 });
