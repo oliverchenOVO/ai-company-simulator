@@ -1,0 +1,11 @@
+# Presentation state and authority
+
+Feature-local React state: selected employee/team, focused floor, overlay and search. Derived useMemo projection: floor, zone, desk, appearance, qualitative labels, report connections and bounded cues. These are discarded/recomputed after load/navigation. No authoritative save schema fields are added. Preferences currently reset on navigation; deliberate, reversible and outside world truth.
+
+Appearance uses FNV-style integer hashing of employee ID into five clothing colors, four skin/hair palettes, four hair silhouettes and optional glasses. No simulation RNG consumption. Identity remains after reload, replay or promotion; hair/clothes are cosmetic, not gender/personality truth.
+
+Default desk work/reading is ambient illustration. Recent public events alone trigger arrived/moved short waypoint walk, promotion acknowledgement, discussion with document, concern marker or departure vacancy. No new meeting, proposal outcome, acceptance/rejection, relationship or productivity event is fabricated. Meeting props say recent event presentation. No independently simulated calendar, navigation graph or elevator scheduler. Central elevator is architectural and simple transition imagery only. No separate manager reaction is asserted.
+
+Scan public event history backward within seven simulation days, select newest applicable cue per employee, prioritize departure/hire/promotion/manager/concern/transfer, cap eight cues. CSS finite vignettes are keyed by event ID; work is a subtle visual-only loop with seeded phase. No per-frame React updates, timers or commands. Revisiting can restage a recent vignette but cannot repeat a world action. Large fidelity tiers, mobile and prefers-reduced-motion disable animation without removing facts. World updates regenerate immediately even when time jumps a week; no animation backlog blocks time controls.
+
+Concern indicators are exact existing qualitative condition/career/support/retention/load labels. Team stability is exact observed label. No stress/frustration/exit intent/probability numbers are imported. Selection links to existing People/Teams/Timeline; Office has no Action prop. Numeric visible report counts are organizational facts, not hidden capacity calculations. No contact or outbound message integration.

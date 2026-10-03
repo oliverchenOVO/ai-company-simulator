@@ -1,0 +1,11 @@
+# Layout projection
+
+projectOffice consumes CompanyView only. Pure results own detached arrays. No simulation methods, WorldState fields, RNG or command dispatch are available. Semantic seats are keyed by employee identity, not a mutable office save.
+
+CEO → executive; CTO, management track or actual active direct reports → management; others → staff. A manager track alone changes allocated workplace but never invents reports or skill. V1/v2 use their existing role/report projection with no invented career system. Groups sort by team ID, manager ID, hired date and stable code-unit ID; staff rooms contain one reporting/team cluster of up to four. Two staff zones per floor (eight maximum), four management positions per floor; executive expands in groups of four if necessary. There is always one architectural level for each category, even when empty. Capacity determines expansion, not arbitrary economic/headcount thresholds. Founder three-person layout is Alice executive / Bob management / Carol staff.
+
+New real hire adds a seat; rejected candidates never appear. Promotion to manager relocates; specialist promotion retains work area unless actual reports dictate management responsibility. Assignment/transfer regroup affected reporting clusters. No organization change: tick-only updates do not reshuffle desks. Inserting a team/reporting group can shift subsequent floor partitions: current organization deterministically defines positions, not a persistent real-estate system. No random per-tick shuffling.
+
+Actual former employees keep recent empty seats for 30 simulation days, at most 16 newest vacancies. Departure time derives from observed tenure and hired date. Vacancy is regenerateable, not a newly stored event. Current preserved role/track determines former seat category; a former informal manager whose reports were reassigned can project into staff. Empty desks are visibly labeled. The unit departure assertion covers a real fired staff member; resignation uses the same public status boundary.
+
+<=100: individual characters and restrained animation; 101–250: motion reduced; larger: floor focus and no animation, searchable semantic identities and floor counts remain. Beyond 100 is a robustness fallback, not future cohort gameplay. No rents, construction, property or capacity limits enter the simulation.
