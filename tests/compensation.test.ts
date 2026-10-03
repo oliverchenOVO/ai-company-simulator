@@ -73,5 +73,10 @@ describe('versioned independent compensation', () => {
     expect(response.recruitment?.accepted).toBe(false);expect(response.notice).toContain('低於');expect(response.view?.employees).toHaveLength(3);
     expect(saves.get('autosave').world.commands.at(-1).command).toEqual(offer(100));
     expect((await session.handle({action:'replay'})).replay?.matches).toBe(true);
+    const accepted=await session.handle({action:'execute',command:offer(4_000_000)});
+    const hired=accepted.view!.employees.find(e=>e.name==='Dana')!;
+    const cut=await session.handle({action:'execute',command:{type:'ChangeSalary',employeeId:hired.id,salary:100}});
+    expect(cut.notice).toContain('原月薪');expect(cut.view!.employees.find(e=>e.id===hired.id)?.salary).toBe(4_000_000);
+    expect((await session.handle({action:'execute',command:{type:'AdvanceTime',days:1}})).notice).toBeUndefined();
   });
 });

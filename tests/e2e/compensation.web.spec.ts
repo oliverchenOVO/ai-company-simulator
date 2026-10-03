@@ -1,0 +1,24 @@
+import { test, expect } from '@playwright/test';
+import { mkdirSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { createCompany } from './helpers';
+import { validateSave } from '../../packages/persistence/src/save';
+import { replay } from '../../packages/simulation/src/simulation';
+test('candidate expectation, normal rejection, acceptance and persisted v2 replay',async({page})=>{
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  await page.goto('/');await expect(page).toHaveTitle(/FOUNDRY/);await createCompany(page);
+  await page.getByRole('navigation').getByRole('button',{name:'人員',exact:true}).click();await page.getByRole('button',{name:'招募員工',exact:true}).click();
+  const dialog=page.getByRole('dialog');await expect(dialog.getByText(/期待月薪/)).toBeVisible();
+  await dialog.getByLabel('姓名',{exact:true}).fill('Compensation QA');await dialog.getByLabel('月薪（NT$）',{exact:true}).fill('1');
+  await expect(dialog.getByText(/低於候選人可接受範圍/)).toBeVisible();await dialog.getByRole('button',{name:'確認招募',exact:true}).click();
+  await expect(dialog.getByRole('status')).toContainText('未到職');await expect(dialog).toBeVisible();expect(await page.getByRole('button',{name:'Compensation QA',exact:true}).count()).toBe(0);
+  const dir=resolve(process.env.FOUNDRY_QA_DIR??'C:/Users/oliver/.codex/artifacts/foundry-phase1-5b-qa');mkdirSync(dir,{recursive:true});
+  await page.screenshot({path:resolve(dir,'recruitment-rejection-desktop.png')});
+  await page.setViewportSize({width:390,height:844});expect(await page.locator('body').evaluate(b=>b.scrollWidth<=window.innerWidth)).toBe(true);await page.screenshot({path:resolve(dir,'recruitment-rejection-mobile.png')});
+  await dialog.getByLabel('月薪（NT$）',{exact:true}).fill('40000');await dialog.getByRole('button',{name:'確認招募',exact:true}).click();await expect(dialog).not.toBeVisible();
+  await page.reload();await page.getByRole('navigation').getByRole('button',{name:'人員',exact:true}).click();await expect(page.getByRole('button',{name:'Compensation QA',exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Compensation QA',exact:true}).click();await dialog.getByLabel('調整月薪（NT$）',{exact:true}).fill('1');await dialog.getByRole('button',{name:'儲存薪資',exact:true}).click();
+  await expect(page.locator('.success-banner')).toContainText('原月薪');await expect(dialog.getByText('NT$40,000',{exact:true})).toBeVisible();await page.keyboard.press('Escape');
+  await page.getByRole('navigation').getByRole('button',{name:'設定',exact:true}).click();const download=page.waitForEvent('download');await page.getByRole('button',{name:'匯出存檔',exact:true}).click();
+  const file=await (await download).path();const save=validateSave(JSON.parse(readFileSync(file!,'utf8')));expect(save.world.meta.simulationVersion).toBe(2);expect(save.world.events.some(e=>e.type==='HireOfferRejected')).toBe(true);expect(replay(save.world).stateHash()).toBe(save.manifest.stateHash);expect(errors).toEqual([]);
+});

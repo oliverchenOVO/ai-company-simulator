@@ -14,7 +14,7 @@ test('financial decision preview and actual week summary remain readable on mobi
   await summary.getByRole('button',{name:'收起摘要'}).click();await expect(summary).not.toBeVisible();await page.getByRole('button',{name:'推進一天',exact:true}).click();await expect(summary).not.toBeVisible();
 });
 test('resignation explains recorded causes with visible concerns and urgency filtering',async({page})=>{
-  const sim=new Simulation({seed:'retention-001',name:'Retention Case',scenario:'garage'});sim.execute({type:'ChangeSalary',employeeId:'employee-2',salary:0});sim.execute({type:'AdvanceTime',days:190});
+  const sim=new Simulation({seed:'retention-001',name:'Retention Case',scenario:'garage'},true,1);sim.execute({type:'ChangeSalary',employeeId:'employee-2',salary:0});sim.execute({type:'AdvanceTime',days:190});
   await page.goto('/');await createCompany(page);await page.getByRole('navigation').getByRole('button',{name:'設定',exact:true}).click();
   await page.getByLabel('匯入存檔檔案').setInputFiles({name:'retention.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(createSave(sim.snapshot())))});
   await expect(page.locator('.company-header')).toContainText('Retention Case');await page.getByRole('navigation').getByRole('button',{name:'時間軸',exact:true}).click();await page.getByRole('combobox',{name:'重要程度'}).selectOption('critical');

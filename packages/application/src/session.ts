@@ -20,6 +20,7 @@ export type SessionRequest = z.input<typeof requestSchema>;
 export interface SessionResponse {
   view: CompanyView | null;
   notice?: string;
+  recruitment?: { accepted: boolean; expectation: number; minimum: number };
   summary?: AdvanceSummary;
   exported?: SaveEnvelope;
   replay?: { hash: string; matches: boolean };
@@ -51,6 +52,12 @@ export class ApplicationSession {
         candidate.execute(request.command); await this.repository.save('autosave', createSave(candidate.snapshot())); this.sim = candidate;
         if(request.command.type==='AdvanceTime'&&request.command.days>=7)extra={summary:advanceSummary(before,candidate.observe())};
         else if(request.command.type!=='AdvanceTime')extra={notice:`決策已生效並自動保存：${candidate.observe().events.at(-1)?.title??'公司安排已更新'}`};
+        if(request.command.type==='ChangeSalary'&&candidate.observe().events.at(-1)?.type==='SalaryOfferRejected')extra.notice=candidate.observe().events.at(-1)?.body;
+        if(request.command.type==='HireEmployee') {
+          const event=candidate.snapshot().events.at(-1)!;
+          extra.recruitment={accepted:event.type==='EmployeeHired',expectation:Number(event.payload.expectation??candidate.snapshot().employees[String(event.payload.employeeId)]?.expectations.salary),minimum:Number(event.payload.minimum??0)};
+          if(!extra.recruitment.accepted)extra.notice=candidate.observe().events.at(-1)?.body;
+        }
         break;
       }
       case 'save': await this.repository.save('manual', createSave(this.requireSim().snapshot())); extra = { notice: '手動存檔已保存，可在設定頁載入。' }; break;
