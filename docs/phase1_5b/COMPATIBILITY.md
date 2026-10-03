@@ -1,0 +1,9 @@
+# Compensation behavior compatibility
+
+Old application0.1.0 / save envelope schema1 / simulation1. New application0.1.1 / save envelope schema1 / simulation2 for new companies. Existing world.meta.simulationVersion selects unchanged v1 behavior on restore and replay; no migration or silent expectation rewrite. Continuing an imported old game intentionally retains old compensation including its known exploit. Recruitment UI labels legacy behavior. Export may carry current appVersion while retaining simulation1; app version is not the replay selector.
+
+Simulation constructor third parameter explicitly selects behavior for tooling/tests. Default is2. Both engines share scheduler, RNG streams and systems; only recruitment/compensation behavior legitimately changed. Meta selector is included in existing hashed world. V1 config/command shapes remain unchanged; adding config defaults for version would have changed old hashes, so behavior selector lives in the existing meta field.
+
+Original tests/fixtures/golden.json and real phase1-0.1.0.save.json stay byte-for-byte unchanged. Golden tests explicitly run original scenarios under1 with all assertions retained. New tests/fixtures/golden-v2.json intentionally records rejected then accepted offers and years1/3/5, with its own generator; original generator must explicitly select1. New tests retain the exact original exported hash, validate/load/replay and separately verify v2 accepted/rejected/cut command histories. Unknown simulation versions fail schema validation. V1 hashes must never be regenerated to accommodate new behavior.
+
+Future equation changes require another explicit supported behavior version or a clearly documented opted-in migration. Do not infer behavior from appVersion. A schema change concerns structural decoding, not economic semantics. No automatic upgrade from v1 to2 is provided because that would change historical outcomes and should be a separate product decision.

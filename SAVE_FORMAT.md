@@ -11,3 +11,8 @@ Browser adapter uses IndexedDB `foundry-company-saves` database v1, `saves` obje
 Slots: autosave after creation and every accepted player command; manual only when Save is clicked. Loading manual also atomically replaces autosave. Refresh/restart resumes autosave. A manual checkpoint remains independent. All I/O is outside the simulation loop.
 
 Replay recreates the initial scenario/seed then re-executes records after CreateCompany in their exact command order. The pre-command tick sequence is verified and AdvanceTime spans are retained. Hash includes logs as well as world quantities. The browser-export E2E validates the saved world under Node and compares independently replayed SHA-256. Import additionally replays before acceptance. Hashes are integrity checks, not a cryptographic signature or anti-cheat mechanism.
+
+
+## Phase1.5B behavior versions
+
+Application0.1.1 reads save envelope schema1 with simulationVersion1 or2. New games default to2; historical saves and command histories remain1 and replay with1. No migration rewrites employee expectations. Version1 retains salary-derived hiring expectation; version2 uses independent role/skill/personality expectation and deterministic offer acceptance. Shared systems are unchanged. Original golden.json is retained; golden-v2.json independently covers new behavior. See docs/phase1_5b/COMPATIBILITY.md and COMPENSATION_MODEL.md.

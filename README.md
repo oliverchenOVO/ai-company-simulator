@@ -31,3 +31,6 @@ Desktop saves: `%APPDATA%/ai-company-simulator/companies.sqlite` (actual user-da
 Start with NT$500,000, CEO/CTO/Engineer and one Atlas prototype. Advance days/weeks, recruit, manage salaries and teams, choose product priority and company strategy. Observe employee concerns and event causes rather than exact psychological scores. Monthly payroll and active-day revenue are booked at calendar month boundaries. Insolvency stops operations; create a new company or restore an earlier checkpoint.
 
 Documentation: [architecture](ARCHITECTURE.md), [equations/scheduling](SIMULATION.md), [save format](SAVE_FORMAT.md), [validation commands](TESTING.md). The original supplied specification is preserved at docs/PHASE1_SPEC.txt. GitHub source remains private.
+
+
+Phase1.5B: [compensation integrity report](PHASE1_5B_REPORT.md), [independent expectation model](docs/phase1_5b/COMPENSATION_MODEL.md), [version compatibility](docs/phase1_5b/COMPATIBILITY.md), [human playtest protocol](docs/phase1_5b/HUMAN_PLAYTEST_PROTOCOL.md). New0.1.1games use simulation2; existing saves replay with simulation1 without migration. Phase2 is only a recommendation, not implemented.

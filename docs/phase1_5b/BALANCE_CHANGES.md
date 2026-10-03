@@ -1,0 +1,11 @@
+# Compensation-only balance changes
+
+## Change1 — independent expectation and acceptance
+
+Problem: offer was copied into expected salary, allowingNT$1 engineers. Evidence: priorPhase1.5 and preservedv1 control9/10survival, compared35k0/10. Change: simulation2 role/skill/ambition anchor, risk-tolerance acceptance, no offer input, integer cents, deterministic HireOfferRejected as normal outcome. Expected: pathological offers add no employees/payroll; reasonable offers remain useful. Measured:4,000offer matrix cases correct;100seed absurd probe accepts0offers/rejects1,501. Its21survivors are original-founder growth companies, comparable no-hire growth20survivors, not cheap-labor exploitation. Rejections change global identity consumption, a documented causal difference. Regression: originalv1 tests/hashes unchanged, v2 distinct golden/replay/save coverage. Compatibility: behavior2 fornewgames,1forold histories; envelope unchanged.
+
+## Change2 — prevent recruitment-then-cut bypass
+
+Problem: lawful salary adjustment circumvented recruitment consent. Evidence: candidate-only implementation post-hireNT$1 cuts55/100survive while fairmid hires0/100, preservedbefore-cut-guard evidence. Change: non-founder v2 salary cuts below personal acceptance minimum are proposals rejected withSalaryOfferRejected; salary/history stay unchanged. Uses same expectation/risk rule, not universalfloor. VoluntaryfounderCEO stipend remains supported. Expected: nofree-labor bypass, legal within-band cuts still create dissatisfaction/memory. Measured: same100seed bypass0survivors, actualpayroll maintained; focused100seedcut/replay coverage. Regression: v1 remains unaltered; new v2 goldens unchanged by cutguard because their histories contain no cuts. Compatibility: includedonlyversion2 behavior; no shippedv2save existed before this release.
+
+No changes to starting capital, founder contractual expectations, RNG, scheduler, psychology coefficients, work/product, market/customer acquisition/churn, revenue recognition, monthly salary accounting or insolvency. Candidate role anchors are game design parameters, not empirical market salary claims. No lower salary clamp, fake events, LLM, Phase2 systems or broad economic tuning.

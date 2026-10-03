@@ -38,3 +38,8 @@ Canonical JSON sorts object keys recursively, rejects NaN/Infinity/undefined and
 Development/test simulation checks each active tick: finite quantities, safe money, nonnegative salaries/revenue, unique entity IDs, valid references, single team membership by the scalar teamId model, no self manager, active manager references, valid employment dates, monotonic clock/date, and bounded psychology/relationships/products. Load adds complete Zod schema and command/event/cause history validation.
 
 Benchmark dates include leap days: 1,826 days reach 2031-01-01; 3,652 reach 2036-01-01. Financial failure is an outcome, not numerical instability. The passive benchmark has no player interventions. The stress scenario explicitly uses 1,000 employees and NT$10 billion initial capital to sustain ten years of operating workload; the normal new-company flow always uses the contractual 3 employees/NT$500,000.
+
+
+## Phase1.5B behavior versions
+
+Application0.1.1 reads save envelope schema1 with simulationVersion1 or2. New games default to2; historical saves and command histories remain1 and replay with1. No migration rewrites employee expectations. Version1 retains salary-derived hiring expectation; version2 uses independent role/skill/personality expectation and deterministic offer acceptance. Shared systems are unchanged. Original golden.json is retained; golden-v2.json independently covers new behavior. See docs/phase1_5b/COMPATIBILITY.md and COMPENSATION_MODEL.md.
