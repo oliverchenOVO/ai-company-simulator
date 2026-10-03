@@ -4,7 +4,7 @@ import { Simulation, replay } from '../packages/simulation/src/simulation';
 import { activeEmployees, revenue } from '../packages/simulation/src/systems';
 import { invariantViolations } from '../packages/simulation/src/invariants';
 import { worldSchema } from '../packages/domain/src/model';
-const simulationVersion = process.argv.includes('--v3') ? 3 : 2;
+const simulationVersion = process.argv.includes('--v2') ? 2 : 3;
 const stress = process.argv.includes('--stress');
 const seeds = stress ? 1 : 100;
 const days = stress ? 3652 : 1826; // Includes leap days from 2026-01-01.

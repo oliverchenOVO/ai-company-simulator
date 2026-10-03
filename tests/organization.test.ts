@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { Simulation, replay } from '../packages/simulation/src/simulation';
 import { management, organizationIndex } from '../packages/simulation/src/organization';
 import { createSave, validateSave } from '../packages/persistence/src/save';
+import { invariantViolations } from '../packages/simulation/src/invariants';
 const config = { seed: 'organization-001', name: 'Organization', scenario: 'garage' as const, initialCash: 10_000_000_000 };
 const make = (count = 3) => new Simulation({ ...config, employeeCount: count }, true, 3);
 describe('v3 management and team model', () => {
@@ -128,5 +129,42 @@ describe('v3 career, reporting and causal relationships', () => {
     expect(a.snapshot().employees[e.id].career!.goals[0].frustration).toBeLessThan(b.snapshot().employees[e.id].career!.goals[0].frustration);
     expect(a.snapshot().employees[e.id].psychology.exitIntent).not.toBe(b.snapshot().employees[e.id].psychology.exitIntent);
     expect(replay(a.snapshot()).stateHash()).toBe(a.stateHash()); expect(replay(b.snapshot()).stateHash()).toBe(b.stateHash());
+  });
+  it('peer promotion reacts only through existing ties and accumulated goals', () => {
+    const sim = new Simulation({ ...config, seed: 'career-3' },true,3);
+    sim.execute({type:'CreateTeam',name:'Delivery',managerId:'employee-3'});
+    const teamId=Object.keys(sim.snapshot().teams)[1];
+    sim.execute({type:'MoveEmployeeToTeam',employeeId:'employee-3',teamId});
+    const candidate=sim.observe().recruitment.find(c=>c.role==='Engineer')!;
+    sim.execute({type:'HireEmployee',name:'Peer',role:'Engineer',salary:candidate.expectation,teamId});
+    sim.execute({type:'AdvanceTime',days:365});
+    const peer=Object.values(sim.snapshot().employees).find(e=>e.name==='Peer')!;
+    const before=peer.career!.goals[0].frustration, edges=Object.keys(sim.snapshot().relationships).length;
+    sim.execute({type:'PromoteEmployee',employeeId:'employee-3',track:'manager'});
+    const event=sim.snapshot().events.slice().reverse().find(e=>e.type==='PeerPromotionReaction');
+    expect(event?.payload.employeeId).toBe(peer.id); expect(event?.payload.reaction).toBe('concerned');
+    expect(sim.snapshot().employees[peer.id].career!.goals[0].frustration).toBeGreaterThanOrEqual(before);
+    expect(Object.keys(sim.snapshot().relationships)).toHaveLength(edges);
+    expect(sim.snapshot().employees[peer.id].memories.at(-1)?.eventId).toBe(event?.id);
+    expect(sim.observe().events.find(e=>e.id===event?.id)?.causes[0].eventId).toBe(event?.causedBy);
+    expect(replay(sim.snapshot()).stateHash()).toBe(sim.stateHash());
+  });
+  it('rejects missing v3 state, invalid goal ranges and broken causal references', () => {
+    const sim=make(); const missing=sim.snapshot(); delete missing.employees['employee-3'].career;
+    expect(()=>Simulation.restore(missing)).toThrow(/career/);
+    const range=sim.snapshot(); range.employees['employee-3'].career!.goals[0].frustration=101;
+    expect(()=>Simulation.restore(range)).toThrow();
+    const cause=sim.snapshot(); cause.employees['employee-3'].career!.goals[0].causes=[{factor:'career',eventId:'event-999'}];
+    expect(()=>Simulation.restore(cause)).toThrow(/career cause/);
+    const nonfinite=sim.snapshot(); nonfinite.employees['employee-3'].career!.goals[0].progress=Number.NaN;
+    expect(invariantViolations(nonfinite).some(e=>e.startsWith('Non-finite'))).toBe(true);
+  });
+  it('keeps an unresolved retention episode observable without repeated monthly messages', () => {
+    const sim=make(25); sim.execute({type:'ChangeCompanyStrategy',strategy:'growth'}); sim.execute({type:'AdvanceTime',days:730});
+    const concerns=sim.snapshot().events.filter(e=>e.type==='EmployeeConcernRaised');
+    expect(concerns.length).toBeGreaterThan(0);
+    const counts=new Map<string,number>();for(const e of concerns)counts.set(String(e.payload.employeeId),(counts.get(String(e.payload.employeeId))??0)+1);
+    expect([...counts.values()].every(n=>n===1)).toBe(true);
+    expect(replay(sim.snapshot()).stateHash()).toBe(sim.stateHash());
   });
 });

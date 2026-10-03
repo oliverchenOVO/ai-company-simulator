@@ -5,8 +5,8 @@ export function invariantViolations(w: WorldState, previousTick?: number): strin
   const errors: string[] = [];
   const check = (ok: boolean, text: string) => { if (!ok) errors.push(text); };
   const numbers = (v: unknown, path: string) => {
-    if (typeof v === 'number') check(Number.isFinite(v), `Non-finite ${path}`);
-    else if (v && typeof v === 'object') for (const [k, child] of Object.entries(v)) numbers(child, `${path}.${k}`);
+    if (typeof v === 'number') { if (!Number.isFinite(v)) errors.push(`Non-finite ${path}`); }
+    else if (v && typeof v === 'object') for (const key in v) numbers((v as Record<string, unknown>)[key], path);
   };
   // Logs are checked at load/command boundaries; hot-path checks focus on live state.
   for (const [key, value] of Object.entries(w)) if (key !== 'events' && key !== 'commands') numbers(value, key);

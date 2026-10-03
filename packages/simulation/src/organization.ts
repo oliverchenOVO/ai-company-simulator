@@ -171,7 +171,7 @@ export function executeOrganization(ctx: SystemContext, command: OrganizationCom
     team.managerId = command.managerId;
     const event = emit('TeamManagerChanged', { teamId: team.id, name: team.name, managerId: command.managerId, previous }, null, [{ factor: 'management-change', weight: 1, eventId: null }]);
     disturbTeam(w, team.id, event.id, 15);
-    for (const e of ctx.active) if (e.teamId === team.id && e.id !== command.managerId) changeManager(ctx, e, command.managerId, event.id);
+    for (const e of ctx.active) if (e.teamId === team.id && e.id !== command.managerId) changeManager(ctx, e, command.managerId, event.id, false);
     if (command.managerId && w.employees[command.managerId].managerId && w.employees[command.managerId].teamId === team.id) w.employees[command.managerId].managerId = null;
     return;
   }
@@ -211,10 +211,10 @@ export function executeOrganization(ctx: SystemContext, command: OrganizationCom
     goal.causes = [{ factor: 'peer-promotion', eventId: peerEvent.id }]; remember(w, peer, peerEvent, reaction === 'concerned' ? -15 : 10, 50);
   }
 }
-function changeManager(ctx: SystemContext, e: Employee, managerId: string | null, causedBy?: string) {
+function changeManager(ctx: SystemContext, e: Employee, managerId: string | null, causedBy?: string, disturb = true) {
   if (e.managerId === managerId) return;
   const previous = e.managerId; e.managerId = managerId;
   const event = ctx.emit('ManagerChanged', { employeeId: e.id, name: e.name, managerId, previous }, causedBy ?? e.lastManagementEvent, [{ factor: 'management-change', weight: 1, eventId: causedBy ?? null }]);
   if (managerId) ensureRelationship(ctx.w, e.id, managerId);
-  e.lastManagementEvent = event.id; disturbTeam(ctx.w, e.teamId, event.id, 8); remember(ctx.w, e, event, -5, 35);
+  e.lastManagementEvent = event.id; if (disturb) disturbTeam(ctx.w, e.teamId, event.id, 8); remember(ctx.w, e, event, -5, 35);
 }

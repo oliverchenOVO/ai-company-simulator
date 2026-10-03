@@ -30,7 +30,9 @@ export function psychologySystem({ w, active, emit, organization }: SystemContex
     p.confidence = rounded(clamp(p.confidence + (e.performance - p.confidence) * 0.01));
     const intentTarget = clamp(underpaid * 50 + p.burnout * 0.45 + Math.max(0, 65 - p.satisfaction) * 1.2 + Math.max(0, 50 - p.loyalty) * 0.35 + org.retention);
     p.exitIntent = rounded(clamp(p.exitIntent + (intentTarget - p.exitIntent) * 0.05));
-    if (e.role !== 'CEO' && p.exitIntent > 30 && w.meta.tick - e.lastConcernAt >= 30) {
+    if (w.meta.simulationVersion === 3 && p.exitIntent < 20) e.exitStage = 'settled';
+    const newConcern = w.meta.simulationVersion !== 3 || e.exitStage === 'settled' || e.memories.some(m => m.eventId === e.lastManagementEvent && m.tick > e.lastConcernAt);
+    if (e.role !== 'CEO' && p.exitIntent > 30 && newConcern && w.meta.tick - e.lastConcernAt >= 30) {
       const event = emit('EmployeeConcernRaised', { employeeId: e.id, name: e.name, concern: underpaid > 0.3 ? 'compensation' : 'workload' }, e.lastManagementEvent ?? w.company.strategyEventId, [], 'management');
       e.lastConcernAt = w.meta.tick; e.exitStage = 'concerned'; remember(w, e, event, -20, 40);
     }

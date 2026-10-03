@@ -1,0 +1,21 @@
+{
+  "simulationVersion": 3,
+  "reason": "Explicit new organization histories with capitalized 5-year observation; v3 unresolved-concern episode suppression calibrated before release; historical fixtures untouched.",
+  "results": {
+    "organization-001": {
+      "365": "21609dc140a9bdd313a80e751894e51d4ff93d2df454ff188c7740eee8b4e97f",
+      "1096": "9ec9fa479558f82b0783b16797ce0048282ec572cc99f1ef92f728e4db21783d",
+      "1826": "652e07a7f6d22f33fa8caf71a5e5090974c56d802e1d959c1e4b8df354c2435a"
+    },
+    "career-3": {
+      "365": "d1be6f9bb372634fb9bdac84a0aa8bf6b9af2d61b0deaa3fa5ce3de1c1a863fc",
+      "1096": "b4f5a60c64c53de97a0d813e6bd4b1aa58885267454fd155ba913eb91bdfa3aa",
+      "1826": "3a5e34e181c182e898d9daacf608a1668772afdac915ffcbe0b1aba0bdb5097d"
+    },
+    "career-4": {
+      "365": "36dcb5bde756a2384ae499eb5b2605591734579a79aa44fd9187b2e0d9712ef7",
+      "1096": "862d6140b3ca1af47ca29199f7469a37c973335bc8085df7aa9f75897a06950b",
+      "1826": "462fe58244a8372014d0fb7f7c0c05e8a13d8d617dd6c7dca22cd4ed48304bc6"
+    }
+  }
+}
