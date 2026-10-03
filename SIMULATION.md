@@ -43,3 +43,9 @@ Benchmark dates include leap days: 1,826 days reach 2031-01-01; 3,652 reach 2036
 ## Phase1.5B behavior versions
 
 Application0.1.1 reads save envelope schema1 with simulationVersion1 or2. New games default to2; historical saves and command histories remain1 and replay with1. No migration rewrites employee expectations. Version1 retains salary-derived hiring expectation; version2 uses independent role/skill/personality expectation and deterministic offer acceptance. Shared systems are unchanged. Original golden.json is retained; golden-v2.json independently covers new behavior. See docs/phase1_5b/COMPATIBILITY.md and COMPENSATION_MODEL.md.
+
+## Phase 2 scheduler (v3)
+
+Daily order: organization index/support and team stability/coordination → psychology/retention → career (ticks divisible by 7) → work → event-anchored collaboration (weekly) → historical relationship system (no-op in v3) → product → customers → market (weekly) → calendar finance. Organization/career/collaboration are no-ops in v1/v2; original equation ordering is preserved. No separate monthly career randomness is added. Annual golden checkpoints use actual organizational histories.
+
+V3 extends existing compensation/stress retention with career frustration, management support, stability, role fit and bounded team affinity. Unresolved generic retention concern is emitted once per episode (or after a subsequent management action); exit intent below 20 resets the settled episode. Career concerns have their own meaningful crossings at 20/55. This prevents monthly repetition without hiding a new worsening stage. Important interventions run through PromoteEmployee, AssignManager, AssignTeamManager and ChangeEmployeeRole. V1/v2 reject them. No LLM, cloud sync or Phase 3 subsystem was introduced.

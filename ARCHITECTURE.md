@@ -19,3 +19,7 @@ Employee/customer lists render 25 rows per page; event/inbox lists also paginate
 ## Deferred interfaces
 
 NarrativeProvider permits future text providers without authority over simulation. Save schema and simulation version are separate; changing equations requires intentional golden-fixture changes and a compatible old replay strategy or explicit save migration. No LLM, online account backend, multiplayer, investment round, multinational subsidiary or 3D engine is added in Phase 1. Unity/Blender would only be considered when a future visual-world requirement justifies them.
+
+## Phase 2 organization / behavior v3
+
+The same engine now has explicitly gated organization, career and collaboration systems. New games use v3. Historical v1/v2 worlds never receive new organizational fields; restoration preserves their recorded behavior and exact golden hashes. Career/team state is authoritative and version-specific. organizationIndex derives team membership, report counts and sparse ties once per tick; no score graph is duplicated. Causal templates and qualitative projections remain outside truth. See docs/phase2 for model/compatibility evidence.

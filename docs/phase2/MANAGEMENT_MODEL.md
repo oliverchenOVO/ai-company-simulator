@@ -4,4 +4,4 @@ Derived daily from leadership (45%), relevant domain skill (15%), directional tr
 
 Support changes stress, satisfaction, manager trust and retention gradually. Manager time consumes up to 65% of individual work; every report takes 6.5%, a management track adds 15%. Team coordination bounds the work multiplier to 0.85–1.15. Sparse relationship/team/report indexes are transient and rebuilt O(N+E) once per tick.
 
-Historical v1/v2 paths retain original equations and update order. First milestone keeps new-game default v2 until career commands and UI are ready. Tests cover overload without instant departure, measurable work differences, exact replay and actual v2 hosted export.
+Historical v1/v2 paths retain original equations and update order. New games default to v3 now that career commands and UI are ready. Tests cover overload without instant departure, measurable work differences, exact replay and actual v2 hosted export.

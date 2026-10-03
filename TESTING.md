@@ -19,3 +19,11 @@ The CLI `pnpm sim --seed garage-001 --days 120 --debug` inspects seed, tick, has
 CI in .github/workflows/ci.yml runs Windows validation and a separate packaging job, uploads benchmark/failure evidence and the portable executable, and performs no public GitHub release. Remote CI status must be inspected separately from local check results.
 
 `pnpm build:site` produces out/ for .openai/hosting.json; default `pnpm build` keeps strict offline CSP in dist/. `pnpm test:hosted` runs the same gameplay, independent-session, persistence, export/replay, offline-loaded and visual workflows on the live ChatGPT Site. Console and page errors remain acceptance failures, including errors introduced by the host.
+
+## Phase 2 acceptance
+
+New organization tests and v3 year1/3/5 goldens supplement all 55 original assertions. Compensation and historical golden tests explicitly select v2; fixtures are never regenerated to repair historical failures. The new v3 golden baseline was established before release, with an explicit concern-episode calibration reason in its generator. A real v2 export was captured from the published 0.1.1 UI before v3 deployment.
+
+Local offline preview now uses 127.0.0.1:4183 with reuseExistingServer=false: port4173 belonged to a different project, and tests must not silently reuse it. Hosted-equivalent preview is 4181. All original E2E assertions remain, plus desktop/mobile organization workflows. Shared Electron/packaged smoke now promotes and changes manager, verifies persisted organization state after actual process restart, then can continue. Browser plugin is absent; existing Playwright is used. Console/page errors remain failures. Installed Chrome lifecycle failures, if any, are distinguished from completed bundled-Chromium suites.
+
+Benchmark defaults to newest v3, optional --v2 explicitly selects historical compensation behavior. --replay-stress performs an actual independent 1000-person replay. Phase2 outputs are isolated under docs/phase2/data and do not overwrite historical phase evidence. Performance inspection includes relationships, bounded memories, events and heap, as well as every previous integrity counter. All committed raw worlds are generated synthetic fixtures; personal QA material, traces and screenshots stay outside source.

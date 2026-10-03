@@ -16,3 +16,7 @@ Replay recreates the initial scenario/seed then re-executes records after Create
 ## Phase1.5B behavior versions
 
 Application0.1.1 reads save envelope schema1 with simulationVersion1 or2. New games default to2; historical saves and command histories remain1 and replay with1. No migration rewrites employee expectations. Version1 retains salary-derived hiring expectation; version2 uses independent role/skill/personality expectation and deterministic offer acceptance. Shared systems are unchanged. Original golden.json is retained; golden-v2.json independently covers new behavior. See docs/phase1_5b/COMPATIBILITY.md and COMPENSATION_MODEL.md.
+
+## Phase 2 save schema 2 / application 0.2.0
+
+New envelopes use schemaVersion=2. Schemas 1 and 2 decode without changing world truth; schema 0 explicitly migrates only its envelope to 1. Simulation v3 requires schema 2; historical worlds can be exported in schema 2 while keeping their simulation version. No decoder upgrades historical simulation behavior. Employee career and team organization structures are absent in v1/v2, required in v3. Goals, bounded memories, last personnel events and reporting links persist and replay from ordered commands. Invariants validate goals, causal references, manager existence/activity/self and graph cycles in addition to previous checks. Real 0.1.0 and 0.1.1 hosted/browser exports are retained unchanged.
