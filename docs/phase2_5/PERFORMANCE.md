@@ -30,5 +30,5 @@ Diagnostic benchmarks are more expensive than the baseline because they take wee
 
 Controlled max save bytes 413628, events 1088, commands 786. Raw rows also record finance history length, transaction/command growth, post-run heap and actual validated JSON load time (not replay time). Salary history is retained in saves. All memory counts remain bounded per employee; historical employees/events/commands are intentionally retained.
 
-Append-only history and transactional snapshots still grow with duration and manual decisions; weekly diagnostic stepping adds more commands than one long AdvanceTime. This is a cost observation, not evidence requiring a major architecture rewrite. No hidden telemetry is sent to a server. Final 1000-person UI check rendered 25 rows, navigation during simulation 82 ms, week and navigation 409 ms; measured under concurrent local workload.
+Append-only history and transactional snapshots still grow with duration and manual decisions; weekly diagnostic stepping adds more commands than one long AdvanceTime. This is a cost observation, not evidence requiring a major architecture rewrite. No hidden telemetry is sent to a server. Final 1000-person UI check rendered 25 rows, navigation during simulation 145 ms, week and navigation 1225 ms; measured under concurrent local workload.
 

@@ -88,3 +88,7 @@ CareerConcernRaised and CareerGoalBlocked crossings are visible without monthly 
 ## Decision
 
 **FURTHER PHASE 2.5 ITERATION REQUIRED.** Departures are possible and causal under pressure, but normal/mild mixed-risk warning cadence and completed-goal inertia remain concerns. Human comprehension is unverified. Do not declare readiness merely because controlled pressure can trigger resignations. Retain v3 and document calibration candidates; do not increase probability or target a fixed resignation rate.
+
+## Controlled moderate-input limitation
+
+The combined-moderate recipe uses actual legal pay, workload and manager commands; sampled focal stress never exceeds its initial 15 and burnout remains low. It therefore tests compounded moderate inputs, but does not demonstrate four sustained moderate psychological risks. A bounded workload experiment remains necessary before claiming that acceptance condition. Do not inject hidden state or tune v3 to meet a departure quota.

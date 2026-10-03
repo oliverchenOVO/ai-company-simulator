@@ -40,7 +40,7 @@ All v1/v2/v3 goldens remain unchanged. Real hosted 0.2.0 v3 export was captured 
 
 100 seeds × five years including replay: 3267 ms. 1000 employees × ten years including independent replay: 126067 ms under concurrent audit/build workload; all six integrity counters 0, 1998 relationships, 4877 events, 3849 memories, ending heap 119 MiB. Stress hash matches Phase 2 exactly. [PERFORMANCE.md](docs/phase2_5/PERFORMANCE.md) records save size, history/command growth and validated JSON load timings. No major history rewrite or graph expansion was performed.
 
-Windows portable SHA-256: `1CF7AB3537391CBF694B80F758E56C6025CBAC45E8DCC3ED977D53BC8B8A2F8B`.
+Windows portable size: 97,636,425 bytes. SHA-256: `6068F662D88187AD30A9CC6888338FD50882B4EF6F328E17FD6E298270705CBB`.
 
 ## Rendered QA
 
@@ -64,3 +64,7 @@ Existing origin `oliverchenOVO/ai-company-simulator` is private. Committed raw e
 ## Next step
 
 Use the prepared protocol with 3–5 independent players, then review chronic warning interpretation and completed-goal inertness. Propose a minimal falsifiable v4 retention rule only when evidence supports it, preserve v3, and compare strong retention, moderate compounding, meaningful warning windows and costly interventions. Do not tune to a resignation quota, broadly rebalance the economy or implement the next major Phase. This phase cannot answer the real-player comprehension question until participants exist.
+
+## Build reproducibility fix
+
+A fresh publication build exposed Tailwind scanning audit Markdown: the word collapse emitted an unused CSS class and changed asset hashes. Sources now explicitly include only desktop UI and packages/ui. The complete validation suite was rerun successfully after this fix; publication requires byte-identical fresh and tested output. The bundled publishing workflow also encountered Windows Bash path escaping; the native archive-backed save/deploy fallback preserves the exact pushed source.

@@ -23,3 +23,7 @@ These improvements have automated interaction coverage. They have not been decla
 ## Deferred candidates
 
 Review career-warning persistence and the missing connection between long-lived unmet expectations and search under otherwise moderate conditions. Review completed-goal inertness as a potential minimal v4 mechanism or later Phase 3 scope. First obtain human interpretation evidence, then test a falsifiable proposed rule against strong retention, moderate compounding, early warning and costly intervention scenarios. Do not broadly rebalance cash, customer acquisition, product speed or salary anchors.
+
+## Controlled moderate-input limitation
+
+The combined-moderate recipe uses actual legal pay, workload and manager commands; sampled focal stress never exceeds its initial 15 and burnout remains low. It therefore tests compounded moderate inputs, but does not demonstrate four sustained moderate psychological risks. A bounded workload experiment remains necessary before claiming that acceptance condition. Do not inject hidden state or tune v3 to meet a departure quota.
