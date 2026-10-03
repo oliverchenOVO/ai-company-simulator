@@ -23,3 +23,7 @@ Choose simulation version preservation over migration: v1 retains exact salary-d
 ## Expected effect and validation plan
 
 Close NT$1 hiring advantage at domain level; reasonable offers may accept with bounded underpayment tradeoffs. Run original tests with their original v1 semantics, new v2 model/replay/save/golden tests, six shared-seed strategies, derived salary bands, original exploit and immediate post-hire cut probe, matched no/one/multiple-hire branches. Record outcomes without broad economy tuning. Any remaining exploit blocks Phase2 recommendation.
+
+## Evidence-backed amendment: salary proposal integrity
+
+Initial candidate-only implementation found a second path:100 shared seeds, accepted fair offer followed immediately byNT$1 cut produced55 survivors vs0 for mid-band hires. Original evidence is compensation-before-cut-guard.json. V2 now treats a below-acceptance salary cut to a non-founder as a proposal: deterministic SalaryOfferRejected, original salary/history unchanged. Minimum uses the employee fixed expectation and existing risk tolerance with the same integer rounding as hiring. Legal cuts within acceptance range still generate SalaryChanged memory and sustained bounded underpayment. FounderCEO stipend reductions remain voluntary and cannot be used for ordinary recruits (HireEmployee excludesCEO). V1 cut behavior is preserved. This is the same compensation-consent defect, not a change to payroll, productivity or customer economics.

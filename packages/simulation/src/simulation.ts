@@ -3,7 +3,7 @@ import { hash, simDate } from '../../shared/src/determinism';
 import { detachManager, remember, type SystemContext } from './context';
 import { assertInvariants } from './invariants';
 import { garageScenario, makeEmployee } from './scenario';
-import { candidateFor } from './compensation';
+import { candidateFor, minimumCompensation } from './compensation';
 import { activeEmployees, SYSTEMS } from './systems';
 import { projectCompany, type CompanyView } from './projection';
 
@@ -67,6 +67,13 @@ export class Simulation {
         }
         case 'ChangeSalary': {
           const e = this.w.employees[command.employeeId], previous = e.salary;
+          if(this.w.meta.simulationVersion===2 && e.role!=='CEO' && command.salary<previous) {
+            const minimum=minimumCompensation(e.expectations.salary,e.personality.riskTolerance);
+            if(command.salary<minimum) {
+              emit('SalaryOfferRejected',{employeeId:e.id,name:e.name,salary:command.salary,previous,expectation:e.expectations.salary,minimum});
+              break;
+            }
+          }
           e.salary = command.salary;
           if (e.salaryHistory.at(-1)?.tick === this.w.meta.tick) e.salaryHistory[e.salaryHistory.length - 1].salary = command.salary;
           else e.salaryHistory.push({ tick: this.w.meta.tick, salary: command.salary });

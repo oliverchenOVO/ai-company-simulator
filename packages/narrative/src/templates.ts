@@ -14,6 +14,7 @@ export class TemplateNarrativeProvider implements NarrativeProvider {
       case 'HireOfferRejected': title = `${p.name} 婉拒薪資出價`; body = `出價 ${dollars(p.salary)} 低於此候選人的最低接受額 ${dollars(p.minimum)}，期待月薪 ${dollars(p.expectation)}。未到職，也未增加薪資支出。`; channel = '人事'; break;
       case 'EmployeeHired': title = `${p.name} 加入團隊`; body = `新夥伴已到職，月薪為 ${dollars(p.salary)}。`; channel = '人事'; break;
       case 'EmployeeFired': title = `${p.name} 結束任職`; body = '解僱決策已執行，該員工不再產生工作產出。'; channel = '人事'; break;
+      case 'SalaryOfferRejected': title = `${p.name} 未接受降薪提案`; body = `提案 ${dollars(p.salary)} 低於此員工的最低接受額 ${dollars(p.minimum)}，期待 ${dollars(p.expectation)}。原月薪 ${dollars(p.previous)} 維持不變。`; channel = '人事'; break;
       case 'SalaryChanged': title = `${p.name} 的薪資已調整`; body = `月薪從 ${dollars(p.previous)} 調整為 ${dollars(p.salary)}，本月按生效日期結算。`; channel = '人事'; break;
       case 'EmployeeMoved': title = `${p.name} 調動團隊`; body = '新的團隊與主管安排已生效。'; channel = '人事'; break;
       case 'EmployeeConcernRaised': title = `${p.name} 提出關切`; body = p.concern === 'compensation' ? '薪資期待與目前安排存在落差，建議安排一次對談。' : '近期工作節奏令人擔憂，建議重新檢視團隊負荷。'; channel = '人事'; break;

@@ -42,7 +42,7 @@ describe('versioned independent compensation', () => {
   });
   it('underpayment remains meaningful, raises/cuts do not reset expectations, overpayment saturates',()=>{
     const origin=new Simulation(config),c=candidateFor(origin.snapshot(),'Engineer');origin.execute(offer(c.expectation));
-    const branches=[0,c.expectation,100_000_000].map(salary=>{const sim=Simulation.restore(origin.snapshot());sim.execute({type:'ChangeSalary',employeeId:c.id,salary});sim.execute({type:'ChangeCompanyStrategy',strategy:'sustainable'});sim.execute({type:'AdvanceTime',days:60});return sim;});
+    const branches=[c.minimum,c.expectation,100_000_000].map(salary=>{const sim=Simulation.restore(origin.snapshot());sim.execute({type:'ChangeSalary',employeeId:c.id,salary});sim.execute({type:'ChangeCompanyStrategy',strategy:'sustainable'});sim.execute({type:'AdvanceTime',days:60});return sim;});
     const [low,at,high]=branches.map(sim=>sim.snapshot().employees[c.id]);
     expect(low.psychology.satisfaction).toBeLessThan(at.psychology.satisfaction);expect(low.psychology.exitIntent).toBeGreaterThan(at.psychology.exitIntent);
     expect(high.psychology.satisfaction).toBe(at.psychology.satisfaction);
@@ -55,6 +55,16 @@ describe('versioned independent compensation', () => {
     const v1=new Simulation(config,true,1);v1.execute(offer(100));expect(v1.snapshot().employees['employee-4'].expectations.salary).toBe(100);
     expect(replay(v1.snapshot()).stateHash()).toBe(v1.stateHash());
     const unknown=structuredClone(saved.world) as unknown as {meta:{simulationVersion:number}};unknown.meta.simulationVersion=3;expect(()=>Simulation.restore(unknown)).toThrow();
+  });
+  it('prevents accepted offer followed by absurd salary cut without resetting the contract',()=>{
+    for(let i=1;i<=100;i++) {
+      const sim=new Simulation({...config,seed:`cut-${i}`}),c=candidateFor(sim.snapshot(),'Engineer');sim.execute(offer(c.expectation));
+      sim.execute({type:'ChangeSalary',employeeId:c.id,salary:100});const e=sim.snapshot().employees[c.id];
+      expect(e.salary).toBe(c.expectation);expect(e.salaryHistory).toHaveLength(1);expect(sim.snapshot().events.at(-1)?.type).toBe('SalaryOfferRejected');
+      sim.execute({type:'ChangeSalary',employeeId:c.id,salary:c.minimum});expect(sim.snapshot().employees[c.id].salary).toBe(c.minimum);
+      expect(sim.snapshot().employees[c.id].expectations.salary).toBe(c.expectation);expect(replay(sim.snapshot()).stateHash()).toBe(sim.stateHash());
+    }
+    const sim=new Simulation(config);sim.execute({type:'ChangeSalary',employeeId:'employee-1',salary:0});expect(sim.snapshot().employees['employee-1'].salary).toBe(0);
   });
   it('returns persisted recruitment rejection as a normal application outcome',async()=>{
     const saves=new Map();const session=new ApplicationSession({save:async(slot,data)=>{saves.set(slot,data);},load:async slot=>saves.get(slot)??null});
