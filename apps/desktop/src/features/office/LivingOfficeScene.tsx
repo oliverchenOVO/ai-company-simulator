@@ -88,7 +88,7 @@ function Floor({ data, selected, overlay }: { data: SceneFloor; selected?: Offic
   </group>;
 }
 function Human({ data, layout, selected, reduced, choose, allSeats, previousSeat }: { data: SceneSeat; layout: OfficeLayout; selected?: OfficeSeat; reduced: boolean; choose: (id: string) => void; allSeats: Map<string, SceneSeat>;previousSeat?:SceneSeat }) {
-  const body = useRef<Group>(null), head = useRef<Group>(null), leftArm = useRef<Group>(null), rightArm = useRef<Group>(null), legs = useRef<Group>(null), folder = useRef<Group>(null);
+  const body = useRef<Group>(null), facing=useRef<Group>(null), head = useRef<Group>(null), leftArm = useRef<Group>(null), rightArm = useRef<Group>(null), legs = useRef<Group>(null), folder = useRef<Group>(null);
   const previous = useRef<SceneSeat | undefined>(previousSeat), current = useRef(data), started = useRef<number | null>(null);
   const leftLeg=useRef<Group>(null), rightLeg=useRef<Group>(null), leftKnee=useRef<Group>(null),rightKnee=useRef<Group>(null), lastPosition=useRef(new Vector3(...data.person));
   const cue = layout.cues.find(c => c.employeeId === data.seat.employeeId);
@@ -116,12 +116,19 @@ function Human({ data, layout, selected, reduced, choose, allSeats, previousSeat
     body.current.position.set(...motion.position); body.current.visible=motion.visible;
     body.current.userData.pose=motion.pose;
     body.current.userData.atWorkstation=motion.visible && motion.pose!=='Walking' && motion.position.every((n,i)=>Math.abs(n-data.person[i])<.01);
-    if(moving){const dx=motion.position[0]-lastPosition.current.x,dz=motion.position[2]-lastPosition.current.z;if(Math.hypot(dx,dz)>.001) body.current.rotation.y=Math.atan2(dx,dz);}else body.current.rotation.y=0;
+    if(facing.current) {
+      if(moving){const dx=motion.position[0]-lastPosition.current.x,dz=motion.position[2]-lastPosition.current.z;if(Math.hypot(dx,dz)>.001) facing.current.rotation.y=Math.atan2(dx,dz);}
+      else if(seated || motion.pose==='Reading') facing.current.rotation.y=Math.PI;
+      else if(motion.pose==='Presenting') facing.current.rotation.y=-Math.PI/2;
+      else if(motion.pose==='Talking') {const target=leader && companion?.seat.employeeId===data.seat.employeeId ? [5.2,data.person[1],.25] : manager?.person ?? [5.2,data.person[1],.25];facing.current.rotation.y=Math.atan2(target[0]-motion.position[0],target[2]-motion.position[2]);}
+      else facing.current.rotation.y=0;
+    }
     lastPosition.current.set(...motion.position);
+    body.current.userData.facingYaw=facing.current?.rotation.y ?? 0;
     const oscillation = reduced ? 0 : Math.sin(t* (moving ? 9 : 3) + a.phase);
     if (head.current) head.current.rotation.x=motion.pose==='Reading' ? -.12 : reviewing ? oscillation*.06 : oscillation*.025;
-    if (leftArm.current) leftArm.current.rotation.x=moving ? oscillation*.45 : motion.pose==='Typing' ? -.55+oscillation*.04 : motion.pose==='Talking' ? -.65+oscillation*.15 : -.15;
-    if (rightArm.current) { rightArm.current.rotation.x=moving ? -oscillation*.45 : motion.pose==='Presenting' ? -1.25 : motion.document ? -.9 : motion.pose==='Typing' ? -.55-oscillation*.04 : -.12; rightArm.current.rotation.z=motion.pose==='Talking' || motion.pose==='Presenting' ? -.15 : 0; }
+    if (leftArm.current) leftArm.current.rotation.x=moving ? oscillation*.45 : motion.pose==='Typing' ? -1.35+oscillation*.04 : motion.pose==='Talking' ? -.65+oscillation*.15 : -.15;
+    if (rightArm.current) { rightArm.current.rotation.x=moving ? -oscillation*.45 : motion.pose==='Presenting' ? -1.25 : motion.document ? -.9 : motion.pose==='Typing' ? -1.35-oscillation*.04 : -.12; rightArm.current.rotation.z=motion.pose==='Talking' || motion.pose==='Presenting' ? -.15 : 0; }
     if(leftLeg.current) leftLeg.current.rotation.x=seated ? -1.5 : moving ? oscillation*.5 : 0;
     if(rightLeg.current) rightLeg.current.rotation.x=seated ? -1.5 : moving ? -oscillation*.5 : 0;
     if(leftKnee.current) leftKnee.current.rotation.x=seated ? 1.5 : 0;
@@ -130,6 +137,7 @@ function Human({ data, layout, selected, reduced, choose, allSeats, previousSeat
     if (folder.current) folder.current.visible=motion.document;
   });
   return <group name={data.seat.employeeId} ref={body} position={data.person} onClick={e => { e.stopPropagation(); choose(data.seat.employeeId); }}>
+    <group ref={facing}>
     {/* Human proportions use an articulated torso, head, limbs, shoes and ID-derived hair. */}
     <Round p={[0,1.04,0]} s={[.23,.49,.15]} color={a.clothing} shadow/>
     <Box p={[0,1.1,.132]} s={[.12,.38,.02]} color={data.seat.role==='executive' ? '#edeae0' : a.clothing}/>
@@ -151,6 +159,7 @@ function Human({ data, layout, selected, reduced, choose, allSeats, previousSeat
       {[-1,1].map(side => <group key={side} ref={side<0 ? leftLeg : rightLeg} position={[side*.115,.8,0]}><Round p={[0,-.18,0]} s={[.078,.36,.075]} color={a.phase%2 ? '#47565e' : '#65716a'} shadow/><group ref={side<0 ? leftKnee : rightKnee} position={[0,-.36,0]}><Round p={[0,-.19,0]} s={[.072,.38,.072]} color={a.hairStyle===3 ? a.skin : a.phase%2 ? '#47565e' : '#65716a'} shadow/><Box p={[0,-.38,.07]} s={[.17,.14,.29]} color="#36444a" soft/></group></group>)}
     </group>
     <group ref={folder} visible={false}><Box p={[.32,.88,.24]} s={[.29,.38,.045]} color="#c9b78e" rotation={.2}/><Box p={[.32,.89,.267]} s={[.21,.3,.012]} color="#eee9d9"/></group>
+    </group>
     {selected?.employeeId===data.seat.employeeId ? <><mesh rotation-x={-Math.PI/2} position={[0,.35,0]}><ringGeometry args={[.42,.48,32]}/><meshBasicMaterial color="#159b98" side={2}/></mesh><Label text={data.seat.name} p={[0,1.96,.05]} width={2.1}/></> : null}
   </group>;
 }
@@ -174,8 +183,8 @@ function Diagnostics({ ready, failed }: { ready: () => void; failed: () => void 
     if(frames.current===1 || time.current-published.current>=.25) {
       published.current=time.current;
       gl.domElement.dataset.frameCount=String(frames.current);
-      const poses:Record<string,{pose:string;atWorkstation:boolean;visible:boolean}>={};
-      scene.traverse(object=>{if(object.name.startsWith('employee-')) poses[object.name]={pose:object.userData.pose,atWorkstation:object.userData.atWorkstation,visible:object.visible};});
+      const poses:Record<string,{pose:string;atWorkstation:boolean;visible:boolean;facingYaw:number}>={};
+      scene.traverse(object=>{if(object.name.startsWith('employee-')) poses[object.name]={pose:object.userData.pose,atWorkstation:object.userData.atWorkstation,visible:object.visible,facingYaw:object.userData.facingYaw};});
       gl.domElement.dataset.presentations=JSON.stringify(poses);
       if(time.current>=.25) gl.domElement.dataset.frameMs=String(Math.round(time.current/frames.current*10000)/10);
     }

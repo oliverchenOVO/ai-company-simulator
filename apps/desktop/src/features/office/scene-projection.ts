@@ -13,7 +13,7 @@ export function projectOfficeScene(layout: OfficeLayout): OfficeSceneProjection 
       const x = (seat.zone === 0 ? -6.4 : 3.1) + (seat.slot % 2) * (executive ? 2.9 : 2.5);
       const z = -1.8 + Math.floor(seat.slot / 2) * 2.8;
       return { seat, desk: [x, y, z] as Point3, person: [x, y, z + .85] as Point3,
-        elevator: [0, y, -.7] as Point3, printer: [-7.7, y, -2.1] as Point3,
+        elevator: [0, y, -.7] as Point3, printer: [-7.7, y, -1.1] as Point3,
         meeting: [3.9 + (seat.slot % 2) * 2.6, y, seat.slot < 2 ? -.9 : 1.4] as Point3,
         presentation: [7.55, y, .8] as Point3 };
     });

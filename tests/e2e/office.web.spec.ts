@@ -33,6 +33,7 @@ test('Living Office founders → selection → hire → promotion → save/refre
   await nav(page, '辦公室').click();
   await expect(page.locator('.living-office')).toHaveAttribute('data-renderer','3d'); await expect(page.locator('canvas[data-office-ready="true"]')).toBeVisible();
   await expect(page.locator('[data-office-employee]')).toHaveCount(3); await capture(page, 'startup-desktop.png');
+  await expect.poll(async()=>JSON.parse((await page.locator('canvas').getAttribute('data-presentations')) ?? '{}')['employee-1']?.facingYaw).toBeCloseTo(Math.PI);
   const before = await exported(page); await nav(page, '辦公室').click(); await expect(page.locator('canvas[data-office-ready="true"]')).toBeVisible();
   const targets=JSON.parse((await page.locator('canvas').getAttribute('data-employee-targets'))!);
   await page.locator('canvas').click({position:targets['employee-1']}); await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
