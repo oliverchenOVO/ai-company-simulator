@@ -1,0 +1,81 @@
+{
+  "baseURL": "http://127.0.0.1:4181",
+  "viewport": {
+    "width": 1586,
+    "height": 992
+  },
+  "rows": [
+    {
+      "count": 3,
+      "importMs": 100,
+      "sceneRenderMs": 418,
+      "weekMs": 81,
+      "navigationMs": 132,
+      "browserHeapBytes": 6011963,
+      "renderedCharacters": 3,
+      "vectorSeats": 3,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 400
+    },
+    {
+      "count": 12,
+      "importMs": 106,
+      "sceneRenderMs": 112,
+      "weekMs": 79,
+      "navigationMs": 148,
+      "browserHeapBytes": 7557196,
+      "renderedCharacters": 12,
+      "vectorSeats": 12,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 400
+    },
+    {
+      "count": 40,
+      "importMs": 136,
+      "sceneRenderMs": 98,
+      "weekMs": 76,
+      "navigationMs": 127,
+      "browserHeapBytes": 13548611,
+      "renderedCharacters": 40,
+      "vectorSeats": 40,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 400
+    },
+    {
+      "count": 100,
+      "importMs": 128,
+      "sceneRenderMs": 170,
+      "weekMs": 155,
+      "navigationMs": 216,
+      "browserHeapBytes": 22437118,
+      "renderedCharacters": 100,
+      "vectorSeats": 100,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 400
+    },
+    {
+      "count": 250,
+      "importMs": 282,
+      "sceneRenderMs": 75,
+      "weekMs": 239,
+      "navigationMs": 107,
+      "browserHeapBytes": 22099154,
+      "renderedCharacters": 1,
+      "vectorSeats": 1,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 400
+    },
+    {
+      "count": 1000,
+      "importMs": 1299,
+      "sceneRenderMs": 96,
+      "weekMs": 701,
+      "navigationMs": 197,
+      "browserHeapBytes": 34272270,
+      "renderedCharacters": 1,
+      "vectorSeats": 1,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 400
+    }
+  ]
+}
