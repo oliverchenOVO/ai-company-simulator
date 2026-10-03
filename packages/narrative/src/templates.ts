@@ -11,6 +11,7 @@ export class TemplateNarrativeProvider implements NarrativeProvider {
     let title: string, body: string, channel: NarrativeMessage['channel'] = '公司';
     switch (event.type) {
       case 'CompanyCreated': title = '公司成立'; body = `${p.name} 的故事從今天開始。`; break;
+      case 'HireOfferRejected': title = `${p.name} 婉拒薪資出價`; body = `出價 ${dollars(p.salary)} 低於此候選人的最低接受額 ${dollars(p.minimum)}，期待月薪 ${dollars(p.expectation)}。未到職，也未增加薪資支出。`; channel = '人事'; break;
       case 'EmployeeHired': title = `${p.name} 加入團隊`; body = `新夥伴已到職，月薪為 ${dollars(p.salary)}。`; channel = '人事'; break;
       case 'EmployeeFired': title = `${p.name} 結束任職`; body = '解僱決策已執行，該員工不再產生工作產出。'; channel = '人事'; break;
       case 'SalaryChanged': title = `${p.name} 的薪資已調整`; body = `月薪從 ${dollars(p.previous)} 調整為 ${dollars(p.salary)}，本月按生效日期結算。`; channel = '人事'; break;

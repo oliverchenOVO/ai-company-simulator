@@ -1,0 +1,21 @@
+{
+  "simulationVersion": 2,
+  "reason": "Intentional Phase1.5B independent expectation, rejected then accepted hire, original v1 fixture untouched.",
+  "results": {
+    "golden-001": {
+      "365": "46aee753b9d63bc592546cac89331a17732f22887db0b70854cd23000e6b045c",
+      "1096": "5d023b71ed0bf468f140c5199128f0af562b6b9a5b742c0c81616af55d19831f",
+      "1826": "02b1a7b7041b790e41c820bcddc35c1cf993ed6b929239bd20ab9d338b69dbe4"
+    },
+    "golden-002": {
+      "365": "15710c789a78e678861a960338ad06a1b4ce6791f26971e8b8af49344f268c4b",
+      "1096": "c2466d0d0d1d4bb38f0ce2cb7a094c2852cef84f09a61f594d5eda8e8f0c72f7",
+      "1826": "405c04c04d24931dd864d823edfab56bc557077159d2787a786b565167dcd508"
+    },
+    "golden-003": {
+      "365": "79c9ce8a1d6c9e4c30a3ebea92f4241ed4ad46835e42d7ad45e71da44d92a8e9",
+      "1096": "0e0578aeb19cad5d779125c7ac7d4d4da22caf1ee57bb593ca6bd26fa09e4d94",
+      "1826": "eab833d466c9dd22c339132178b32e731b93e1aeae7060460eae9d2c070ea12e"
+    }
+  }
+}

@@ -3,20 +3,21 @@ import { hash, simDate } from '../../shared/src/determinism';
 import { detachManager, remember, type SystemContext } from './context';
 import { assertInvariants } from './invariants';
 import { garageScenario, makeEmployee } from './scenario';
+import { candidateFor } from './compensation';
 import { activeEmployees, SYSTEMS } from './systems';
 import { projectCompany, type CompanyView } from './projection';
 
 export class Simulation {
   private w: WorldState;
-  constructor(config: ScenarioInput, private readonly validateEachTick = true) {
-    this.w = garageScenario(configSchema.parse(config));
+  constructor(config: ScenarioInput, private readonly validateEachTick = true, simulationVersion: 1 | 2 = 2) {
+    this.w = garageScenario(configSchema.parse(config), simulationVersion);
     assertInvariants(this.w);
   }
   static restore(input: unknown, validateEachTick = true): Simulation {
     const w = worldSchema.parse(input);
     assertInvariants(w);
     validateHistory(w);
-    const sim = new Simulation(w.meta.config, validateEachTick);
+    const sim = new Simulation(w.meta.config, validateEachTick, w.meta.simulationVersion);
     sim.w = w;
     return sim;
   }
@@ -40,9 +41,15 @@ export class Simulation {
       switch (command.type) {
         case 'AdvanceTime': this.advance(command.days, commandId, emit); break;
         case 'HireEmployee': {
+          const candidate = this.w.meta.simulationVersion === 2 ? candidateFor(this.w, command.role, command.name, command.teamId) : null;
           const id = `employee-${this.w.meta.nextEntity++}`;
+          if (candidate && command.salary < candidate.minimum) {
+            emit('HireOfferRejected', { candidateId: id, name: command.name, role: command.role, salary: command.salary, expectation: candidate.expectation, minimum: candidate.minimum });
+            break;
+          }
           const managerId = this.w.teams[command.teamId].managerId;
           const employee = makeEmployee(this.w.meta.seed, id, command.name, command.role, command.salary, command.teamId, this.w.meta.tick, managerId);
+          if (candidate) employee.expectations.salary = candidate.expectation;
           this.w.employees[id] = employee;
           const colleague = activeEmployees(this.w).find(e => e.id !== id && e.teamId === command.teamId);
           if (colleague) for (const [sourceId, targetId] of [[id, colleague.id], [colleague.id, id]]) {
@@ -158,7 +165,7 @@ export function validateHistory(w: WorldState): void {
 
 export function replay(world: WorldState): Simulation {
   validateHistory(world);
-  const sim = new Simulation(world.meta.config);
+  const sim = new Simulation(world.meta.config, true, world.meta.simulationVersion);
   for (const record of world.commands.slice(1)) sim.execute(record.command);
   return sim;
 }

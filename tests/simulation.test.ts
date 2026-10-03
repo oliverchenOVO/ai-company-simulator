@@ -6,11 +6,11 @@ import { worldSchema, type WorldState } from '../packages/domain/src/model';
 import { garageScenario } from '../packages/simulation/src/scenario';
 import type { SystemContext } from '../packages/simulation/src/context';
 const config = { seed: 'test-001', name: 'Garage Startup', scenario: 'garage' as const };
-const funded = () => new Simulation({ ...config, initialCash: 100_000_000_000 });
+const funded = () => new Simulation({ ...config, initialCash: 100_000_000_000 }, true, 1);
 
 describe('Garage Startup and command transactions', () => {
   it('starts with the specified 3-person scenario', () => {
-    const w = new Simulation(config).snapshot();
+    const w = new Simulation(config, true, 1).snapshot();
     expect(w.company.cash).toBe(50_000_000); expect(activeEmployees(w)).toHaveLength(3);
     expect(Object.keys(w.customers)).toHaveLength(0); expect(w.products['product-1'].progress).toBe(0);
     expect(w.meta.date).toBe('2026-01-01'); expect(payroll(w)).toBe(9_500_000);
@@ -78,7 +78,7 @@ describe('finance', () => {
     expect(sim.snapshot().finance.history[0].payroll).toBe(6_500_000 + Math.round(3_000_000 * 15 / 31) + 1_600_000);
   });
   it('becomes bankrupt and stops operations while preserving a replayable clock', () => {
-    const sim = new Simulation(config); sim.execute({ type: 'ChangeProductPriority', priority: 'debt' });
+    const sim = new Simulation(config, true, 1); sim.execute({ type: 'ChangeProductPriority', priority: 'debt' });
     sim.execute({ type: 'AdvanceTime', days: 365 });
     const w = sim.snapshot(); expect(w.company.bankrupt).toBe(true); expect(w.company.cash).toBeLessThanOrEqual(0);
     const work = w.employees['employee-1'].workTotal; sim.execute({ type: 'AdvanceTime', days: 7 });

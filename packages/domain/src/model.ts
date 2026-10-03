@@ -46,7 +46,7 @@ export const commandSchema = z.discriminatedUnion('type', [
 ]);
 export const commandRecordSchema = z.object({ id, tick: z.number().int().nonnegative(), command: commandSchema });
 export const worldSchema = z.object({
-  meta: z.object({ simulationVersion: z.literal(1), seed: z.string(), tick: z.number().int().nonnegative(), date: z.string(), startDate: z.literal('2026-01-01'), nextEntity: z.number().int().positive(), nextEvent: z.number().int().positive(), nextCommand: z.number().int().positive(), config: configSchema }),
+  meta: z.object({ simulationVersion: z.union([z.literal(1), z.literal(2)]), seed: z.string(), tick: z.number().int().nonnegative(), date: z.string(), startDate: z.literal('2026-01-01'), nextEntity: z.number().int().positive(), nextEvent: z.number().int().positive(), nextCommand: z.number().int().positive(), config: configSchema }),
   company: z.object({ id: z.literal('company-1'), name: z.string(), cash: money, debt: positiveMoney, strategy: strategySchema, workload: z.number().min(0.5).max(1.5), reputation: score, bankrupt: z.boolean(), monthlyOperatingCost: positiveMoney, strategyEventId: id.nullable() }),
   employees: z.record(z.string(), employeeSchema), teams: z.record(z.string(), teamSchema), products: z.record(z.string(), productSchema),
   customers: z.record(z.string(), customerSchema), relationships: z.record(z.string(), relationshipSchema),

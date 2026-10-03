@@ -20,6 +20,7 @@ export function invariantViolations(w: WorldState, previousTick?: number): strin
     check(!allIds.has(entity.id), `Duplicate ID ${entity.id}`); allIds.add(entity.id);
   }
   for (const e of Object.values(w.employees)) {
+    check(Number.isSafeInteger(e.expectations.salary) && (w.meta.simulationVersion === 1 ? e.expectations.salary >= 0 : e.expectations.salary > 0), `Invalid compensation expectation ${e.id}`);
     check(e.salary >= 0 && Number.isSafeInteger(e.salary), `Invalid salary ${e.id}`);
     check(!!w.teams[e.teamId], `Missing team ${e.id}`);
     check(e.managerId !== e.id, `Self manager ${e.id}`);

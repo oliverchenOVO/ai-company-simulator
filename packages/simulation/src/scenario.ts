@@ -16,10 +16,11 @@ export function makeEmployee(seed: string, id: string, name: string, role: Role,
     expectations: { salary: salary || 3_000_000, careerGrowth: rng.int(30, 80) }, goals: ['craft', 'stability'], memories: [], performance: 70, workTotal: 0, exitStage: 'settled', lastConcernAt: tick, lastManagementEvent: null
   };
 }
-export function garageScenario(input: ScenarioInput): WorldState {
+export function garageScenario(input: ScenarioInput, simulationVersion: 1 | 2 = 2): WorldState {
+  if(simulationVersion!==1&&simulationVersion!==2)throw new Error('Unsupported simulation behavior version');
   const config = configSchema.parse(input);
   const world: WorldState = {
-    meta: { simulationVersion: 1, seed: config.seed, tick: 0, date: '2026-01-01', startDate: '2026-01-01', nextEntity: config.employeeCount + 1, nextEvent: 2, nextCommand: 2, config },
+    meta: { simulationVersion, seed: config.seed, tick: 0, date: '2026-01-01', startDate: '2026-01-01', nextEntity: config.employeeCount + 1, nextEvent: 2, nextCommand: 2, config },
     company: { id: 'company-1', name: config.name, cash: config.initialCash, debt: 0, strategy: 'balanced', workload: 1, reputation: 45, bankrupt: false, monthlyOperatingCost: 1_000_000, strategyEventId: null },
     employees: {}, teams: { 'team-1': { id: 'team-1', name: '創始團隊', managerId: 'employee-1' } },
     products: { 'product-1': { id: 'product-1', name: 'Atlas', progress: 0, quality: 55, technicalDebt: 5, priority: 'features', launchedAt: null, lastMilestone: 0 } },
