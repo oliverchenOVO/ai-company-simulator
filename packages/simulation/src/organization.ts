@@ -169,7 +169,7 @@ export function executeOrganization(ctx: SystemContext, command: OrganizationCom
     const team = w.teams[command.teamId], previous = team.managerId;
     if (previous === command.managerId) throw new Error('主管安排未改變');
     team.managerId = command.managerId;
-    const event = emit('TeamManagerChanged', { teamId: team.id, name: team.name, managerId: command.managerId, previous }, null, [{ factor: 'management-change', weight: 1, eventId: null }]);
+    const event = emit('TeamManagerChanged', { teamId: team.id, name: team.name, managerId: command.managerId, previous }, ctx.commandId, [{ factor: 'management-change', weight: 1, eventId: null }]);
     disturbTeam(w, team.id, event.id, 15);
     for (const e of ctx.active) if (e.teamId === team.id && e.id !== command.managerId) changeManager(ctx, e, command.managerId, event.id, false);
     if (command.managerId && w.employees[command.managerId].managerId && w.employees[command.managerId].teamId === team.id) w.employees[command.managerId].managerId = null;
@@ -182,7 +182,7 @@ export function executeOrganization(ctx: SystemContext, command: OrganizationCom
     if (e.role === command.role) throw new Error('職務未改變');
     const previous = e.role; e.role = command.role;
     // Existing expectation is retained: reassignment is not a compensation bypass.
-    const event = emit('EmployeeRoleChanged', { employeeId: e.id, name: e.name, role: e.role, previous }, e.lastManagementEvent, [{ factor: 'role-fit', weight: 1, eventId: e.lastManagementEvent }]);
+    const event = emit('EmployeeRoleChanged', { employeeId: e.id, name: e.name, role: e.role, previous }, ctx.commandId, [{ factor: 'role-fit', weight: 1, eventId: e.lastManagementEvent }]);
     e.lastManagementEvent = event.id; disturbTeam(w, e.teamId, event.id, 8); remember(w, e, event, -5, 40); return;
   }
   const c = e.career!, readiness = promotionReadiness(w, e)!;
@@ -190,7 +190,7 @@ export function executeOrganization(ctx: SystemContext, command: OrganizationCom
   const previous = c.level; c.level = levels[levels.indexOf(c.level) + 1]; c.track = command.track; c.lastProgressAt = w.meta.tick;
   const oldExpectation = e.expectations.salary;
   e.expectations.salary = Math.round(oldExpectation * 1.12);
-  const event = emit('EmployeePromoted', { employeeId: e.id, name: e.name, previous, level: c.level, track: c.track, premature: readiness.reasons.length > 0, expectation: e.expectations.salary }, e.lastManagementEvent,
+  const event = emit('EmployeePromoted', { employeeId: e.id, name: e.name, previous, level: c.level, track: c.track, premature: readiness.reasons.length > 0, expectation: e.expectations.salary }, ctx.commandId,
     [{ factor: 'career-progress', weight: 1, eventId: e.lastManagementEvent }, { factor: 'compensation-expectation', weight: 1, eventId: null }]);
   e.lastManagementEvent = event.id;
   if (c.goals[0].type === 'advancement' || (c.goals[0].type === 'leadership' && c.track === 'manager')) { c.goals[0].progress = 100; c.goals[0].frustration = rounded(c.goals[0].frustration * .25); c.goals[0].causes = [{ factor: 'career-progress', eventId: event.id }]; }
@@ -214,7 +214,7 @@ export function executeOrganization(ctx: SystemContext, command: OrganizationCom
 function changeManager(ctx: SystemContext, e: Employee, managerId: string | null, causedBy?: string, disturb = true) {
   if (e.managerId === managerId) return;
   const previous = e.managerId; e.managerId = managerId;
-  const event = ctx.emit('ManagerChanged', { employeeId: e.id, name: e.name, managerId, previous }, causedBy ?? e.lastManagementEvent, [{ factor: 'management-change', weight: 1, eventId: causedBy ?? null }]);
+  const event = ctx.emit('ManagerChanged', { employeeId: e.id, name: e.name, managerId, previous }, causedBy ?? ctx.commandId, [{ factor: 'management-change', weight: 1, eventId: causedBy ?? null }]);
   if (managerId) ensureRelationship(ctx.w, e.id, managerId);
   e.lastManagementEvent = event.id; if (disturb) disturbTeam(ctx.w, e.teamId, event.id, 8); remember(ctx.w, e, event, -5, 35);
 }

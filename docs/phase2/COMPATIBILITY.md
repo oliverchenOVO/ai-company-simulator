@@ -7,3 +7,5 @@ Real v1 fixture is the original 0.1.0 browser export. Real v2 fixture was captur
 Original v1/v2 golden hashes are retained. No regeneration of historical fixtures is authorized or required.
 
 New games now default to v3. Leadership goals represent obtaining real reporting responsibility, which is attainable; managerial quality remains independently evaluated. The unreleased v3 golden baseline explicitly records this calibration. Historical fixtures were not changed.
+
+The final unreleased v3 baseline also records initiating organization command IDs in causal history. Derived team reporting events point to the team change, and peer reactions point to promotion. This fixes explanation/replay metadata without changing numerical rules or random draws. Only new v3 goldens were regenerated explicitly; v1/v2 fixtures remain byte-identical.

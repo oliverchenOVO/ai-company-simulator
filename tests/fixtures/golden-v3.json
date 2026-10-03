@@ -1,21 +1,21 @@
 {
   "simulationVersion": 3,
-  "reason": "Explicit new organization histories with capitalized 5-year observation; v3 concern episodes and attainable leadership responsibility calibrated before release; historical fixtures untouched.",
+  "reason": "Explicit new organization histories with capitalized 5-year observation; v3 concern episodes and attainable leadership responsibility and command-linked organizational causes calibrated before release; historical fixtures untouched.",
   "results": {
     "organization-001": {
-      "365": "fb8d45e84e5054ef110c3a78bfa3339ed81738d3122ea65c750652c04d560ecb",
-      "1096": "53f6bc5a93b83a4b5a79a6aceb9552a7e53e9d9f67d7cd888baafd8c5c4b7aaf",
-      "1826": "1149cc0ef9eaf5c3ae42574afef52168e3ed0630f738df42b038f11ebe2d70f6"
+      "365": "93b6e70445929ce1615294041391c8cc4edc7ec3b96b1172b4d454f7b56b2250",
+      "1096": "70a6351584020dac8393fd56dd7774fd40644c5f1e8a7d483a0c7b8abf6e7683",
+      "1826": "750f90e85e9a5f76e590e52bde6fe849c826b58fb20813413b7f6453da4a6e87"
     },
     "career-3": {
-      "365": "f6d5b17d5d5eca518c8798de6bbf3311c6e76ee2a1ae0b467a654f9829350c75",
-      "1096": "b10bf9f39c89b3803b78c707f37e7f01492dc376815130511a23c3547fc15798",
-      "1826": "9b579c14809304a6b383be4f14c3eb240f0c345ccac10694343fa030c4fe8fe8"
+      "365": "002ea82a8e85189ceb123b2a49d975003afaa93cfd4885a32493641a4b8ad265",
+      "1096": "54a4ecc8c01183016639cfae37e3aff9ca305103410a8d56667ec61fb96298b9",
+      "1826": "852132ba570c8ca34a8dddf7ea0e3a843cbc0476a9d53c0c43741f3f07d331fb"
     },
     "career-4": {
-      "365": "fc019236892a0018a71c05072126827b2fde147dfc7f25976a54ca2be2f45514",
-      "1096": "c19541245ef450371a2965849865722ddeb826ff9d4259cd7545a591a6470fd3",
-      "1826": "8d97f08a5618e5395db4c75f8e7f0cc80556d13ae2dfc021c18c9108b5ad7f93"
+      "365": "da192e9683540dbfa56ea2c38c45345d86caf7f9c82b582a99bc9f5a641de4b3",
+      "1096": "b4961c00ae257e472379efdc734179cce308e35e499dc1c4571155e343c132cb",
+      "1826": "1f02a85a1f5015cf938ffd78c54a509e70269ae063b618769d3ae02d1acec5d4"
     }
   }
 }

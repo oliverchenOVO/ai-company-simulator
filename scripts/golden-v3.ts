@@ -16,5 +16,5 @@ if(process.argv.includes('--write')) {
     const sim=goldenOrganization(seed);results[seed]={};let previous=90;
     for(const tick of [365,1096,1826]) {sim.execute({type:'AdvanceTime',days:tick-previous});previous=tick;results[seed][tick]=sim.stateHash();}
   }
-  writeFileSync('tests/fixtures/golden-v3.json',JSON.stringify({simulationVersion:3,reason:'Explicit new organization histories with capitalized 5-year observation; v3 concern episodes and attainable leadership responsibility calibrated before release; historical fixtures untouched.',results},null,2)+'\n');
+  writeFileSync('tests/fixtures/golden-v3.json',JSON.stringify({simulationVersion:3,reason:'Explicit new organization histories with capitalized 5-year observation; v3 concern episodes and attainable leadership responsibility and command-linked organizational causes calibrated before release; historical fixtures untouched.',results},null,2)+'\n');
 }

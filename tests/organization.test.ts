@@ -70,6 +70,7 @@ describe('v3 career, reporting and causal relationships', () => {
     const a = make(), b = make();
     const before = a.snapshot().employees['employee-3'];
     a.execute({ type: 'PromoteEmployee', employeeId: before.id, track: 'manager' });
+    expect(a.snapshot().events.at(-1)?.causedBy).toBe(a.snapshot().commands.at(-1)?.id);
     const promoted = a.snapshot().employees[before.id];
     expect(promoted.career!.level).toBe('Senior'); expect(promoted.career!.track).toBe('manager');
     expect(promoted.salary).toBe(before.salary); expect(promoted.expectations.salary).toBe(Math.round(before.expectations.salary * 1.12));
