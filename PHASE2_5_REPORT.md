@@ -36,7 +36,7 @@ All v1/v2/v3 goldens remain unchanged. Real hosted 0.2.0 v3 export was captured 
 
 ## Verification
 
-82 tests in 12 files pass, including all original 72 assertions. Lint, typecheck, desktop build and hosted build pass. Local Web/Electron: 14/14. Hosted-equivalent Google Chrome: 12/12. Actual packaged Windows: 2/2, including released v3 import → organization intervention → advance → SQLite save → process restart → continue → replay. Portable wrapper generated; actual testing launched the packaged executable in win-unpacked.
+82 tests in 12 files pass, including all original 72 tests. Lint, typecheck, desktop build and hosted build pass. Local Web/Electron: 14/14. Hosted-equivalent Google Chrome: 12/12. Actual packaged Windows: 2/2, including released v3 import → organization intervention → advance → SQLite save → process restart → continue → replay. Portable wrapper generated; actual testing launched the packaged executable in win-unpacked.
 
 100 seeds × five years including replay: 3267 ms. 1000 employees × ten years including independent replay: 126067 ms under concurrent audit/build workload; all six integrity counters 0, 1998 relationships, 4877 events, 3849 memories, ending heap 119 MiB. Stress hash matches Phase 2 exactly. [PERFORMANCE.md](docs/phase2_5/PERFORMANCE.md) records save size, history/command growth and validated JSON load timings. No major history rewrite or graph expansion was performed.
 
@@ -48,7 +48,7 @@ Browser plugin not available; existing Playwright Google Chrome workflow used. T
 
 ## Windows / hosted release
 
-Windows 0.2.1 build and actual packaged acceptance are complete. Existing Site publication and actual production Chrome acceptance: pending final publication at this checkpoint. Preserve the current Site URL/audience and private source repository. Do not substitute another browser and call Chrome passed.
+Windows 0.2.1 build and actual packaged acceptance are complete. Existing Site version 6 published successfully on 2026-10-03 at https://foundry-company-simulator.oliverchenovo.chatgpt.site. Source: b99b5c7343654423d4f13281f7d159514953ff47. Saved version: appgprj_6ac00cc0ca308191a1689834e149acb4~appgver_d4fb2f2cc0408191b0d56bfa3340897c. Deployment: appgdep_6ac0fb9e7f7c8191b26da6e05206f91a, succeeded. Existing public audience and private source repository are preserved. Actual production Google Chrome: 12/12 passed (2.3 minutes), including independent sessions, refresh persistence, offline operation, organization and retention intervention replay, desktop/mobile and recorded departure causes. Production JS/CSS/worker response bytes match tested output; HTML includes the hosting provider security script. A bare Python HTTP request received 403, so asset verification used actual Chrome. Local deployment tar SHA-256: AFB86CA0BA29856ADA6B2E7D67BC0172D2EC186B6245F28C064091F8EE6286EE. Server archive metadata: 7 files, 849920 bytes, content hash sha256:0cd9403d31c615f8ebbe4ef2632ca6fd1ed89c82f95e86e4c27a71e9623b3f74. Browser progress is local to its storage/profile and survives refresh; cross-device/account sync is outside this Phase.
 
 ## Git
 
@@ -57,9 +57,12 @@ Windows 0.2.1 build and actual packaged acceptance are complete. Existing Site p
 - `1d9e93d`: selection-specific promotion explanations, translated causal factors, 0.2.1 metadata and rendered/packaged compatibility tests.
 - `ef894e9`: complete controlled branches and shared-seed five/ten-year funnel evidence.
 - `25897b0`: human protocol, measured retention limitations, actual stories and performance documentation.
-- Final documentation commits link the developer commands and record production acceptance, with no additional world changes.
+- `7fdc3e8`: link developer commands and complete benchmark evidence.
+- `1ebf728`: scope Tailwind sources to runtime UI; all release gates rerun.
+- `b99b5c7`: record final Windows package and the moderate-input limitation.
+- Final documentation commit records production acceptance, with no additional runtime changes.
 
-Existing origin `oliverchenOVO/ai-company-simulator` is private. Committed raw evidence is entirely synthetic; no personal participant data, credentials or local screenshots are committed. [Private CI 37122175713](https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37122175713), source b785e38, passed both validate and windows-package, including the 82-test suite and actual packaged acceptance. Final clean/pushed state and production evidence are recorded after release gates.
+Existing origin `oliverchenOVO/ai-company-simulator` is private. Committed raw evidence is entirely synthetic; no personal participant data, credentials or local screenshots are committed. [Private CI 37122175713](https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37122175713), source b785e38, passed both validate and windows-package, including the 82-test suite and actual packaged acceptance. [Release CI 37124300735](https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37124300735), source b99b5c7, passed both validate and windows-package after the CSS fix. Final documentation is pushed separately; deployment source b99b5c7 contains the identical accepted runtime assets.
 
 ## Next step
 
