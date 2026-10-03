@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T21:32:54.065Z",
+  "generatedAt": "2026-10-03T22:28:40.412Z",
   "node": "v24.13.0",
   "platform": "win32",
   "kind": "pure 3D adapter plus one frame of pose sampling; 100 repetitions; GPU measured in Chrome separately",
@@ -8,8 +8,8 @@
       "employees": 3,
       "floors": 3,
       "renderer": "3d",
-      "medianMs": 0.006,
-      "p95Ms": 0.033,
+      "medianMs": 0.01,
+      "p95Ms": 0.225,
       "worldHashUnchanged": true,
       "baseSceneDeterministic": true
     },
@@ -17,8 +17,8 @@
       "employees": 12,
       "floors": 4,
       "renderer": "3d",
-      "medianMs": 0.009,
-      "p95Ms": 0.03,
+      "medianMs": 0.025,
+      "p95Ms": 0.286,
       "worldHashUnchanged": true,
       "baseSceneDeterministic": true
     },
@@ -26,8 +26,8 @@
       "employees": 30,
       "floors": 6,
       "renderer": "3d",
-      "medianMs": 0.02,
-      "p95Ms": 0.074,
+      "medianMs": 0.047,
+      "p95Ms": 0.407,
       "worldHashUnchanged": true,
       "baseSceneDeterministic": true
     },
@@ -35,8 +35,8 @@
       "employees": 60,
       "floors": 10,
       "renderer": "3d",
-      "medianMs": 0.025,
-      "p95Ms": 0.064,
+      "medianMs": 0.056,
+      "p95Ms": 0.176,
       "worldHashUnchanged": true,
       "baseSceneDeterministic": true
     },
@@ -44,8 +44,8 @@
       "employees": 100,
       "floors": 15,
       "renderer": "3d",
-      "medianMs": 0.046,
-      "p95Ms": 0.123,
+      "medianMs": 0.089,
+      "p95Ms": 0.979,
       "worldHashUnchanged": true,
       "baseSceneDeterministic": true
     },
@@ -53,8 +53,8 @@
       "employees": 250,
       "floors": 33,
       "renderer": "svg-focused",
-      "medianMs": 0.109,
-      "p95Ms": 0.232,
+      "medianMs": 0.175,
+      "p95Ms": 0.588,
       "worldHashUnchanged": true,
       "baseSceneDeterministic": true
     },
@@ -62,8 +62,8 @@
       "employees": 1000,
       "floors": 127,
       "renderer": "svg-focused",
-      "medianMs": 0.22,
-      "p95Ms": 0.458,
+      "medianMs": 0.347,
+      "p95Ms": 0.92,
       "worldHashUnchanged": true,
       "baseSceneDeterministic": true
     }

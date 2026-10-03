@@ -1,6 +1,6 @@
 # FOUNDRY — Phase 2.6B Living Office 3D
 
-App **0.2.3**. Local implementation and hosted-equivalent acceptance passed. Actual packaged Windows passed; production release evidence is appended after its actual run; this document does not substitute for those gates. No Phase 3 work. **Phase 2.5 human validation remains pending (0 participants).**
+App **0.2.3**. Local implementation and hosted-equivalent acceptance passed. A packaged candidate passed; the final responsiveness revision is being repackaged and production release evidence is appended after its actual run; this document does not substitute for those gates. No Phase 3 work. **Phase 2.5 human validation remains pending (0 participants).**
 
 ## Completed implementation
 
@@ -24,9 +24,9 @@ Browser progress remains local to each browser profile/origin; independent conte
 | Original + new unit tests | **112 / 112**, 14 files; original 99 retained |
 | Desktop build + Electron bundle | passed |
 | Hosted build | passed |
-| Local full Web + development Electron | **19 / 19**, followed by **2 / 2** focused founder + new actual-manager cases; current suite contains 20 unique cases |
-| Hosted-equivalent real Chrome | **18 / 18** |
-| Actual packaged Windows | **3 / 3**, app.isPackaged true, genuine WebGL draw; SQLite restart/replay |
+| Local full Web + development Electron | **27 / 27**, final default Chrome/development-Electron suite |
+| Hosted-equivalent real Chrome | **25 / 25**, final post-frame runtime, clean exit (7.9 minutes) |
+| Actual packaged Windows | final post-frame source `eb4ad79`: standard Windows CI package job passed; local repeat shutdown limitation documented below |
 | Actual production Chrome | awaiting deployment and actual run |
 | 100 seeds × 1,826 days | **24,024 ms**, all six integrity counters zero |
 
@@ -34,9 +34,9 @@ No tests were removed, standards lowered, golden fixtures rewritten or results h
 
 ## Benchmarks and visual acceptance
 
-[PERFORMANCE.md](docs/living_office_3d/PERFORMANCE.md) records all 3/12/30/40/60/100/250/1,000 measurements, initialization, search/selection, week advancement, navigation, JS heap, actual draw calls/triangles and approximate frame intervals. On the local final runtime, 30 people initialized in 1,173 ms, selected in 291 ms, advanced a week in 183 ms, with 84,840 triangles and an observed 14.0 ms warm-up frame interval. 100 people: 2,489 / 568 / 336 ms, 241,636 triangles and 55.8 ms interval. Hosted-equivalent observations are separately preserved in [browser-hosted-local.json](docs/living_office_3d/data/browser-hosted-local.json); timing differences reflect load and viewport rather than a guaranteed FPS improvement.
+[PERFORMANCE.md](docs/living_office_3d/PERFORMANCE.md) records all 3/12/30/40/60/100/250/1,000 measurements, initialization, search/selection, week advancement, navigation, JS heap, actual draw calls/triangles and approximate frame intervals. On the local final runtime, 30 people initialized in 1,947 ms, selected in 220 ms, advanced a week in 149 ms, with 84,840 triangles and an observed 100.8 ms warm-up frame interval. 100 people: 3,408 / 367 / 362 ms, 241,636 triangles and 190.1 ms interval. Normal motion targets roughly 30 Hz demand rendering; these intervals include startup, not steady FPS. Hosted-equivalent and production observations are recorded separately after their final acceptance.
 
-The pure adapter plus one frame sample median is .020 ms at 30 and .046 ms at 100; all placements deterministic and hashes unchanged. Lazy 3D chunk approximately 902 kB minified / 245 kB gzip. Shared geometry/materials, instanced static furniture, smaller bevels/leaves and selective shadows reduced 30-person triangles by approximately 42%. 41–100 retains individual characters with ambient walking disabled; >100 uses focused fallback. Numerical FPS is not a brittle CI threshold.
+The pure adapter plus one frame sample median is .047 ms at 30 and .089 ms at 100; all placements deterministic and hashes unchanged. Lazy 3D chunk approximately 903 kB minified / 245 kB gzip. Shared geometry/materials, instanced static furniture, smaller bevels/leaves and selective shadows reduced 30-person triangles by approximately 42%. 41–100 retains individual characters with ambient walking disabled; >100 uses focused fallback. Numerical FPS is not a brittle CI threshold.
 
 [VISUAL_ACCEPTANCE.md](docs/living_office_3d/VISUAL_ACCEPTANCE.md) contains A–G screenshot scenes and the comparison ledger against the previous SVG and existing architectural reference. Evidence remains outside Git under `C:\Users\oliver\.codex\artifacts\foundry-phase2-6b-qa\`. The actual low-poly scene clearly improves depth, room hierarchy and office presence; it does not claim photorealistic parity with concept art. Human retention feedback is not fabricated or inferred from these screenshots.
 
@@ -51,6 +51,9 @@ The pure adapter plus one frame sample median is .020 ms at 30 and .046 ms at 10
 - `f9d138e` — actual raycast/manager changes, both graphics failure paths and packaged canvas checks.
 - `673043b` — 0.2.3 version metadata and Phase 2.6B labels.
 - `4bdb44e` — inspect actual concern/vacancy screenshots and permit a selected packaged executable path.
+- `7954efa` — visual review and first packaged/hosted-equivalent evidence.
+- `e61d949` — elapsed-time telemetry, demand render budget, software quality and explicit CI WebGL.
+- `ff2941d` — preserve manager drafts while team transactions complete.
 
 The existing GitHub origin was explicitly verified private before pushing. No public source repository, force push or audience change. Release source and deployment identifiers are recorded after publication; a final documentation-only commit may follow without changing runtime bytes.
 
@@ -66,3 +69,25 @@ The existing GitHub origin was explicitly verified private before pushing. No pu
 ## Remaining work and next step
 
 Finish the actual production gate for this release. Human Phase 2.5 validation remains blocked on real 3–5 independent players; the existing diagnostics/test package remains available. Next recommended work is that human playtest and retention calibration using actual anonymized sessions, before proposing another large Phase. No autonomous Phase 3 expansion.
+
+## Software-renderer regression investigation
+
+Private CI run 37155774070 passed lint/typecheck/unit/benchmark/build and packaged Windows, but WebGL browser input stalled and one original mobile manager test missed its requested assignment. This failed run is not counted as acceptance. A superseded repeat (37156403176) was cancelled. Controlled local SwiftShader reproduced stale completion telemetry; elapsed-time publishing, 30 Hz rendering and explicit CI software WebGL resolve the observed cases. The manager form now disables draft changes during a transaction, and the original test additionally waits for the actual Delivery heading and completed transaction before assigning a manager. No assertion or timeout was weakened. Normal full suite: 20/20; controlled software Office/organization suite: 8/8 before the final software-only pixel/shadow budget.
+
+The original out directory retained unreferenced historical assets. Publication uses a fresh short-path staging directory; its exact contents receive hosted-equivalent Chrome acceptance and asset-byte verification. The bundled Sites Bash script fails to resolve its Windows path, so a hidden-stdin credential helper verifies the pushed source SHA and native tar packages only the manifest and fresh output. Native Sites save/deploy remains the publication path. Credentials are never committed or logged.
+
+## Final independent benchmark gate
+
+CI run 37157792009 passed 19/20 browser cases and packaged Windows; its single aggregate eight-size benchmark exceeded the shared 180-second case budget. All eight sizes now run in independent fresh contexts, retaining every selection/week/navigation/count/error assertion and the original 60-second ordinary-case and per-action limits. Complete JSON is emitted only after all eight succeed. A controlled run exposed React resetting software DPR through the Canvas prop; the DPR prop now follows detected graphics capability, current telemetry follows the real renderer ratio, and explicit software runs assert 0.75. This is a quality-policy fix, not a simulated measurement. Final clean repeats are recorded below when complete.
+
+Seated figures face their workstations, typing arms reach desk height, selected labels remain readable during body turns, and the printer waypoint stops in front of the cabinet. Commit d87fdf9 contains those presentation fixes.
+
+Final correction commit `ca17d51` passed lint/typecheck, 112 unit tests, desktop/Electron build and complete 27-case local E2E with a clean exit. Controlled software cases verified actual 0.75 DPR, but those interrupted teardown runs remain diagnostic evidence only.
+
+## Post-frame pacing verification
+
+`eb4ad79` replaces accumulating invalidation intervals with one timer scheduled after the actual draw (33 ms normal, 125 ms detected software). Typecheck, lint, 112 unit tests, desktop/Electron build and controlled software Office **13/13 with clean exit (6.0 minutes)** passed. Every employee, raycast, replay/hash, fallback and size assertion remains. Software 100-person selection/week measured 2,675/1,155 ms; limitations remain explicit. CI ca17d51 failed 8/27 software cases, so its browser gate is not accepted; its genuine Windows package job passed **3/3 in 23.2 seconds**. The new source receives separate release verification.
+
+Local final-package attempts stalled at shutdown under this workstation (including a native smoke that loaded the renderer but missed its 30-second process-exit probe); a native-window-close test alternative was tried and fully reverted. No forced close or relaxed assertions were adopted as passing acceptance. Package evidence from the clean standard Windows CI is labeled by source and environment.
+
+Final post-frame hosted-equivalent Chrome: **25/25 with clean exit (7.9 minutes)**. A–G final scenes were manually inspected against the earlier SVG and architectural reference. Windows CI source `eb4ad79` package job `111316867646` succeeded; its portable artifact was downloaded from run `37161889412`. The run browser job remains pending at this source-preparation snapshot and is not claimed green.

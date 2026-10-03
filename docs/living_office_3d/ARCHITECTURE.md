@@ -7,3 +7,5 @@ The adapter converts semantic floors/slots to metre-based coordinates and semant
 Primary desktop renderer: React Three Fiber 9 (React 19) and Three.js. No drei dependency is needed: constrained camera, primitive assets and labels are small local components. SVG retained behind mobile/large-company/graphics failure fallback. A React error boundary and context-loss handler isolate rendering failures from management.
 
 References: [R3F compatibility](https://r3f.docs.pmnd.rs/), [Canvas fallback](https://r3f.docs.pmnd.rs/api/canvas), [frame-loop performance](https://r3f.docs.pmnd.rs/advanced/scaling-performance), [Three renderer](https://threejs.org/docs/pages/WebGLRenderer.html).
+
+Windows hosted CI explicitly uses real software WebGL following [Chromium SwiftShader documentation](https://github.com/chromium/chromium/blob/main/docs/gpu/swiftshader.md?plain=1). These flags apply only to controlled CI, never to the player's browser or packaged app. All canvas, raycast, fixture, hash, fallback and persistence assertions remain enabled.
