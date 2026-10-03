@@ -53,3 +53,31 @@ test('packaged Windows loads released v3 then intervenes, restarts, continues an
     await expect(resumed.getByText('一致性驗證通過', { exact: true })).toBeVisible(); expect(errors).toEqual([]);
   } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('packaged Windows Living Office persists company then restarts and continues offline', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'foundry-packaged-'));
+  if (!resolve(dir).startsWith(resolve(join(tmpdir(), 'foundry-packaged-')))) throw new Error('Unsafe cleanup path');
+  const env: Record<string, string> = {};
+  for (const [key, value] of Object.entries(process.env)) if (value !== undefined) env[key] = value;
+  env.FOUNDRY_USER_DATA = dir; delete env.ELECTRON_RUN_AS_NODE;
+  const executablePath = resolve('release/win-unpacked/Foundry Company Simulator.exe');
+  let app = await electron.launch({ executablePath, args: [], env });
+  const errors: string[] = [];
+  try {
+    expect(await app.evaluate(({ app }) => app.isPackaged)).toBe(true);
+    const page = await app.firstWindow(); page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await createCompany(page); await page.getByRole('navigation').getByRole('button', { name: '辦公室', exact: true }).click();
+    await expect(page.locator('[data-office-employee]')).toHaveCount(3);
+    const appearance = await page.locator('[data-office-employee="employee-1"]').getAttribute('data-office-appearance');
+    await page.locator('[data-office-employee="employee-1"]').click(); await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
+    await page.getByRole('button', { name: '推進一週', exact: true }).click(); await expect(page.getByText('第 7 天', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: '存檔', exact: true }).click(); await expect(page.getByRole('status')).toContainText('手動存檔已保存');
+    await app.close(); app = await electron.launch({ executablePath, args: [], env });
+    const resumed = await app.firstWindow(); resumed.on('pageerror', e => errors.push(e.message)); resumed.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+    await resumed.getByRole('navigation').getByRole('button', { name: '辦公室', exact: true }).click();
+    await expect(resumed.locator('[data-office-employee="employee-1"]')).toHaveAttribute('data-office-appearance', appearance!);
+    await expect(resumed.getByText('第 7 天', { exact: true })).toBeVisible(); await resumed.getByRole('button', { name: '推進一天', exact: true }).click(); await expect(resumed.getByText('第 8 天', { exact: true })).toBeVisible();
+    await resumed.getByRole('navigation').getByRole('button', { name: '設定', exact: true }).click(); await resumed.getByRole('button', { name: '驗證 Replay', exact: true }).click(); await expect(resumed.getByText('一致性驗證通過', { exact: true })).toBeVisible();
+    expect(errors).toEqual([]);
+  } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+});
