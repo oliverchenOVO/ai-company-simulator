@@ -20,4 +20,20 @@ describe('observable policy and decision sensitivity',()=>{
     const r=compareBranches(sim.snapshot(),[{type:'FireEmployee',employeeId:'employee-2'},{type:'ChangeSalary',employeeId:'employee-1',salary:1_000_000},{type:'ChangeCompanyStrategy',strategy:'sustainable'},{type:'ChangeProductPriority',priority:'quality'}],[],365);
     expect(r.a.metrics.bankrupt).toBe(false);expect(r.b.metrics.bankrupt).toBe(true);expect(r.a.hash).not.toBe(r.b.hash);
   });
+  it('salary and priority choices produce measured financial and launch differences',()=>{
+    const origin=new Simulation(config);
+    const salary=compareBranches(origin.snapshot(),[{type:'ChangeSalary',employeeId:'employee-2',salary:5_000_000}],[]);
+    expect(salary.b.metrics.cashNTD-salary.a.metrics.cashNTD).toBe(30000);
+    const priority=compareBranches(origin.snapshot(),[{type:'ChangeProductPriority',priority:'quality'}],[{type:'ChangeProductPriority',priority:'features'}]);
+    expect(priority.a.product.launchedAt).toBeNull();expect(priority.b.product.launchedAt).toBe(64);
+  });
+  it('company strategy changes launch timing, while team movement changes relationships',()=>{
+    const origin=new Simulation(config);
+    const strategy=compareBranches(origin.snapshot(),[{type:'ChangeCompanyStrategy',strategy:'growth'}],[{type:'ChangeCompanyStrategy',strategy:'sustainable'}]);
+    expect(strategy.a.product.launchedAt!).toBeLessThan(strategy.b.product.launchedAt!);
+    const team=compareBranches(origin.snapshot(),[{type:'CreateTeam',name:'Lab',managerId:null},{type:'MoveEmployeeToTeam',employeeId:'employee-2',teamId:'team-4'}],[]);
+    expect(team.a.omniscientDiagnostics.relationships).not.toEqual(team.b.omniscientDiagnostics.relationships);
+    // Current mechanics have no direct team capacity bonus. Keep this limitation visible.
+    expect(team.a.metrics.cashNTD).toBe(team.b.metrics.cashNTD);expect(team.a.product.launchedAt).toBe(team.b.product.launchedAt);
+  });
 });

@@ -22,7 +22,14 @@
     "desktop": "electron dist-electron/main.cjs",
     "package:win": "pnpm build && electron-builder --win portable --publish never",
     "build:site": "tsc --noEmit && vite build --mode hosted",
-    "test:hosted": "playwright test --config playwright.hosted.config.ts"
+    "test:hosted": "playwright test --config playwright.hosted.config.ts",
+    "benchmark:gameplay": "tsx scripts/gameplay-benchmark.ts",
+    "benchmark:gameplay:long": "tsx scripts/gameplay-benchmark.ts --days=1826",
+    "audit:branches": "tsx scripts/gameplay-experiments.ts",
+    "audit:warnings": "tsx scripts/warning-audit.ts",
+    "audit:exploits": "tsx scripts/exploit-audit.ts",
+    "audit:reports": "node scripts/gameplay-report.mjs",
+    "playtest": "node scripts/playthroughs.mjs"
   },
   "dependencies": {
     "@noble/hashes": "^2.0.1",

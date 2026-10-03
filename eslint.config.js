@@ -7,5 +7,6 @@ export default ts.config(
   { files: ['packages/simulation/**/*.ts'], rules: {
     'no-restricted-properties': ['error', { object: 'Math', property: 'random', message: 'Use contextual deterministic RNG.' }, { object: 'Date', property: 'now', message: 'Use simulation time.' }]
   } },
-  { files: ['**/*.mjs'], languageOptions: { globals: { process: 'readonly', console: 'readonly' } } }
+  { files: ['**/*.mjs'], languageOptions: { globals: { process: 'readonly', console: 'readonly' } } },
+  { files: ['scripts/playthroughs.mjs'], languageOptions: { globals: { document: 'readonly' } } }
 );
