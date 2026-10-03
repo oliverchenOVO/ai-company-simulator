@@ -29,7 +29,7 @@ export class TemplateNarrativeProvider implements NarrativeProvider {
       case 'SalaryOfferRejected': title = `${p.name} 未接受降薪提案`; body = `提案 ${dollars(p.salary)} 低於此員工的最低接受額 ${dollars(Math.ceil(Number(p.minimum)/100)*100)}，期待 ${dollars(p.expectation)}。原月薪 ${dollars(p.previous)} 維持不變。`; channel = '人事'; break;
       case 'SalaryChanged': title = `${p.name} 的薪資已調整`; body = `月薪從 ${dollars(p.previous)} 調整為 ${dollars(p.salary)}，本月按生效日期結算。`; channel = '人事'; break;
       case 'EmployeeMoved': title = `${p.name} 調動團隊`; body = '新的團隊與主管安排已生效。'; channel = '人事'; break;
-      case 'EmployeeConcernRaised': title = `${p.name} 提出關切`; body = p.concern === 'compensation' ? '薪資期待與目前安排存在落差，建議安排一次對談。' : '近期工作節奏令人擔憂，建議重新檢視團隊負荷。'; channel = '人事'; break;
+      case 'EmployeeConcernRaised': title = `${p.name} 提出關切`; body = p.concern === 'compensation' ? '薪資期待與目前安排存在落差，建議安排一次對談。' : '對目前工作安排有所關切。請對照工作節奏、職涯回饋、主管支持與薪資期待；這項訊息本身不足以判定原因。'; channel = '人事'; break;
       case 'EmployeeResigned': title = `${p.name} 提出離職`; body = '離職已生效。時間軸保留了相關管理決策與主要原因，可查看事件來理解經過。'; channel = '人事'; break;
       case 'RelationshipStrained': title = '團隊合作出現摩擦'; body = `${p.sourceName} 與 ${p.targetName} 的合作關係需要注意。`; channel = '人事'; break;
       case 'TeamCreated': title = `${p.name} 團隊成立`; body = '可以在人員頁面調動員工加入新團隊。'; break;
