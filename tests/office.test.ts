@@ -66,10 +66,10 @@ describe('Living Office detached presentation', () => {
     expect(projectOffice(sim.observe()).seats.find(s => s.name === 'New colleague')?.vacant).toBe(false);
   });
   it('projects only qualitative existing career/manager concerns and overload', () => {
-    const { sim } = controlledScenario('career-3', 'poor-manager'); sim.execute({ type: 'AdvanceTime', days: 182 });
+    const { sim, employeeId } = controlledScenario('career-3', 'poor-manager'); sim.execute({ type: 'AdvanceTime', days: 182 });
     const a = projectOffice(sim.observe());
     expect(a.seats.some(s => s.overloaded)).toBe(true);
-    expect(a.seats.find(s => s.employeeId === 'employee-5')?.concerns).toContain('希望討論成長安排');
+    expect(a.seats.find(s => s.employeeId === employeeId)?.concerns).toContain('希望討論成長安排');
     expect(JSON.stringify(a)).not.toMatch(/exitIntent|frustration|resignationChance|managerTrust|psychology/);
   });
   it('leaves deep frozen player view and authoritative world unchanged through repeated projection', () => {
@@ -93,11 +93,20 @@ describe('Living Office detached presentation', () => {
     sim.execute({ type: 'AdvanceTime', days: 30 });
     expect(presentationQueue(sim.observe().events, sim.observe().tick).every(c => c.tick >= 23)).toBe(true);
   });
-  it('preserves every employee through fidelity fallback and limits old vacancies', () => {
+  it('preserves every employee through fidelity fallback', () => {
     const sim = make(1000), a = projectOffice(sim.observe());
     expect(a.fidelity).toBe('focused'); expect(a.seats.filter(s => !s.vacant)).toHaveLength(1000);
     expect(new Set(a.seats.map(s => s.employeeId)).size).toBe(1000);
     expect(projectOffice(make(100).observe()).fidelity).toBe('individual'); expect(projectOffice(make(250).observe()).fidelity).toBe('quiet');
+  });
+  it('bounds actual departed seats and removes them only after the documented presentation window', () => {
+    const sim = make(40);
+    for (const e of sim.observe().employees.filter(e => !['CEO', 'CTO'].includes(e.role)).slice(0, 18)) sim.execute({ type: 'FireEmployee', employeeId: e.id });
+    expect(projectOffice(sim.observe()).seats.filter(s => s.vacant)).toHaveLength(16);
+    sim.execute({ type: 'AdvanceTime', days: 31 });
+    expect(projectOffice(sim.observe()).seats.some(s => s.vacant)).toBe(false);
+    expect(sim.observe().employees.filter(e => e.status !== 'active')).toHaveLength(18);
+    expect(replay(sim.snapshot()).stateHash()).toBe(sim.stateHash());
   });
   for (const file of ['phase1-0.1.0.save.json', 'phase1-0.1.1.save.json', 'phase2-0.2.0.save.json']) it(`views released ${file} without altering its exact world hash`, () => {
     const saved = validateSave(JSON.parse(readFileSync(`tests/fixtures/${file}`, 'utf8'))), sim = Simulation.restore(saved.world);
