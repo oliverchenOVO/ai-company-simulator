@@ -85,6 +85,17 @@ describe('released v3 retention diagnostics and intervention evidence', () => {
     expect(Simulation.restore(validateSave(createSave(sim.snapshot())).world).stateHash()).toBe(sim.stateHash());
     expect(replay(sim.snapshot()).stateHash()).toBe(sim.stateHash());
   });
+  it('checks weekly funnel evaluation counts against an independent daily trace', () => {
+    const weekly = controlledScenario('career-3', 'sustained-growth'), daily = controlledScenario('career-3', 'sustained-growth');
+    const a = new RetentionAudit(7), b = new RetentionAudit(1); advance(weekly.sim, a, 728); b.sample(daily.sim.snapshot());
+    for (let day = 0; day < 728; day++) { daily.sim.execute({ type: 'AdvanceTime', days: 1 }); b.sample(daily.sim.snapshot()); }
+    expect(a.result().funnel).toEqual(b.result().funnel);
+    const x = a.result().people.find(e => e.id === weekly.employeeId)!, y = b.result().people.find(e => e.id === daily.employeeId)!;
+    expect(x.resignedAt).toBe(y.resignedAt); expect(x.firstSeriousWarning).toBe(y.firstSeriousWarning);
+    expect(Math.abs(x.firstHiddenRisk! - y.firstHiddenRisk!)).toBeLessThanOrEqual(6);
+    expect(Math.abs(x.firstPublicSignal! - y.firstPublicSignal!)).toBeLessThanOrEqual(6);
+    expect(replay(daily.sim.snapshot()).stateHash()).toBe(daily.sim.stateHash());
+  });
   it('distinguishes salary, promotion and management-track output and records concern resolution over time', () => {
     const run = controlledScenario('career-3', 'career-stagnation'); run.sim.execute({ type: 'AdvanceTime', days: 365 });
     const a = Simulation.restore(run.sim.snapshot()), b = Simulation.restore(run.sim.snapshot()), c = Simulation.restore(run.sim.snapshot());
