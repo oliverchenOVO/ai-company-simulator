@@ -2,7 +2,7 @@
 
 ## Acceptance status
 
-Implemented and accepted locally; Windows packaged acceptance is complete; actual hosted production gates are pending at this checkpoint. App 0.2.2. Simulation v1/v2/v3 remain authoritative; no v4, retention/economy change or Phase 3 development. **Human retention validation remains pending. Living Office does not substitute for human playtesting of retention.** No participants, sessions or feedback were fabricated.
+**Phase 2.6 Living Office acceptance complete.** Local, actual packaged Windows and production Chrome release gates passed. App 0.2.2. Simulation v1/v2/v3 remain authoritative; no v4, retention/economy change or Phase 3 development. **Human retention validation remains pending. Living Office does not substitute for human playtesting of retention.** No participants, sessions or feedback were fabricated.
 
 ## Visual scope and rendering technology
 
@@ -64,7 +64,7 @@ Portable 0.2.2 rebuilt: 97,650,962 bytes, SHA-256 41CB8BEBB0D8503436C48245592C4A
 
 ## Hosted production
 
-Pending archive-backed same-Site publication and actual production Chrome 15-case acceptance. Preserve Site ID, public audience, stable URL and private Git source. Existing player saves use the same schema/rules. Browser profiles remain independent and refresh-persistent; cross-device/account sync is not part of this phase.
+Site version 7 successfully published on 2026-10-04 (Asia/Taipei): https://foundry-company-simulator.oliverchenovo.chatgpt.site. Actual production Google Chrome: 15/15 passed (1.7 minutes), including Office flows, real concerns/overload/vacancy, desktop/mobile/reduced motion, independent sessions, refresh persistence, already-loaded offline behavior and exact replay hash. Source SHA: 63202dd97fa80938856349a2cddb4cb9f84f5eb3. Saved version: appgprj_6ac00cc0ca308191a1689834e149acb4~appgver_de18253c1a108191bb670208f452668e. Deployment: appgdep_6ac14dca9a48819188df8787294d2311, succeeded. The same Site ID, existing public audience and private Git source are preserved. Fresh packaged output matches the tested hosted build byte-for-byte; actual Chrome verified main/Office JS and CSS plus worker response bytes. Release label confirmed 0.2.2 / Phase 2.6. Local tar SHA-256 FA3422E5EBA4658A2C787EA76DFEA1F8955659271D5428A30FF2BA6EE279CCFA; server content hash sha256:56ecfaa4325b912509ab2b6e098b98f6311a5526a262d8275ee95821e0d3f653, 9 files / 880640 bytes. Existing player saves use the same schema/rules. Browser profiles remain independent and refresh-persistent; cross-device/account sync is not part of this phase.
 
 ## Git milestones
 
@@ -74,12 +74,18 @@ Pending archive-backed same-Site publication and actual production Chrome 15-cas
 - 3fb59f5: correct real focal identity and meaningful vacancy expiry/bounds coverage (17 Office tests).
 - 38b6557: Office Web/Chrome, measured rendering and actual packaged restart coverage.
 - 6b7ba5f: app 0.2.2 metadata, unchanged world versions/save schema.
-- Acceptance/documentation commits record final measured release gates separately.
+- 39f0ccd: local rendered QA, scope, performance evidence and acceptance documentation.
+- 63202dd: actual Windows package and exact concept-size QA evidence.
+- Final docs-only release commit records production Chrome acceptance and does not change deployed runtime assets.
 
-Private repository remains oliverchenOVO/ai-company-simulator. No public repository/source release. Final source/deployment/clean-pushed/CI evidence will be recorded after publication.
+Private repository remains oliverchenOVO/ai-company-simulator. No public repository/source release. [Release CI 37145339036](https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37145339036), source 63202dd, passed both validate and windows-package (99 tests, benchmark, build, local E2E and three actual packaged flows). CI 37145228166 / 39f0ccd also passed. Final documentation is pushed separately; runtime publication remains the exact accepted 63202dd source. Working tree is checked clean and final HEAD matches origin/main at handoff.
 
 ## Known limitations and next visual iteration
 
 Fixed 2.5D geometry has simpler depth/materials than true 3D. Startup nameplates are small; selection expands the person/floor, mobile uses textual choices. Large buildings use scrolling/focus. Historical informal-manager vacancy cannot perfectly retain pre-departure responsibility without reconstructing more reporting history. Recent activities may restage on navigation; camera/overlay preferences reset. No complex rigs, actual elevator schedule, full manager document response, live meeting attendance or floor-economic gameplay. Mobile is a simplified floor experience, not desktop free camera.
 
 Next visual iteration: optional clearer cross-floor selected reporting routes, modest meeting/handoff choreography backed by exact public events and presentation preferences outside world saves, measured against the same normal-range/offline gates. **Human retention validation remains pending.** Collect 3–5 independent player sessions when available; this visual feature cannot declare Phase 2.5 complete. Do not automatically begin Phase 3 or tune retention rules.
+
+## Technical issues resolved
+
+A scenario test initially assumed a manager name; actual public manager identity is now used, and all assertions remain. The initial startup render clipped a floor; compact overview plus explicit focus repairs it. Bundled Sites workflow succeeded in pushing verified source but its Windows Bash package helper lost backslashes in the absolute script path. The validated hidden-credential fallback and native archive-backed save/deploy completed without changing Site identity or exposing credentials. Fresh staging byte comparison and production asset checks passed. Existing dependency PURE-annotation/build packaging warnings did not cause application or acceptance failures.

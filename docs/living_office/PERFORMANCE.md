@@ -18,3 +18,16 @@ Pure projection median / p95 (100 repetitions): 3 people 0.013 / 0.045 ms; 100 p
 100-seed × five-year authoritative baseline including independent replay: 10082 ms; crashes, NaN, infinity, corruption, invariant violations and replay mismatches all zero (data/seeds.json). Historical v1/v2/v3 goldens are unchanged. Phase 2.5's 1000-person ten-year result is historical evidence, not rerun or claimed as new here; this presentation-only phase measures its new view at 1000 and week advancement instead.
 
 Lazy Office JS 20.78 kB / gzip 7.83 kB, scoped CSS 7.72 / gzip 2.26 kB. Existing application initially loads without the Office renderer. No new runtime packages, GPU resources, remote asset requests or ongoing timers. The SVG normal-range scene contains repeated primitives; sophisticated rigs, shadows and free orbit are intentionally absent. A future renderer should preserve semantic projection and benchmark these same flows before adding detail.
+
+## Actual production Chrome
+
+Same deployed 0.2.2 code, 1586×992, full 15-case suite passed. Initial page/create flow 1315 ms includes network. No controlled performance-regression claim versus local runs; different network/cache/background load. Raw data/browser-production.json is synthetic measurement evidence.
+
+| Employees | Scene ms | Week ms | Navigation ms | Browser heap MiB | Drawn characters |
+|---|---:|---:|---:|---:|---:|
+| 3 | 469 | 97 | 140 | 12.5 | 3 |
+| 12 | 116 | 87 | 150 | 11.9 | 12 |
+| 40 | 143 | 180 | 287 | 8.7 | 40 |
+| 100 | 286 | 694 | 344 | 22.6 | 100 |
+| 250 | 93 | 234 | 138 | 33.1 | 1 |
+| 1000 | 152 | 872 | 247 | 37.3 | 1 |

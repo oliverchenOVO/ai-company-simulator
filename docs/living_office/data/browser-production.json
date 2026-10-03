@@ -1,0 +1,81 @@
+{
+  "baseURL": "https://foundry-company-simulator.oliverchenovo.chatgpt.site",
+  "viewport": {
+    "width": 1586,
+    "height": 992
+  },
+  "rows": [
+    {
+      "count": 3,
+      "importMs": 238,
+      "sceneRenderMs": 469,
+      "weekMs": 97,
+      "navigationMs": 140,
+      "browserHeapBytes": 13068293,
+      "renderedCharacters": 3,
+      "vectorSeats": 3,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 1315
+    },
+    {
+      "count": 12,
+      "importMs": 104,
+      "sceneRenderMs": 116,
+      "weekMs": 87,
+      "navigationMs": 150,
+      "browserHeapBytes": 12428587,
+      "renderedCharacters": 12,
+      "vectorSeats": 12,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 1315
+    },
+    {
+      "count": 40,
+      "importMs": 149,
+      "sceneRenderMs": 143,
+      "weekMs": 180,
+      "navigationMs": 287,
+      "browserHeapBytes": 9160081,
+      "renderedCharacters": 40,
+      "vectorSeats": 40,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 1315
+    },
+    {
+      "count": 100,
+      "importMs": 301,
+      "sceneRenderMs": 286,
+      "weekMs": 694,
+      "navigationMs": 344,
+      "browserHeapBytes": 23717343,
+      "renderedCharacters": 100,
+      "vectorSeats": 100,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 1315
+    },
+    {
+      "count": 250,
+      "importMs": 521,
+      "sceneRenderMs": 93,
+      "weekMs": 234,
+      "navigationMs": 138,
+      "browserHeapBytes": 34746394,
+      "renderedCharacters": 1,
+      "vectorSeats": 1,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 1315
+    },
+    {
+      "count": 1000,
+      "importMs": 1326,
+      "sceneRenderMs": 152,
+      "weekMs": 872,
+      "navigationMs": 247,
+      "browserHeapBytes": 39158635,
+      "renderedCharacters": 1,
+      "vectorSeats": 1,
+      "gpuDrawCalls": "not applicable: SVG",
+      "initialLoadMs": 1315
+    }
+  ]
+}
