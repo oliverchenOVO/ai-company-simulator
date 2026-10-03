@@ -2,7 +2,7 @@
 
 ## Executive summary
 
-Version 0.2.0 implements the defined Phase 2 organization simulation, with new games on simulation v3 and historical v1/v2 worlds retaining their exact rules. Local acceptance is complete; production publication and private CI are recorded in the release evidence section below. No Phase 3 implementation was started. No LLM determines simulation truth.
+**PHASE 2 COMPLETE.** Version 0.2.0 implements the defined Phase 2 organization simulation, with new games on simulation v3 and historical v1/v2 worlds retaining their exact rules. Local and production acceptance are complete; publication and private CI are recorded below. Human testing and departure pacing remain explicit limitations. No Phase 3 implementation was started. No LLM determines simulation truth.
 
 ## Management quality
 
@@ -51,12 +51,26 @@ Unresolved concern episodes initially flooded long-game history; crossing/episod
 - `de6b7cf`: careers, reporting and organization UI.
 - `d002541`: v3 golden evidence and bounded concern episodes.
 - `cbc7a87`: attainable leadership responsibility.
-- Subsequent focused commits finalize causal metadata, UI controls, policy/counterfactual evidence and acceptance documentation. See Git history for exact IDs.
+- `9a1d6cb`: initiating command links and final v3 replay baseline.
+- `dbcc404`: career control refresh, bounded team selectors and continued-play E2E.
+- `ec0e6eb`: 28 counterfactual pairs, eight seeded strategies and raw evidence.
+- `a494009`: model, story, balance and acceptance documentation; released source.
+- Final documentation-only commit records production acceptance and CI without changing runtime assets. See Git history for its ID.
 
 ## Release evidence
 
-Production deployment, production acceptance and private CI: pending publication at this source checkpoint. The existing Site audience and URL are preserved; source is pushed only to the existing private GitHub repository and the Site's configured source repository.
+## Windows / Hosted
+
+Production: [FOUNDRY](https://foundry-company-simulator.oliverchenovo.chatgpt.site), Site version 5, released source `a4940098f661b6f8f0e6c12a8d34a4322f54bae5`, deployment `appgdep_6ac0e0be87e08191ba50d39474ab383e`, status succeeded on 2026-10-03. Actual production Google Chrome suite: **10/10 passed in 43.4 seconds**, including both organization layouts, v2 compatibility, replay, independent sessions and offline behavior; no assertion or browser substitution was needed.
+
+The existing Site audience and URL are preserved. Browser saves use IndexedDB isolated by browser profile/origin, survive refresh, and are not server-shared worlds. Cross-device account synchronization is not implemented. Windows persistence uses SQLite and actual packaged restart/continue/replay acceptance passed. Portable artifact: `release/Foundry-Company-Simulator-0.2.0-Windows.exe`, 97,633,356 bytes, SHA-256 above.
+
+Sites' bundled workflow encountered a Windows Bash path-escaping error. The fallback pushed the exact clean source and locally packaged seven fresh static files; every asset matched the already-tested hosted build byte-for-byte. Archive SHA-256: `b8babfb22be3924eaf8a2fcf8c0595201837398218afcd598d9fcc95bffb30a1`. No credentials were persisted or committed.
+
+## Git
+
+Existing origin remains private: `oliverchenOVO/ai-company-simulator`. All implementation and synthetic benchmark evidence is committed and pushed; no human/private QA records or credentials are included. Released source is also pushed to the Site's configured source repository. [Private CI run 37118225541](https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37118225541) passed both validate and windows-package jobs, including lint, typecheck, tests, benchmark, build, E2E, portable packaging and packaged smoke. Final documentation-only update is separately committed/pushed; clean working tree is verified after that commit.
 
 ## Recommendation and unfinished work
 
-Accept the implemented Phase 2 technical milestone once release gates pass. Before choosing the next major Phase, run the proposed human sessions and review retention pacing, managerial tradeoffs and causal explanation readability. Do not infer human acceptance from automated results. Goal renewal, indefinite-history optimization and a spatial office remain future decisions; none were added to this Phase.
+**Begin Phase 2.5 / Phase 3 planning**, with the proposed human sessions and a review of retention pacing, managerial tradeoffs and causal explanation readability first. This is a recommendation to plan, not authorization to implement the next Phase. Do not infer human acceptance from automated results. Goal renewal, indefinite-history optimization and a spatial office remain future decisions; none were added to this Phase.
