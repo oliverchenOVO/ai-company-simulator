@@ -1,17 +1,36 @@
-import { useMemo, useState, type KeyboardEvent } from 'react';
+import { Component, Suspense, lazy, useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { Building2, RotateCcw, Search, ArrowUpRight, Users, Info } from 'lucide-react';
 import type { CompanyView } from '../../../../../packages/simulation/src/projection';
 import { PageHeading, roles } from '../../../../../packages/ui/src/components';
 import { useUi } from '../../ui-state';
 import { projectOffice, seatPoint, type OfficeFloor, type OfficeSeat, type OfficeCue, type Overlay } from './projection';
 import { Desk, Person, RoomProps } from './assets';
+import { projectOfficeScene } from './scene-projection';
 import './office.css';
 const overlays = { normal: '日常', management: '匯報', concerns: '關切' } as const;
 const activityLabels = { Working: '桌邊工作', Reading: '閱讀文件', Concerned: '已有關切', Celebrating: '近期晉升', Arriving: '近期到職', Departing: '已離開', Discussing: '近期組織討論', Moving: '近期異動' };
 const activate = (e: KeyboardEvent<SVGGElement>, action: () => void) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); action(); } };
+const Scene = lazy(() => import('./LivingOfficeScene'));
+class GraphicsBoundary extends Component<{ children: ReactNode; failed: () => void }, { broken: boolean }> {
+  state = { broken: false };
+  static getDerivedStateFromError() { return { broken: true }; }
+  componentDidCatch(error: Error) { console.warn('Office graphics fallback:',error.message); this.props.failed(); }
+  render() { return this.state.broken ? null : this.props.children; }
+}
+function useMedia(query: string) {
+  const [matches, set] = useState(() => window.matchMedia(query).matches);
+  useEffect(() => { const media = window.matchMedia(query); const update = () => set(media.matches); media.addEventListener('change', update); return () => media.removeEventListener('change', update); }, [query]);
+  return matches;
+}
 
 export default function LivingOffice({ view }: { view: CompanyView }) {
   const layout = useMemo(() => projectOffice(view), [view]);
+  const history=useRef(useUi.getState().officeHistory);
+  const previousScene=history.current?.name===view.name && history.current.tick<=view.tick && history.current.revision<view.revision ? history.current.scene : undefined;
+  useEffect(()=>{useUi.getState().setOfficeHistory(layout.headcount<=100 ? {name:view.name,tick:view.tick,revision:view.revision,scene:projectOfficeScene(layout)} : null);},[layout,view.name,view.tick,view.revision]);
+  const mobile = useMedia('(max-width: 700px)'), reduced = useMedia('(prefers-reduced-motion: reduce)');
+  const [graphicsFailed, failGraphics] = useState(false), [simple, setSimple] = useState(false), [zoom, setZoom] = useState(1);
+  const use3d = !mobile && layout.headcount <= 100 && !graphicsFailed && !simple;
   const [selectedId, select] = useState<string | null>(null), [floorId, focusFloor] = useState<string | null>(null), [teamId, focusTeam] = useState<string | null>(null), [overlay, setOverlay] = useState<Overlay>('normal'), [query, setQuery] = useState('');
   const navigate = useUi(s => s.setPage), selectEmployee = useUi(s => s.selectEmployee), selectEvent = useUi(s => s.selectEvent);
   const seatsById = useMemo(() => new Map(layout.seats.map(s => [s.employeeId, s])), [layout]);
@@ -24,24 +43,27 @@ export default function LivingOffice({ view }: { view: CompanyView }) {
   const matching = query.trim() ? layout.seats.filter(s => !s.vacant && s.name.toLowerCase().includes(query.trim().toLowerCase())) : [];
   function choose(id: string) { select(id); focusTeam(null); const seat = seatsById.get(id); if (seat) focusFloor(seat.floorId); }
   function details(id: string) { navigate('People'); selectEmployee(id); }
-  function reset() { select(null); focusFloor(null); focusTeam(null); setQuery(''); }
-  return <section className="living-office" data-fidelity={layout.fidelity} data-small={layout.headcount <= 8} data-focus={effectiveFloor ?? 'all'}>
+  function reset() { select(null); focusFloor(null); focusTeam(null); setQuery(''); setZoom(1); }
+  return <section className="living-office" data-renderer={use3d ? '3d' : 'svg'} data-fidelity={layout.fidelity} data-small={layout.headcount <= 8} data-focus={effectiveFloor ?? 'all'}>
     <PageHeading title="辦公室" subline="看見組織如何一起工作。" action={<button className="button secondary" onClick={reset}><RotateCcw size={16}/>重置視角</button>}/>
     <div className="office-toolbar"><div className="office-overlay" role="group" aria-label="辦公室資訊圖層">{Object.entries(overlays).map(([id, text]) => <button key={id} aria-pressed={overlay === id} onClick={() => setOverlay(id as Overlay)}>{text}</button>)}</div><label className="office-search"><Search size={16}/><input aria-label="在辦公室尋找員工" placeholder="尋找同事" value={query} onChange={e => setQuery(e.target.value)}/></label><span className="office-count"><Users size={16}/>{layout.headcount} 位同事 · {layout.floors.length} 層</span></div>
     {query.trim() ? <div className="office-search-results" aria-label="辦公室搜尋結果">{matching.length ? matching.slice(0, 25).map(s => <button key={s.id} onClick={() => choose(s.employeeId)}>{s.name}</button>) : <p>找不到符合的同事。</p>}{matching.length > 25 ? <p>共 {matching.length} 位，請縮小搜尋範圍。</p> : null}</div> : null}
     <div className="office-content"><div className="office-building-panel">
       <div className="office-floor-picker" role="group" aria-label="選擇樓層">{layout.floors.map(f => <button key={f.id} aria-pressed={effectiveFloor === f.id || mobileFloor === f.id} onClick={() => { select(null); focusFloor(f.id); }}>{f.label}<small>{f.seats.filter(s => !s.vacant).length} 人</small></button>)}</div>
-      <div className="office-building" aria-label="公司建築剖面">{layout.floors.map((floor, index) => <div key={floor.id} className={`office-floor ${effectiveFloor && effectiveFloor !== floor.id ? 'is-compressed' : ''} ${mobileFloor === floor.id ? 'mobile-focused' : ''}`} data-floor={floor.id}>
+      <div className="office-render-controls"><button className="text-button" onClick={() => setSimple(!simple)} aria-pressed={simple}>{simple ? '開啟 3D' : '精簡視圖'}</button>{use3d ? <><button aria-label="縮小辦公室" onClick={() => setZoom(z => Math.max(.8,z-.1))}>−</button><button aria-label="放大辦公室" onClick={() => setZoom(z => Math.min(1.35,z+.1))}>＋</button></> : <span>{graphicsFailed ? '圖形無法使用，已切換備援。' : mobile ? '手機樓層視圖' : layout.headcount>100 ? '大型公司樓層視圖' : '精簡樓層視圖'}</span>}</div>
+      {use3d ? <><GraphicsBoundary failed={() => failGraphics(true)}><Suspense fallback={<div className="office-3d-loading">正在準備 3D 辦公室…</div>}><Scene layout={layout} previousScene={previousScene} selected={selected} floorId={floorId} overlay={overlay} reduced={reduced} zoom={zoom} choose={choose} failed={() => failGraphics(true)}/></Suspense></GraphicsBoundary>
+        <div className="office-accessible-people" aria-label="辦公室同事">{layout.seats.map(s => <button key={s.id} data-office-employee={s.employeeId} data-office-role={s.role} data-office-vacant={s.vacant} data-office-appearance={JSON.stringify(s.appearance)} aria-label={`${s.name}，${layout.floors.find(f=>f.id===s.floorId)?.label}${s.vacant ? '，空席' : ''}`} aria-pressed={selectedId===s.employeeId} onClick={()=>choose(s.employeeId)}>{s.name}<small>{s.vacant ? '空席' : s.concerns[0] ?? ''}</small></button>)}</div>
+      </> : <div className="office-building" aria-label="公司建築剖面">{layout.floors.map((floor, index) => <div key={floor.id} className={`office-floor ${effectiveFloor && effectiveFloor !== floor.id ? 'is-compressed' : ''} ${mobileFloor === floor.id ? 'mobile-focused' : ''}`} data-floor={floor.id}>
         <button className="office-floor-label" onClick={() => { select(null); focusFloor(floor.id); }} aria-label={`聚焦${floor.label}`}><span>{layout.floors.length - index}F</span><strong>{floor.label}</strong><small>{floor.seats.filter(s => !s.vacant).length} 人{floor.seats.some(s => s.overloaded) ? ' · 管理負荷偏高' : ''}</small></button>
         {layout.fidelity === 'individual' || effectiveFloor === floor.id ? <div className="office-floor-art"><FloorScene floor={floor} view={view} selected={selected} overlay={overlay} cues={cuesById} animate={layout.fidelity === 'individual'} choose={choose} focusTeam={id => { focusTeam(id); select(null); }} /></div> : null}
-      </div>)}</div>
+      </div>)}</div>}
       <div className="office-mobile-people" aria-label="目前樓層同事">{layout.floors.find(f => f.id === mobileFloor)?.seats.map(s => <button key={s.id} onClick={() => choose(s.employeeId)}>{s.name}<small>{s.vacant ? '空席 · 已離職' : s.concerns[0] ?? '桌邊工作'}</small></button>)}</div>
       <p className="office-footnote"><Info size={15}/>空間與活動呈現既有組織，不增加租金或改變公司結果。{layout.fidelity !== 'individual' ? '大型組織減少動畫；樓層清單與搜尋保留所有同事。' : ''}</p>
     </div>
     <aside className="office-context" aria-label="辦公室選取資訊">{selected && employee ? <>
       <div className="office-portrait" style={{ background: `${selected.appearance.clothing}15` }}><svg viewBox="-35 -60 70 105" aria-hidden="true"><Person appearance={selected.appearance} executive={selected.role === 'executive'}/></svg></div>
       <p className="office-eyebrow">{selected.vacant ? '近期空席' : layout.floors.find(f => f.id === selected.floorId)?.label}</p><h2>{selected.name}</h2><p>{roles[employee.role]} · {employee.organization?.level ?? '歷史公司'}</p>
-      <dl><dt>所屬團隊</dt><dd><button className="text-button" onClick={() => { focusTeam(selected.teamId); select(null); }}>{employee.teamName}</button></dd><dt>直屬主管</dt><dd>{selected.managerId && seatsById.has(selected.managerId) ? <button className="text-button" onClick={() => choose(selected.managerId!)}>{employee.managerName}</button> : employee.managerName}</dd><dt>直接部屬</dt><dd>{selected.reportIds.length} 人 · {employee.organization?.managementLoad ?? '依現有匯報安排'}</dd></dl>
+      <dl><dt>工作位置</dt><dd>{layout.floors.find(f=>f.id===selected.floorId)?.label} · {selected.vacant ? '近期空席' : '指定工作站'}</dd><dt>所屬團隊</dt><dd><button className="text-button" onClick={() => { focusTeam(selected.teamId); select(null); }}>{employee.teamName}</button></dd><dt>直屬主管</dt><dd>{selected.managerId && seatsById.has(selected.managerId) ? <button className="text-button" onClick={() => choose(selected.managerId!)}>{employee.managerName}</button> : employee.managerName}</dd><dt>直接部屬</dt><dd>{selected.reportIds.length} 人 · {employee.organization?.managementLoad ?? '依現有匯報安排'}</dd></dl>
       {selected.reportIds.length ? <div className="office-reports">{selected.reportIds.map(id => <button className="text-button" key={id} onClick={() => choose(id)}>{seatsById.get(id)?.name}</button>)}</div> : null}
       <div className="office-status"><strong>目前可觀察近況</strong>{selected.vacant ? <p>同事已離職，保留近期空席。</p> : selected.concerns.length ? selected.concerns.map(c => <p key={c} className="office-warning">! {c}</p>) : <p>{employee.condition}</p>}</div>
       {cuesById.get(selected.employeeId) ? <button className="office-event-link" onClick={() => { navigate('Timeline'); selectEvent(cuesById.get(selected.employeeId)!.id); }}>{cuesById.get(selected.employeeId)!.title}<ArrowUpRight size={16}/></button> : null}
