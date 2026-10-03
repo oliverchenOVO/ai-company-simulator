@@ -198,9 +198,20 @@ function Diagnostics({ ready, failed }: { ready: () => void; failed: () => void 
   },1);
   return null;
 }
-function FrameDriver({reduced}:{reduced:boolean}) {
+function FrameDriver({reduced,software}:{reduced:boolean;software:boolean}) {
   const invalidate=useThree(s=>s.invalidate);
-  useEffect(()=>{if(reduced)return;const timer=window.setInterval(()=>invalidate(),1000/30);return()=>window.clearInterval(timer);},[invalidate,reduced]);
+  const timer=useRef<number|undefined>(undefined);
+  useEffect(()=>{
+    if(!reduced) invalidate();
+    return()=>window.clearTimeout(timer.current);
+  },[invalidate,reduced,software]);
+  // Run after Diagnostics' real draw. An interval can keep a slow software
+  // rasterizer continuously busy; one outstanding post-frame timer leaves
+  // an explicit input/cleanup gap and never accumulates missed frames.
+  useFrame(()=>{
+    window.clearTimeout(timer.current);
+    if(!reduced) timer.current=window.setTimeout(()=>invalidate(),software ? 125 : 1000/30);
+  },2);
   return null;
 }
 export default function LivingOfficeScene({layout,previousScene,selected,floorId,overlay,reduced,zoom,choose,failed}: SceneProps) {
@@ -219,7 +230,7 @@ export default function LivingOfficeScene({layout,previousScene,selected,floorId
       if(/swiftshader|llvmpipe|software rasterizer/i.test(renderer)) {setDpr(.75);setSoftware(true);}
       requestAnimationFrame(()=>invalidate());
     }}>
-      <FrameDriver reduced={reduced}/>
+      <FrameDriver reduced={reduced} software={software}/>
       <color attach="background" args={['#edf2f1']}/><ambientLight intensity={.45}/><hemisphereLight args={['#fff7e8','#8fa4a5',.8]}/>
       <directionalLight position={[-10,projection.height+12,14]} intensity={2.3} castShadow shadow-mapSize={software ? [1024,1024] : [2048,2048]} shadow-camera-left={-14} shadow-camera-right={14} shadow-camera-top={projection.height+5} shadow-camera-bottom={-8} shadow-camera-far={100} shadow-bias={-.0004} shadow-normalBias={.04}/>
       <directionalLight position={[12,projection.height,5]} intensity={.6}/>
