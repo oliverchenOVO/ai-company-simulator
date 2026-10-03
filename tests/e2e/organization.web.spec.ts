@@ -14,7 +14,7 @@ for (const mobile of [false, true]) test(`v3 career → team → manager → pro
   await page.getByRole('button',{name:'更換 Delivery 主管',exact:true}).click(); await page.getByLabel('團隊新主管',{exact:true}).selectOption('employee-3'); await page.getByRole('button',{name:'儲存團隊主管',exact:true}).click();
   await nav.getByRole('button',{name:'人員',exact:true}).click(); await page.getByRole('button',{name:'Carol Wu',exact:true}).click();
   const dialog=page.getByRole('dialog'); await expect(dialog.getByRole('region',{name:'職涯與管理'})).toBeVisible();
-  await expect(dialog).toContainText('Mid'); await dialog.getByLabel('調動團隊',{exact:true}).selectOption({label:'Delivery'}); await dialog.getByRole('button',{name:'確認調動',exact:true}).click();
+  await expect(dialog).toContainText('Mid'); await dialog.getByLabel('調動團隊',{exact:true}).selectOption({label:'Delivery'}); await dialog.getByRole('button',{name:'確認調動',exact:true}).click(); await expect(dialog.locator('.employee-heading')).toContainText('Delivery'); await expect(page.locator('main')).toHaveAttribute('aria-busy','false');
   await dialog.getByLabel('直屬主管',{exact:true}).selectOption('employee-1'); await dialog.getByRole('button',{name:'儲存主管',exact:true}).click();
   await dialog.getByLabel('晉升路徑',{exact:true}).selectOption('manager'); await dialog.getByRole('button',{name:'晉升一級',exact:true}).click();
   await expect(dialog).toContainText('Senior · 管理路徑'); await expect(dialog).toContainText('Carol Wu 晉升至 Senior');
