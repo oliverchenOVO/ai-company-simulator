@@ -1,6 +1,6 @@
 {
   "name": "ai-company-simulator",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "description": "Deterministic offline company management simulator",
   "author": "Foundry contributors",
@@ -30,6 +30,7 @@
     "audit:exploits": "tsx scripts/exploit-audit.ts",
     "audit:reports": "node scripts/gameplay-report.mjs",
     "playtest": "node scripts/playthroughs.mjs",
+    "benchmark:office": "tsx scripts/office-benchmark.ts",
     "audit:retention": "tsx scripts/retention-audit.ts",
     "audit:retention:controlled": "tsx scripts/retention-audit.ts --controlled --days=3652",
     "audit:retention:long": "tsx scripts/retention-audit.ts --days=3652"
