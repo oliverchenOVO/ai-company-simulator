@@ -1,6 +1,6 @@
 # FOUNDRY — AI Company Simulator
 
-Deterministic organization simulation and CEO management game. Current app: 0.2.3, simulation v3. Phase 2 organization mechanics are implemented; Phase 2.5 human validation/retention diagnostics are documented in [PHASE2_5_REPORT.md](PHASE2_5_REPORT.md). The current gate is further Phase 2.5 iteration, not automatic Phase 3 development.
+Deterministic organization simulation and CEO management game. Current app: 0.2.4, simulation v3. Phase 2 organization mechanics are implemented; Phase 2.5 human validation/retention diagnostics are documented in [PHASE2_5_REPORT.md](PHASE2_5_REPORT.md). The current gate is further Phase 2.5 iteration, not automatic Phase 3 development.
 See [PHASE1_REPORT.md](PHASE1_REPORT.md) for executed acceptance evidence and limitations.
 Phase 1.5 gameplay findings and the remaining balance gate: [PHASE1_5_REPORT.md](PHASE1_5_REPORT.md).
 
@@ -39,3 +39,5 @@ Documentation: [architecture](ARCHITECTURE.md), [equations/scheduling](SIMULATIO
 Phase1.5B: [compensation integrity report](PHASE1_5B_REPORT.md), [independent expectation model](docs/phase1_5b/COMPENSATION_MODEL.md), [version compatibility](docs/phase1_5b/COMPATIBILITY.md), [human playtest protocol](docs/phase1_5b/HUMAN_PLAYTEST_PROTOCOL.md). New0.1.1games use simulation2; existing saves replay with simulation1 without migration. Phase2 is only a recommendation, not implemented.
 
 Phase 2.6B Living Office uses a genuine lightweight React Three Fiber / Three.js cutaway with deterministic people, real-event presentation and SVG graphics/mobile fallback. See [PHASE2_6B_REPORT.md](PHASE2_6B_REPORT.md) and [3D visual acceptance](docs/living_office_3d/VISUAL_ACCEPTANCE.md). The original [Phase 2.6 report](PHASE2_6_REPORT.md) remains a historical SVG baseline. Phase 2.5 human retention validation remains pending; this visual feature does not replace it.
+
+Phase 2.6C adds distinct room materials, grounded contact shadows, persistent founder styles, physical floor focus and bounded real-event meeting/document choreography. See [Phase 2.6C acceptance report](PHASE2_6C_REPORT.md), [art direction](docs/living_office_3d_polish/ART_DIRECTION.md), and [choreography contract](docs/living_office_3d_polish/CHOREOGRAPHY.md).
