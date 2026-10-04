@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="720" viewBox="0 0 1100 720" role="img" aria-labelledby="title description">
+  <title id="title">FOUNDRY 系統架構</title>
+  <desc id="description">瀏覽器 Web Worker 與桌面受限 IPC 共用應用層和確定性模擬核心。存檔介面連接 IndexedDB 或 SQLite。查詢回傳可觀察投影，供 React 介面和 3D 或 SVG 場景呈現。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 9 4.5 0 9Z" fill="#64748b"/></marker>
+    <style>
+      text { font-family: 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; fill: #172b3b; }
+      .heading { font-size: 28px; font-weight: 700; }
+      .label { font-size: 21px; font-weight: 700; }
+      .detail { font-size: 17px; fill: #475569; }
+      .small { font-size: 16px; fill: #475569; }
+      .line { fill: none; stroke: #64748b; stroke-width: 2.5; marker-end: url(#arrow); }
+      .box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+    </style>
+  </defs>
+  <rect width="1100" height="720" rx="20" fill="#f5f8fa"/>
+  <text x="44" y="52" class="heading">FOUNDRY｜共用核心，雙平台呈現</text>
+  <text x="44" y="82" class="detail">管理指令改變公司世界；查詢投影供介面呈現；動畫保持獨立。</text>
+  <rect x="44" y="110" width="476" height="95" rx="12" class="box"/>
+  <text x="66" y="146" class="label">瀏覽器入口</text>
+  <text x="66" y="179" class="detail">React 介面 → Web Worker（背景執行）</text>
+  <rect x="580" y="110" width="476" height="95" rx="12" class="box"/>
+  <text x="602" y="146" class="label">桌面入口</text>
+  <text x="602" y="179" class="detail">React 介面 → Electron 受限 IPC</text>
+  <path d="M282 205 V227 H440 V253" class="line"/>
+  <path d="M818 205 V227 H660 V253" class="line"/>
+  <rect x="310" y="253" width="480" height="85" rx="12" fill="#e2f2f0" stroke="#158080" stroke-width="1.5"/>
+  <text x="334" y="287" class="label">共用應用層｜ApplicationSession</text>
+  <text x="334" y="317" class="detail">指令驗證、工作階段與保存成功後接受狀態</text>
+  <path d="M470 338 V384" class="line"/>
+  <path d="M790 294 H915 V384" class="line"/>
+  <text x="491" y="366" class="small">執行管理指令</text>
+  <rect x="310" y="384" width="480" height="110" rx="12" fill="#172b3b"/>
+  <text x="334" y="422" style="fill:#fff" class="label">確定性模擬核心｜Simulation</text>
+  <text x="334" y="454" style="fill:#d7e5eb" class="detail">固定 seed · 公司規則 · 逐日系統 · 事件</text>
+  <text x="334" y="478" style="fill:#d7e5eb" class="small">世界狀態由核心持有；無 LLM／渲染依賴</text>
+  <rect x="830" y="384" width="226" height="110" rx="12" class="box"/>
+  <text x="848" y="420" class="label">共用存檔介面</text>
+  <text x="848" y="451" class="detail">瀏覽器：IndexedDB</text>
+  <text x="848" y="478" class="detail">桌面：SQLite</text>
+  <path d="M310 439 H167 V537" class="line"/>
+  <text x="52" y="418" class="small">應用層查詢</text>
+  <rect x="44" y="537" width="440" height="94" rx="12" class="box"/>
+  <text x="66" y="573" class="label">可觀察投影｜CompanyView</text>
+  <text x="66" y="605" class="detail">財務、角色、團隊、公開事件與近況</text>
+  <path d="M484 584 H580" class="line"/>
+  <rect x="580" y="537" width="476" height="94" rx="12" class="box"/>
+  <text x="602" y="573" class="label">React 報表與辦公室呈現</text>
+  <text x="602" y="605" class="detail">Three.js 3D／SVG 備援 · 投影回傳介面</text>
+  <text x="44" y="672" class="detail">重播驗證：seed + 模擬版本 + 指令紀錄 → 狀態雜湊比對</text>
+  <text x="44" y="700" class="small">相機、選取與動畫時鐘不寫入公司世界；進度保存在各平台的本機儲存空間。</text>
+</svg>
