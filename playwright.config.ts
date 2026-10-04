@@ -3,9 +3,9 @@ export default defineConfig({
   testDir: './tests/e2e', timeout: 60000, expect: { timeout: 15000 }, workers: 1, fullyParallel: false,
   reporter: [['list']],
   use: { baseURL: 'http://127.0.0.1:4183', viewport: { width: 1440, height: 900 }, trace: 'retain-on-failure',
-    // GPU-less bots use Chromium's SwANGLE driver path, including compositing.
-    // Controlled WebGL-fallback coverage is retained separately.
-    launchOptions: process.env.CI ? {args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']} : undefined },
+    // Windows CI uses the normal Chrome compositor, as the packaged app does.
+    // Explicit software driver/fallback coverage is measured separately.
+    headless: !process.env.CI },
   projects: [
     { name: 'web', testMatch: '**/*.web.spec.ts', use: { browserName: 'chromium', channel: 'chrome' } },
     { name: 'desktop', testMatch: '**/*.desktop.spec.ts' }
