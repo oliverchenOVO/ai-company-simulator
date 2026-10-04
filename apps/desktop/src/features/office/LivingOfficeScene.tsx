@@ -210,6 +210,7 @@ function Diagnostics({ ready, failed }: { ready: () => void; failed: () => void 
       published.current=time.current;
       gl.domElement.dataset.frameCount=String(frames.current);
       gl.domElement.dataset.pixelRatio=String(gl.getPixelRatio());
+      if(camera instanceof PerspectiveCamera) gl.domElement.dataset.cameraAspect=String(camera.aspect);
       const poses:Record<string,{pose:string;atWorkstation:boolean;visible:boolean;facingYaw:number;seated:boolean;vignette:string|null}>={};
       scene.traverse(object=>{if(object.name.startsWith('employee-')) poses[object.name]={pose:object.userData.pose,atWorkstation:object.userData.atWorkstation,visible:object.visible,facingYaw:object.userData.facingYaw,seated:object.userData.seated,vignette:object.userData.vignette};});
       gl.domElement.dataset.presentations=JSON.stringify(poses);

@@ -13,6 +13,9 @@ async function capture(page: Page, name: string) {
   await page.getByRole('heading', { name: '辦公室', exact: true }).scrollIntoViewIfNeeded();
   if (await page.locator('.living-office').getAttribute('data-renderer') === '3d') await expect(page.locator('canvas[data-office-ready="true"]')).toBeVisible();
   if (await page.locator('.living-office').getAttribute('data-renderer')==='3d') await page.evaluate(()=>window.scrollTo(0,0));
+  if (await page.locator('.living-office').getAttribute('data-renderer')==='3d') await expect.poll(async()=>page.locator('canvas').evaluate(e=>{
+    const rect=e.getBoundingClientRect();return Math.abs(Number((e as HTMLCanvasElement).dataset.cameraAspect)-rect.width/rect.height);
+  })).toBeLessThan(.001);
   mkdirSync(qa, { recursive: true }); await page.screenshot({ path: join(qa, name), fullPage: false });
 }
 async function exported(page: Page) {
@@ -53,11 +56,14 @@ test('Living Office founders → selection → hire → promotion → save/refre
   await page.getByRole('button', { name: /Carol Wu，工作層/ }).click(); await page.getByRole('button', { name: '查看人員詳情' }).click();
   await page.getByRole('dialog').getByLabel('晉升路徑', { exact: true }).selectOption('manager'); await page.getByRole('dialog').getByRole('button', { name: '晉升一級', exact: true }).click(); await expect(page.getByRole('dialog')).toContainText('Senior · 管理路徑');
   await page.keyboard.press('Escape'); await nav(page, '辦公室').click(); await expect(page.locator('[data-office-employee="employee-3"]')).toHaveAttribute('data-office-role', 'management');
-  await expect.poll(async()=>JSON.parse((await page.locator('canvas').getAttribute('data-presentations')) ?? '{}')['employee-3']?.atWorkstation,{timeout:30000}).toBe(true);
-  await page.getByRole('button',{name:/Carol Wu，管理層/}).click(); await capture(page, 'post-promotion.png');
   const appearance = await page.locator('[data-office-employee="employee-3"]').getAttribute('data-office-appearance');
   await page.getByRole('button', { name: '存檔', exact: true }).click(); await page.reload(); await nav(page, '辦公室').click();
   await expect(page.locator('[data-office-employee="employee-3"]')).toHaveAttribute('data-office-role', 'management'); await expect(page.locator('[data-office-employee="employee-3"]')).toHaveAttribute('data-office-appearance', appearance!);
+  // Persistent placement is checked after reload; the dedicated real-meeting
+  // workflow independently checks the complete live approach, seated activity
+  // and return. Keep this workflow's original 60-second budget and every check.
+  await expect.poll(async()=>JSON.parse((await page.locator('canvas').getAttribute('data-presentations')) ?? '{}')['employee-3']?.atWorkstation,{timeout:30000}).toBe(true);
+  await page.getByRole('button',{name:/Carol Wu，管理層/}).click(); await capture(page, 'post-promotion.png');
   const saved = await exported(page); await page.getByRole('button', { name: '驗證 Replay', exact: true }).click(); await expect(page.getByText('一致性驗證通過', { exact: true })).toBeVisible(); await expect(page.locator('.replay-result code')).toHaveText(saved.manifest.stateHash);
   expect(errors).toEqual([]);
 });
@@ -123,6 +129,10 @@ test('Living Office reduced-motion desktop and actual WebGL context-loss fallbac
   await expect(page.locator('.office-3d-stage')).toHaveAttribute('data-motion','reduced');
   await page.locator('[data-office-employee="employee-1"]').click(); await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
   await page.getByRole('button',{name:'重置視角',exact:true}).click();
+  await page.getByRole('button',{name:'精簡視圖',exact:true}).click();
+  await expect(page.locator('.living-office')).toHaveAttribute('data-renderer','svg');
+  await page.locator('[data-office-employee="employee-1"]').click();await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
+  await page.getByRole('button',{name:'重新開啟 3D',exact:true}).click();await expect(canvas).toBeVisible();
   const supported=await canvas.evaluate(e=>{const gl=(e as HTMLCanvasElement).getContext('webgl2');const ext=gl?.getExtension('WEBGL_lose_context');if(ext){ext.loseContext();return true;}return false;}); expect(supported).toBe(true);
   await expect(page.locator('.living-office')).toHaveAttribute('data-renderer','svg'); await expect(page.getByText('圖形無法使用，已切換備援。')).toBeVisible();
   await page.locator('[data-office-employee="employee-1"]').click();await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
