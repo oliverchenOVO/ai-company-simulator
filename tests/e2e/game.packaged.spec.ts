@@ -75,6 +75,15 @@ test('packaged Windows Living Office persists company then restarts and continue
     await page.screenshot({path:join(qa,'packaged-office.png')});
     const appearance = await page.locator('[data-office-employee="employee-1"]').getAttribute('data-office-appearance');
     await page.locator('[data-office-employee="employee-1"]').click(); await expect(page.getByLabel('辦公室選取資訊')).toContainText('Alice Chen');
+    await page.getByRole('navigation').getByRole('button',{name:'人員',exact:true}).click();
+    await page.getByRole('button',{name:'Carol Wu',exact:true}).click();
+    await page.getByRole('dialog').getByLabel('直屬主管',{exact:true}).selectOption('employee-2');
+    await page.getByRole('dialog').getByRole('button',{name:'儲存主管',exact:true}).click();await page.keyboard.press('Escape');
+    await page.getByRole('navigation').getByRole('button',{name:'辦公室',exact:true}).click();
+    await page.locator('[data-office-employee="employee-2"]').click();
+    await expect.poll(async()=>{const poses=JSON.parse((await page.locator('canvas').getAttribute('data-presentations')) ?? '{}');return poses['employee-3']?.vignette==='handoff' && poses['employee-3']?.pose==='Talking' && poses['employee-2']?.vignette==='handoff-review' && poses['employee-2']?.seated;},{timeout:20000}).toBe(true);
+    await page.screenshot({path:join(qa,'packaged-handoff.png')});
+    await expect.poll(async()=>JSON.parse((await page.locator('canvas').getAttribute('data-presentations')) ?? '{}')['employee-3']?.atWorkstation,{timeout:20000}).toBe(true);
     await page.getByRole('button', { name: '推進一週', exact: true }).click(); await expect(page.getByText('第 7 天', { exact: true })).toBeVisible();
     await page.getByRole('button', { name: '存檔', exact: true }).click(); await expect(page.getByRole('status')).toContainText('手動存檔已保存');
     await app.close(); app = await electron.launch({ executablePath, args: [], env });

@@ -122,3 +122,10 @@
   .office-context { padding:18px; } .living-office .page-heading { gap:12px; } .living-office .page-heading .button { font-size:11px; }
 }
 @media (prefers-reduced-motion:reduce) { .office-figure { animation:none!important; } .office-floor { transition:none; } }
+
+/* Keep the building as the primary composition; details appear on selection. */
+.living-office[data-renderer="3d"][data-selected="false"] .office-content { grid-template-columns:minmax(0,1fr); }
+.living-office[data-renderer="3d"][data-selected="false"] .office-context { display:none; }
+main:has(.living-office[data-renderer="3d"]) .success-banner { padding:6px 12px; margin-bottom:8px; }
+@media(min-width:1101px) { .office-3d-stage { height:clamp(420px,calc(100vh - 280px),800px); } }
+@media(min-width:701px) and (max-width:1100px) { .office-3d-stage { height:clamp(320px,calc(100vh - 330px),700px); } }

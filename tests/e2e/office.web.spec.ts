@@ -12,6 +12,7 @@ async function capture(page: Page, name: string) {
   if (await dismiss.isVisible()) await dismiss.click();
   await page.getByRole('heading', { name: '辦公室', exact: true }).scrollIntoViewIfNeeded();
   if (await page.locator('.living-office').getAttribute('data-renderer') === '3d') await expect(page.locator('canvas[data-office-ready="true"]')).toBeVisible();
+  if (await page.locator('.living-office').getAttribute('data-renderer')==='3d') await page.evaluate(()=>window.scrollTo(0,0));
   mkdirSync(qa, { recursive: true }); await page.screenshot({ path: join(qa, name), fullPage: false });
 }
 async function exported(page: Page) {
@@ -47,6 +48,8 @@ test('Living Office founders → selection → hire → promotion → save/refre
   await nav(page, '人員').click(); await page.getByRole('button', { name: '招募員工', exact: true }).click();
   await page.getByRole('dialog').getByLabel('姓名', { exact: true }).fill('Dana Office'); await page.getByRole('dialog').getByRole('button', { name: '確認招募', exact: true }).click(); await expect(page.getByRole('dialog')).not.toBeVisible();
   await nav(page, '辦公室').click(); await expect(page.locator('[data-office-employee]')).toHaveCount(4); await expect(page.getByRole('button', { name: /Dana Office，工作層/ })).toBeVisible();
+  await expect.poll(async()=>Object.values(JSON.parse((await page.locator('canvas').getAttribute('data-screens')) ?? '{}'))).toContain(false);
+  await expect.poll(async()=>Object.values(JSON.parse((await page.locator('canvas').getAttribute('data-screens')) ?? '{}'))).toContain(true);
   await page.getByRole('button', { name: /Carol Wu，工作層/ }).click(); await page.getByRole('button', { name: '查看人員詳情' }).click();
   await page.getByRole('dialog').getByLabel('晉升路徑', { exact: true }).selectOption('manager'); await page.getByRole('dialog').getByRole('button', { name: '晉升一級', exact: true }).click(); await expect(page.getByRole('dialog')).toContainText('Senior · 管理路徑');
   await page.keyboard.press('Escape'); await nav(page, '辦公室').click(); await expect(page.locator('[data-office-employee="employee-3"]')).toHaveAttribute('data-office-role', 'management');
@@ -149,6 +152,21 @@ test('Living Office follows an actual manager reassignment and preserves the exp
   const before=await exported(page);await nav(page,'辦公室').click();await expect(page.locator('canvas[data-office-ready="true"]')).toBeVisible();
   await page.getByLabel('在辦公室尋找員工').fill('Carol');await page.getByLabel('辦公室搜尋結果').getByRole('button',{name:'Carol Wu',exact:true}).click();
   await page.getByRole('button',{name:'匯報',exact:true}).click();await expect(page.getByLabel('辦公室選取資訊').getByRole('button',{name:'Alice Chen',exact:true})).toBeVisible();
+  const after=await exported(page);expect(after.world).toEqual(before.world);expect(after.manifest.stateHash).toBe(before.manifest.stateHash);
+  await page.getByRole('button',{name:'驗證 Replay',exact:true}).click();await expect(page.getByText('一致性驗證通過',{exact:true})).toBeVisible();expect(errors).toEqual([]);
+});
+for (const kind of ['meeting','handoff'] as const) test(`Living Office real ${kind} has synchronized participants and no world mutation`,async({page})=>{
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  await page.goto('/');await createCompany(page);
+  const sim=new Simulation({name:`Office ${kind}`,seed:'office-polish',scenario:'garage',employeeCount:12,initialCash:1e12},true,3);
+  if(kind==='meeting') sim.execute({type:'PromoteEmployee',employeeId:'employee-3',track:'manager'});
+  else sim.execute({type:'AssignManager',employeeId:'employee-3',managerId:'employee-2'});
+  const before=createSave(sim.snapshot());await importWorld(page,sim);
+  await page.locator(`[data-office-employee="${kind==='meeting' ? 'employee-3' : 'employee-2'}"]`).click();
+  const poses=async()=>JSON.parse((await page.locator('canvas').getAttribute('data-presentations')) ?? '{}');
+  await expect.poll(async()=>{const p=await poses();return kind==='meeting' ? p['employee-3']?.pose==='Presenting' && Object.values(p).some(value=>{const v=value as {seated:boolean;vignette:string};return v.seated && v.vignette==='meeting';}) : p['employee-3']?.pose==='Talking' && p['employee-3']?.vignette==='handoff' && p['employee-2']?.seated && p['employee-2']?.vignette==='handoff-review';},{timeout:25000}).toBe(true);
+  await capture(page,kind==='meeting' ? 'management-meeting.png' : 'document-handoff.png');
+  await expect.poll(async()=> (await poses())['employee-3']?.atWorkstation,{timeout:25000}).toBe(true);
   const after=await exported(page);expect(after.world).toEqual(before.world);expect(after.manifest.stateHash).toBe(before.manifest.stateHash);
   await page.getByRole('button',{name:'驗證 Replay',exact:true}).click();await expect(page.getByText('一致性驗證通過',{exact:true})).toBeVisible();expect(errors).toEqual([]);
 });
