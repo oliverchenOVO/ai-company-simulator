@@ -33,12 +33,39 @@ Strict TypeScript/build, lint and 119 tests passed, retaining all original 112 t
 
 ## CI, native package and production
 
-Private run 37184697674 passed Windows build, development Electron and all three actual packaged tests (version 0.2.4, `isPackaged: true`), including real handoff, week advance, save, normal close, restart, continue and exact replay. Linux Web passed 27/28; the founders workflow exhausted its aggregate 60-second budget near the final export. That failed trace is retained outside the repository. The final input-gap and camera-readiness changes require a fresh complete CI acceptance before production release.
+Early private run 37184697674 passed Windows build, development Electron and all three actual packaged tests (version 0.2.4, `isPackaged: true`), including real handoff, week advance, save, normal close, restart, continue and exact replay. Linux Web passed 27/28; the founders workflow exhausted its aggregate 60-second budget near the final export. That failed trace is retained outside the repository. Fresh complete CI acceptance after the scheduler, camera-readiness and persistent-placement checks passed before production release, as recorded below.
 
-Final CI and production measurements will be appended after execution. The old website is not counted as acceptance of 0.2.4.
+Final private CI [37185671035](https://github.com/oliverchenOVO/ai-company-simulator/actions/runs/37185671035) succeeded on runtime source `2ed2936`: strict build/typecheck/lint, 119 tests, 100-seed benchmark (2621 ms, all six counters zero), all 28 Web tests (4.6 minutes), desktop 1/1 and packaged 3/3 (41.1 seconds). Raw [CI browser](data/ci-browser.json), [seed benchmark](data/ci-seeds.json) and [packaged GPU](data/packaged-gpu.json) evidence are retained. The final source `0096e16` adds documentation/captured evidence only and its full CI also succeeded. No tests were removed and no deadlines changed: persistent promoted placement is now checked after reload, while the dedicated meeting test still verifies approach, synchronized seated activity and actual return.
+
+The final WebGL software rerun passed 15/15 (3.7 minutes), including camera readiness and manual SVG → 3D restoration. Its 30-person scene/selection/week/navigation were 3606/618/240/174 ms; 100-person 3663/1163/308/179 ms. [Raw final WebGL measurements](data/software-webgl-final.json). The final driver run passed 15/15 (3.6 minutes), with 100-person 2398/1168/733/309 ms. [Raw final driver measurements](data/software-driver-final.json). CI separately covered that driver mode on Linux with the final camera/test changes.
+
+Actual Windows CI portable artifact was downloaded and extracted locally, then the same three packaged tests passed here (45.7 seconds). `isPackaged: true`, app 0.2.4 and enabled native WebGL were checked. Selection, actual Carol → Bob handoff/review/return, advance, SQLite save, normal `app.close()`, restart, continue offline and replay passed without forced termination. [Native local GPU record](data/packaged-local-gpu.json), [actual handoff](screenshots/packaged-local-handoff.png). The executable is unsigned; its SHA-256 and exact runtime source are in [release metadata](data/release.json).
+
+Site version 9 deployed successfully from `0096e16` to the existing public URL. All nine served assets match the fresh accepted output byte for byte, including scene and simulation worker. [Asset SHA-256 evidence](data/production-assets.json). The bundled Sites source/build workflow succeeded; its Windows Bash packaging path failed, so native tar packaged a fresh output directory (11 files), avoiding historical unreferenced output assets. No credentials are stored. Completed production interaction results follow below.
+
+Detached Office projection, 100 repetitions per size: 100 employees median .061 / p95 .135 ms; 1000 employees .424 / 1.088 ms. Every fixture's simulation hash stayed unchanged. This is projection-only, not rendering: [raw measurements](data/projection.json).
+
+## Actual production acceptance
+
+The existing HTTPS Site was tested with installed Windows Chrome at 1586 × 992 (mobile 390 × 844), 27/27 passed in 5.3 minutes. This includes independent browser sessions, refresh persistence, loaded-client offline decisions, compensation/v2 compatibility, v3 career/manager interventions, exact replay, every Office scenario, manual fallback, WebGL loss/unavailability and both synchronized vignettes. Office tests assert no console/page errors. All production A–I plus mobile/100-person screenshots were manually inspected and now replace the candidate captures in the comparison document.
+
+| Employees | Scene ms | Selection ms | Week ms | Navigation ms | JS heap MB | Renderer |
+|---:|---:|---:|---:|---:|---:|---|
+| 3 | 1311 | 185 | 117 | 167 | 19.5 | 3D |
+| 12 | 1266 | 229 | 167 | 177 | 27.2 | 3D |
+| 30 | 1377 | 188 | 136 | 164 | 27.6 | 3D |
+| 40 | 1364 | 284 | 207 | 274 | 31.3 | 3D |
+| 60 | 1292 | 279 | 234 | 230 | 55.2 | 3D |
+| 100 | 2059 | 642 | 337 | 211 | 52.8 | 3D |
+| 250 | 474 | 181 | 818 | 351 | 20.9 | SVG |
+| 1000 | 596 | 321 | 1099 | 275 | 41.1 | SVG |
+
+[Raw production measurements](data/production-browser.json). Network initial loading was separately recorded and varies; these scene values start after importing the fixture. The 30-person warm-up frame estimate was 67.4 ms; 100-person 119.9 ms. These are not steady-state FPS. Nine deployed files matched local bytes; hosting-injected HTML was checked for the accepted entry asset references.
+
+Progress isolation is per browser profile/storage, with refresh persistence. This Phase does not add accounts or cross-device cloud synchronization. Clearing browser storage removes that browser's save unless exported first.
 
 ## Environmental and visual limits
 
-C: had less than 1 GB free; an earlier run hit ENOSPC while writing traces/screenshots. QA output and process-local TEMP/TMP now use F:. No user files were deleted. A previous local Electron `app.close()` stall is not assumed fixed because Windows CI passes: this machine needs separate proof.
+C: had less than 1 GB free; an earlier run hit ENOSPC while writing traces/screenshots. QA output and process-local TEMP/TMP now use F:. No user files were deleted. The previously observed local Electron `app.close()` stall did not recur in this actual local packaged run; normal close/restart was independently proven here, without claiming the old failure's universal root cause is resolved.
 
 Full 100-person architecture makes faces small; floor focus and search provide detail, and manual SVG remains available. The generated concept is substantially more detailed than the delivered low-poly assets. Shared materials, selective lights, instanced static furniture and bounded event participants preserve the existing strategy. No simulation/domain/narrative logic, schema 2 or v1/v2/v3 replay semantics changed.

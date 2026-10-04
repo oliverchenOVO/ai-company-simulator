@@ -1,6 +1,6 @@
 # Visual comparison — Phase 2.6C
 
-Actual screenshots were captured in installed Chrome at 1586 × 992, the same viewport as the fresh 0.2.3 production baseline. They show rendered geometry and real deterministic fixtures, not the generated design reference. All A–I were manually inspected. The generated reference informs palette, material separation and room identity; the delivered style remains lightweight low-poly geometry, rather than a photographic asset pack.
+Final screenshots were captured on the actual production Site version 9 / app 0.2.4 in installed Chrome at 1586 × 992, the same viewport as the fresh 0.2.3 production baseline. They show rendered geometry and real deterministic fixtures, not the generated design reference. All A–I, mobile and 100-person captures were manually inspected. Capture waits for actual camera aspect to match the final canvas, including inspector resizing. The generated reference informs palette, material separation and room identity; the delivered style remains lightweight low-poly geometry, rather than a photographic asset pack.
 
 | Case | Actual capture | Improvement | Remaining visual weakness / showcase judgment |
 |---|---|---|---|

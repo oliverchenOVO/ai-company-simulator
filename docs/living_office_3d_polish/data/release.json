@@ -1,0 +1,36 @@
+{
+  "appVersion": "0.2.4",
+  "simulationVersions": [
+    1,
+    2,
+    3
+  ],
+  "saveSchema": 2,
+  "sourceCommit": "0096e16347f39da00c17a1cb64ef1c92db7a0a95",
+  "ciRun": 37185671035,
+  "ciSourceCommit": "2ed2936187e938a89477215bb859f58b578145c5",
+  "sourceDifference": "documentation and captured evidence only",
+  "siteVersion": 9,
+  "siteVersionId": "appgprj_6ac00cc0ca308191a1689834e149acb4~appgver_a36ffead51188191bb32e9c16ab81a74",
+  "deploymentId": "appgdep_6ac202b5bb5c8191b9edf4c20522f2c7",
+  "deploymentStatus": "succeeded",
+  "url": "https://foundry-company-simulator.oliverchenovo.chatgpt.site",
+  "archive": {
+    "archive_format": "tar",
+    "sediment_file_id": "file_0000000046e8820684ac0e45bf19bdae",
+    "content_hash": "sha256:fce5ca9079d4c2a89396f276fa621b24b152c95c3a779522f8d27d1008681753",
+    "size_bytes": 1802240,
+    "file_count": 11
+  },
+  "localTarSha256": "406def343b5d611019cd99c42b11786655b15351c3e75bade29c261a806a18f6",
+  "windowsExecutable": "Foundry-Company-Simulator-0.2.4-Windows.exe",
+  "windowsSourceCommit": "2ed2936187e938a89477215bb859f58b578145c5",
+  "windowsSha256": "e7c0d380c249f156cc3f397979f2c9e4e9975e1131a24f44bec2d37b6c249fdc",
+  "windowsSignature": "NotSigned",
+  "localPackagedTests": {
+    "passed": 3,
+    "durationSeconds": 45.7,
+    "normalCloseRestart": true
+  },
+  "independentHumanPlaytestParticipants": 0
+}

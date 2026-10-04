@@ -1,0 +1,52 @@
+{
+  "verifiedAt": "2026-10-04T07:40:25.921Z",
+  "url": "https://foundry-company-simulator.oliverchenovo.chatgpt.site/",
+  "html": "current entry asset references verified; hosting may inject HTML",
+  "assets": [
+    {
+      "path": "assets/finance-chart-j6m4FsCm.js",
+      "bytes": 372998,
+      "sha256": "ae1b71f1efd1277264dea0770de83de43ac552ca01d18ced79e69e35baeedb26"
+    },
+    {
+      "path": "assets/index-Cv2tt0-0.css",
+      "bytes": 25386,
+      "sha256": "519c04b100db309dacff6f0392b45c858b577c8cc6f439cbb6b827a71a499e4c"
+    },
+    {
+      "path": "assets/index-DJ3qPEm3.js",
+      "bytes": 280916,
+      "sha256": "02184c53094e1c82817889299bd1d296de27ff988a12884ce2f8dc94d93136c6"
+    },
+    {
+      "path": "assets/LivingOffice-ClYZyY5B.css",
+      "bytes": 10770,
+      "sha256": "de0df7d13c6d1e763f132303218a6fd61396e3a705ad7e5f31c13e98ca2548e4"
+    },
+    {
+      "path": "assets/LivingOffice-COM8ZHHC.js",
+      "bytes": 24992,
+      "sha256": "5d6db8270b4dea98f199f673444f881973b620852e0ae28420be80d3c3f6738f"
+    },
+    {
+      "path": "assets/LivingOfficeScene-6r-4ajeh.js",
+      "bytes": 912586,
+      "sha256": "47f21589e95c734b7bb1244e2115e093fee8ca0a5f924ade996b357e5ca5ef79"
+    },
+    {
+      "path": "assets/simulation.worker-CtJGJFj6.js",
+      "bytes": 161282,
+      "sha256": "b1ae6cbd64d93267072aedd32b45c79dcef2eb4a17a014075bbab8e0879c7f24"
+    },
+    {
+      "path": "assets/with-selector-Cb-BZYLb.js",
+      "bytes": 1823,
+      "sha256": "bdec7ea3a45c7d7dfa21db28d9734994da924e91e2a159a70711f63dc00ab171"
+    },
+    {
+      "path": "favicon.svg",
+      "bytes": 172,
+      "sha256": "539ace892bb0dcb8a74403975b2b1c0ead6dbd4a217b3174b1e78b5970bb8117"
+    }
+  ]
+}
