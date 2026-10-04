@@ -1,8 +1,11 @@
-name: Phase 1 validation
+name: FOUNDRY validation
 on: [push, pull_request]
 jobs:
   validate:
-    runs-on: windows-latest
+    runs-on: ubuntu-24.04
+    env:
+      FOUNDRY_OFFICE_QA_DIR: ${{ github.workspace }}/office-evidence
+      FOUNDRY_QA_DIR: ${{ github.workspace }}/game-evidence
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -18,16 +21,20 @@ jobs:
       - run: pnpm test
       - run: pnpm benchmark
       - run: pnpm build
-      - run: pnpm test:e2e
+      - run: xvfb-run --auto-servernum pnpm exec playwright test --project web
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: benchmark-and-failure-evidence
           path: |
             docs/benchmarks/seeds.json
+            office-evidence/
+            game-evidence/
             test-results/
   windows-package:
     runs-on: windows-latest
+    env:
+      FOUNDRY_OFFICE_QA_DIR: ${{ github.workspace }}/packaged-evidence
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -38,8 +45,17 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm test
       - run: pnpm package:win
+      - run: pnpm exec playwright test --project desktop --output test-results/desktop
       - run: pnpm test:packaged
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Windows-application-evidence
+          path: |
+            packaged-evidence/
+            test-results/
       - uses: actions/upload-artifact@v4
         with:
           name: Foundry-Windows-portable
