@@ -1,10 +1,10 @@
 # Visual acceptance — 0.2.3 / Phase 2.6B
 
-The 3D candidate has been manually compared with the accepted Phase 2.6 SVG screenshots and the existing architectural reference. Platform release gates are recorded below and in PHASE2_6B_REPORT.md; production is not accepted until its actual Chrome run passes.
+The released 3D scene has been manually compared with the accepted Phase 2.6 SVG screenshots and the existing architectural reference. Actual production Chrome passed 25/25 with clean exit; all nine deployed asset files match the accepted staging bytes. Platform evidence is recorded in PHASE2_6B_REPORT.md.
 
 ## Screenshot scenes
 
-Evidence stays outside Git in `C:\Users\oliver\.codex\artifacts\foundry-phase2-6b-qa\`, with separate `hosted-local` and `production` runs. Each browser test uses a fresh independent profile. Synthetic company fixtures are labeled in the UI and are not real playtest feedback.
+Evidence stays outside Git in `C:\Users\oliver\.codex\artifacts\foundry-phase2-6b-qa\`, with separate final `hosted-paced-release` and `production` runs. A–G from both final runs were manually inspected. Each browser test uses a fresh independent profile. Synthetic company fixtures are labeled in the UI and are not real playtest feedback.
 
 | Scene | File | What is inspected |
 |---|---|---|

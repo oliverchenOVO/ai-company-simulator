@@ -39,3 +39,21 @@ Local Web/Electron now has 14 workflows; hosted-equivalent and production Google
 ## Phase 2.6 Living Office
 
 Current total: 99 tests; all prior 82 remain. `pnpm benchmark:office` records pure projection measurements. Office semantic boundaries, 17 local E2E cases, 15 hosted cases and the additional actual packaged Office restart are documented in [docs/living_office/TESTING.md](docs/living_office/TESTING.md). All world versions and goldens remain unchanged.
+
+## Phase 2.6B genuine 3D
+
+Current total: 112 unit tests /14 files, 27 local browser/development-Electron workflows, 25 hosted workflows, and three genuine packaged Windows tests. All prior assertions remain. See [release report](PHASE2_6B_REPORT.md) for source/environment provenance and [performance definitions](docs/living_office_3d/PERFORMANCE.md) for observational measurements.
+
+`pnpm test:e2e` uses headless installed Chrome locally. Standard CI runs all 26 Web cases with headed installed Chrome under Xvfb on Ubuntu 24.04 using the SwANGLE driver; Windows runs the original development-Electron restart and three genuine packaged tests, plus all 112 unit tests. Repeated Windows runner browser stalls are documented, while actual production Chrome acceptance is independently run on Windows. CI retains all original 27 cases, the same real-canvas, raycast, full world/hash, replay, error and size assertions with ordinary 60-second case limits. Explicit headless software modes are reproducible independently:
+
+```powershell
+$env:FOUNDRY_OFFICE_QA_DIR = 'C:\path\to\isolated\software-webgl-evidence'
+pnpm exec playwright test --config playwright.software.config.ts --output test-results/software-webgl
+$env:FOUNDRY_SOFTWARE_MODE = 'driver'
+$env:FOUNDRY_OFFICE_QA_DIR = 'C:\path\to\isolated\software-driver-evidence'
+pnpm exec playwright test --config playwright.software.config.ts --output test-results/software-driver
+Remove-Item Env:FOUNDRY_SOFTWARE_MODE
+Remove-Item Env:FOUNDRY_OFFICE_QA_DIR
+```
+
+Default mode is `webgl` (SwiftShader WebGL fallback); `driver` uses Chromium's SwANGLE driver. Both select all 13 Office tests, all eight company sizes, actual DPR .75, and real graphics-failure coverage. Run browser/platform suites sequentially with distinct evidence directories. Do not treat interrupted shutdown, partial benchmark output or development Electron as packaged acceptance. No numerical FPS assertion substitutes for behavioral acceptance.

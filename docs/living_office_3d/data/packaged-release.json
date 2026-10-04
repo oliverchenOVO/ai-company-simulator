@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "3526e38fa650d624783d619499b1350884a3eaa0",
+  "environment": "Standard Windows GitHub Actions; genuine packaged executable",
+  "runId": 37165983060,
+  "jobId": 111328832388,
+  "testsPassed": 3,
+  "testDurationSeconds": 16.4,
+  "portableFile": "release/Foundry-Company-Simulator-0.2.3-Windows.exe",
+  "portableBytes": 98833935,
+  "portableSha256": "C7908B2F8141B7B47F3FACBE6CE55519C901C30A6FEC82325F4DAA873D9C2273",
+  "signature": "NotSigned",
+  "localRepeat": "Shutdown timeout; isolated and not counted as acceptance",
+  "developmentElectronTestsPassed": 1,
+  "unitTestsPassed": 112
+}
