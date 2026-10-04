@@ -237,7 +237,7 @@ function FrameDriver({reduced,software}:{reduced:boolean;software:boolean}) {
   // an explicit input/cleanup gap and never accumulates missed frames.
   useFrame(()=>{
     window.clearTimeout(timer.current);
-    if(!reduced) timer.current=window.setTimeout(()=>invalidate(),software ? 125 : 1000/30);
+    if(!reduced) timer.current=window.setTimeout(()=>invalidate(),software ? 250 : 1000/30);
   },2);
   return null;
 }
