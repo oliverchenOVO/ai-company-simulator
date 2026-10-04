@@ -5,7 +5,10 @@ export default defineConfig({
   use: { baseURL: 'http://127.0.0.1:4183', viewport: { width: 1440, height: 900 }, trace: 'retain-on-failure',
     // Windows CI uses the normal Chrome compositor, as the packaged app does.
     // Explicit software driver/fallback coverage is measured separately.
-    headless: !process.env.CI },
+    headless: !process.env.CI,
+    launchOptions: process.env.CI && process.platform === 'linux'
+      ? { args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] }
+      : undefined },
   projects: [
     { name: 'web', testMatch: '**/*.web.spec.ts', use: { browserName: 'chromium', channel: 'chrome' } },
     { name: 'desktop', testMatch: '**/*.desktop.spec.ts' }

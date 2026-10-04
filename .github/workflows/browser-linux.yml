@@ -1,0 +1,33 @@
+name: Cross-platform browser validation
+on: workflow_dispatch
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    env:
+      FOUNDRY_OFFICE_QA_DIR: ${{ github.workspace }}/office-evidence
+      FOUNDRY_QA_DIR: ${{ github.workspace }}/game-evidence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm benchmark
+      - run: pnpm build
+      - run: xvfb-run --auto-servernum pnpm exec playwright test --project web
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: linux-browser-evidence
+          path: |
+            docs/benchmarks/seeds.json
+            office-evidence/
+            game-evidence/
+            test-results/
