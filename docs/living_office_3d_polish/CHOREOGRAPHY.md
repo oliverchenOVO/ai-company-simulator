@@ -7,7 +7,9 @@ The authoritative simulation, `projectOffice`, RNG and save schema remain unchan
 - Meeting: approach at 8–11 presentation seconds, populated discussion at 11–19, return at 19–22. Listeners use unique actual chair coordinates and seated poses; the leader remains standing.
 - Handoff: local 0–12 seconds, cross-floor 0–18 seconds. The real manager remains seated while reviewing. A carried document is a neutral prop, without any generated message or result.
 - Cue-ID clocks are shared by all participants. Unrelated queue changes do not reset an existing clock. Clocks are renderer-only and removed when the cue leaves the queue; revisiting the view may present the real recent event again.
-- Reduced motion returns directly to real workstations. Walking follows side lanes and the front aisle, with smooth start/stop and distance-driven gait. No pathfinding or persisted animation state is introduced.
+- Reduced motion returns directly to real workstations. Walking follows side lanes and the front aisle, with explicit approaches around meeting tables and capacity desks, with smooth start/stop and distance-driven gait. No pathfinding or persisted animation state is introduced.
 - A floor focus limits rendered rooms and visible people to that physical level, including a visiting colleague after elevator transit. Accessible employee selection still exposes the real roster.
 
 Verification: pure participant, identity, eligibility, occupied/vacant, expiry, reduced-motion, save/load/replay and world-nonmutation tests; actual Chrome meeting and handoff tests verify synchronized poses, return, unchanged exported world/hash and replay. Final performance and screenshots are recorded separately after the visual acceptance pass.
+
+Rendering: real hires wake their workstation screen after the five-second arrival approach; vacancies retain a dim monitor. Promotion emphasis expires after eight presentation seconds. Ordinary work remains at desks; recurring printer trips are disabled. Identity and appearance are derived locally; selection allows a small head glance without changing any employee condition.

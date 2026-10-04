@@ -4,8 +4,12 @@ export type Pose = 'Idle' | 'Typing' | 'Walking' | 'Talking' | 'Presenting' | 'R
 export interface Motion { position: Point3; pose: Pose; visible: boolean; document: boolean; seated?: boolean; facingYaw?: number; vignette?: string }
 const between = (a: Point3, b: Point3, t: number): Point3 => a.map((n, i) => n + (b[i] - n) * Math.max(0, Math.min(1, t))) as Point3;
 export const walk = (a: Point3, b: Point3, t: number): Motion => {
-  const lane = (x: number) => x < -5.8 ? 1.55 : 1.24;
+  const lane = (x: number) => x > 6.7 ? 0 : 1.24;
   const points:Point3[]=[a,[a[0]+lane(a[0]),a[1],a[2]],[a[0]+lane(a[0]),a[1],2.65],[b[0]+lane(b[0]),b[1],2.65],[b[0]+lane(b[0]),b[1],b[2]],b];
+  return walkRoute(points,t);
+};
+export function walkRoute(points:readonly Point3[],t:number):Motion {
+  const b=points.at(-1)!;
   const lengths=points.slice(1).map((p,i)=>Math.hypot(...p.map((n,j)=>n-points[i][j])));
   const progress=Math.max(0,Math.min(1,t)), eased=progress*progress*(3-2*progress);
   let distance=eased*lengths.reduce((sum,n)=>sum+n,0), position=b;

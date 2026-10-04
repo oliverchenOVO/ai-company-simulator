@@ -36,6 +36,28 @@ describe('bounded detached office choreography',()=>{
     expect(sampleChoreography(manager,9,false,plan,byId)).toMatchObject({pose:'Reading',seated:true,vignette:'handoff-review'});
     expect(sampleChoreography(visitor,18,false,plan,byId)).toBeNull();expect(sampleChoreography(visitor,9,true,plan,byId)).toBeNull();
   });
+  it('keeps meeting approaches outside the table and within the room, including rear chairs',()=>{
+    const sim=make();sim.execute({type:'PromoteEmployee',employeeId:'employee-3',track:'manager'});const {plan,byId}=project(sim);
+    const listener=plan.meeting!.listeners[0],person=byId.get(listener.employeeId)!,y=person.person[1];
+    for(const chair of [[3.9,y,1.4],[3.9,y,-.9]] as [number,number,number][]) {
+      const withChair={meeting:{...plan.meeting!,listeners:[{...listener,chair}]}};
+      for(let step=0;step<=100;step++) {
+        const motion=sampleChoreography(person,8+step*.0299,false,withChair,byId)!;
+        const [x,,z]=motion.position;
+        expect(Math.abs(x)).toBeLessThan(8.6);expect(Math.abs(z)).toBeLessThan(3.2);
+        // Table footprint expanded by a person's radius, independent of route implementation.
+        expect(x>3.6 && x<6.8 && z>-.65 && z<1.15).toBe(false);
+      }
+    }
+  });
+  it('keeps a cross-floor handoff in the manager aisle rather than cutting through capacity desks',()=>{
+    const sim=make();sim.execute({type:'AssignManager',employeeId:'employee-3',managerId:'employee-2'});const {plan,byId}=project(sim);
+    const visitor=byId.get('employee-3')!;
+    for(let step=0;step<=100;step++) {
+      const [x,,z]=sampleChoreography(visitor,4+step*.0299,false,plan,byId)!.position;
+      for(const deskX of [-6.4,-3.9])for(const deskZ of [-1.8,1]) expect(Math.abs(x-deskX)<1.18 && Math.abs(z-deskZ)<.655).toBe(false);
+    }
+  });
   it('reconstructs identical plans after save/load/replay and never mutates world or RNG',()=>{
     const sim=make();sim.execute({type:'PromoteEmployee',employeeId:'employee-3',track:'manager'});const before=structuredClone(sim.snapshot()),{scene,office,plan,byId}=project(sim);
     for(const s of scene.seats)for(let t=0;t<40;t+=.25)sampleChoreography(s,t,false,plan,byId);
